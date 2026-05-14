@@ -39,8 +39,8 @@
             <p class="card-kicker">Generated JSON Snapshot</p>
             <pre>{
   "class": "bottle",
-  "bounding_box": [112, 68, 284, 412],
-  "sentences": [
+  "bounding_box": [0.1474, 0.0944, 0.3737, 0.5722],
+  "data_annotation_sentences": [
     "Transparent bottle on desk",
     "Object partially reflects light"
   ]
@@ -97,12 +97,34 @@
               <span>PNG, JPG, WEBP supported for this demo.</span>
             </label>
 
+            <div class="prompt-mode-group" role="group" aria-label="Prompt mode">
+              <button type="button" class="prompt-mode-button is-active" data-prompt-mode="fast">Fast</button>
+              <button type="button" class="prompt-mode-button" data-prompt-mode="rich">Thinking</button>
+            </div>
+
             <div class="preview-card">
               <div class="preview-frame">
                 <img id="previewImage" alt="Uploaded preview" hidden>
+                <div id="bboxOverlay" class="bbox-overlay" hidden>
+                  <div id="interactionRect" class="bbox-rect bbox-rect-interaction">
+                    <span class="bbox-label bbox-label-interaction">Interaction</span>
+                  </div>
+                  <div id="personRect" class="bbox-rect bbox-rect-person">
+                    <span class="bbox-label bbox-label-person">Person</span>
+                  </div>
+                  <div id="objectRect" class="bbox-rect bbox-rect-object">
+                    <span class="bbox-label bbox-label-object">Object</span>
+                  </div>
+                </div>
                 <div id="previewPlaceholder" class="preview-placeholder">
                   <span>No image uploaded yet</span>
                 </div>
+              </div>
+              <div class="bbox-legend" role="group" aria-label="Bounding box filter">
+                <button type="button" class="bbox-legend-item is-active" data-bbox-filter="all">All</button>
+                <button type="button" class="bbox-legend-item bbox-legend-person" data-bbox-filter="person">Person</button>
+                <button type="button" class="bbox-legend-item bbox-legend-object" data-bbox-filter="object">Object</button>
+                <button type="button" class="bbox-legend-item bbox-legend-interaction" data-bbox-filter="interaction">Interaction</button>
               </div>
               <button id="analyzeButton" class="button button-primary full-width" type="button">
                 Upload and Annotate
@@ -122,11 +144,11 @@
             <div class="result-stack">
               <div class="metric-row">
                 <div class="metric-card">
-                  <span>Detected class</span>
+                  <span>Detected interaction</span>
                   <strong id="classValue">-</strong>
                 </div>
                 <div class="metric-card">
-                  <span>Bounding box</span>
+                  <span>Interaction box</span>
                   <strong id="bboxValue">-</strong>
                 </div>
               </div>
@@ -148,6 +170,11 @@
                 <pre id="jsonOutput" class="json-output">{
   "uploaded_image_url": null,
   "class": null,
+  "person_class": null,
+  "object_class": null,
+  "person_bounding_box": [],
+  "object_bounding_box": [],
+  "interaction_bounding_box": [],
   "bounding_box": [],
   "data_annotation_sentences": []
 }</pre>
