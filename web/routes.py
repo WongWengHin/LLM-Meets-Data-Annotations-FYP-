@@ -1,0 +1,101 @@
+from __future__ import annotations
+
+import traceback
+from pathlib import Path
+
+from fastapi import APIRouter, File, Request, UploadFile
+from fastapi.responses import JSONResponse
+
+from annotations.pipeline import run_annotation_pipeline
+from core.config import AppConfig
+from web.responses import format_exception_message, format_exception_status
+from web.schemas import ErrorResponse, HealthResponse, UploadResponse
+
+router = APIRouter()
+
+
+@router.get(
+    "/health",
+    response_model=HealthResponse,
+    summary="Health check",
+    description="Returns a lightweight status response so clients can verify the API is running.",
+)
+async def health() -> HealthResponse:
+    return HealthResponse(status="ok")
+
+
+@router.post(
+    "/upload",
+    response_model=UploadResponse,
+    responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
+    summary="Upload image and run annotation pipeline",
+    description=(
+        "Accepts a multipart image file under the `image` field, stores the upload, "
+        "runs the annotation pipeline, writes export artifacts, and returns the "
+        "frontend-oriented annotation response."
+    ),
+)
+async def upload_image(
+    request: Request,
+    image: UploadFile = File(..., description="Image file to annotate."),
+) -> UploadResponse | JSONResponse:
+    config = _get_config(request)
+    try:
+        filename = Path(image.filename or "").name
+        if not filename:
+            raise ValueError("No image file provided.")
+
+        file_bytes = await image.read()
+        if not file_bytes:
+            raise ValueError("No image file provided.")
+
+        destination = _unique_destination(config.paths.uploads_dir, filename)
+        destination.write_bytes(file_bytes)
+        print(f"Saved upload: {destination.name}")
+        print(f"[upload] Stored file at {destination}")
+        print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
+        response_payload = run_annotation_pipeline(destination, config=config)
+        return UploadResponse.model_validate(response_payload)
+    except ValueError as exc:
+        return _json_error_response(exc, status_code=400, log_traceback=False)
+    except Exception as exc:
+        return _json_error_response(exc, log_traceback=True)
+
+
+def _unique_destination(upload_dir: Path, filename: str) -> Path:
+    candidate = upload_dir / filename
+    stem = candidate.stem
+    suffix = candidate.suffix
+    index = 1
+
+    while candidate.exists():
+        candidate = upload_dir / f"{stem}-{index}{suffix}"
+        index += 1
+
+    return candidate
+
+
+def _get_config(request: Request) -> AppConfig:
+    config = getattr(request.app.state, "config", None)
+    if not isinstance(config, AppConfig):
+        raise RuntimeError("Application config is not available on app.state.")
+    return config
+
+
+def _json_error_response(
+    exc: Exception,
+    *,
+    status_code: int | None = None,
+    log_traceback: bool,
+) -> JSONResponse:
+    print("Internal server error:" if log_traceback else "Upload error:")
+    if log_traceback:
+        traceback.print_exc()
+    else:
+        print(str(exc))
+
+    response_status = status_code or int(format_exception_status(exc))
+    return JSONResponse(
+        content={"error": format_exception_message(exc)},
+        status_code=response_status,
+    )

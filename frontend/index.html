@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Large Language Meets Data Annotation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-mark">LLM</span>
+          <span class="brand-text">FIT3163 MDS21</span>
+        </div>
+        <a class="topbar-link" href="#workspace">Launch Demo</a>
+      </nav>
+
+      <section class="hero-content">
+        <div class="hero-copy">
+          <p class="eyebrow">Research Workspace</p>
+          <h1>Instance Annotation Inspection</h1>
+          <p class="hero-text">
+            Upload an image, inspect model-generated instance annotations, and review
+            bounding boxes, per-instance sentences, validation status, and export-ready JSON.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#workspace">Open Workspace</a>
+            <a class="button button-secondary" href="#pipeline">View Pipeline</a>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-card glass-card">
+            <p class="card-kicker">Research Snapshot</p>
+            <pre>{
+  "annotations": [
+    {
+      "annotation_id": "img001_001",
+      "category": "bottle",
+      "bounding_box": [0.1474, 0.0944, 0.3737, 0.5722],
+      "sentences": ["A bottle is placed on the desk."]
+    }
+  ]
+}</pre>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="section" id="pipeline">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2>From image input to annotation output</h2>
+        </div>
+        <div class="pipeline-grid">
+          <article class="info-card">
+            <span class="info-index">01</span>
+            <h3>Image Upload</h3>
+            <p>Users provide a raw image that will be inspected by the annotation pipeline.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-index">02</span>
+            <h3>Model Annotation</h3>
+            <p>The system produces instance-level categories, bounding boxes, and per-annotation sentences.</p>
+          </article>
+          <article class="info-card">
+            <span class="info-index">03</span>
+            <h3>Validation and Export</h3>
+            <p>The workspace surfaces validation feedback and export-ready JSON views for inspection.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section workspace" id="workspace">
+        <div class="section-heading">
+          <p class="eyebrow">Annotation Workspace</p>
+          <h2>Inspect model output at instance level</h2>
+        </div>
+
+        <div class="workspace-grid">
+          <div class="panel glass-card">
+            <div class="panel-header">
+              <div>
+                <p class="panel-title">Upload</p>
+                <p class="panel-subtitle">Choose an image to generate mock annotation results.</p>
+              </div>
+            </div>
+
+            <label class="upload-zone" for="imageInput">
+              <input id="imageInput" type="file" accept="image/*">
+              <span class="upload-badge">Drop image here</span>
+              <strong>Click to upload or drag an image</strong>
+              <span>PNG, JPG, and WEBP image files are supported.</span>
+            </label>
+
+            <div class="preview-card">
+              <div class="preview-frame">
+                <img id="previewImage" alt="Uploaded preview" hidden>
+                <div id="bboxOverlay" class="bbox-overlay" hidden></div>
+                <div id="previewPlaceholder" class="preview-placeholder">
+                  <span>No image uploaded yet</span>
+                </div>
+              </div>
+              <div class="bbox-legend" role="group" aria-label="Bounding box filter">
+                <button type="button" class="bbox-legend-item bbox-legend-person is-active" data-bbox-filter="person">Person</button>
+                <button type="button" class="bbox-legend-item bbox-legend-object" data-bbox-filter="object">Objects</button>
+              </div>
+              <button id="analyzeButton" class="button button-primary full-width" type="button">
+                Upload and Annotate
+              </button>
+            </div>
+          </div>
+
+          <div class="panel glass-card">
+            <div class="panel-header">
+              <div>
+                <p class="panel-title">Result</p>
+                <p class="panel-subtitle">Visual summaries and downloadable structured output.</p>
+              </div>
+              <span id="statusPill" class="status-pill">Waiting</span>
+            </div>
+
+            <div class="result-stack">
+              <div class="result-section">
+                <div class="section-bar">
+                  <p class="annotation-title">Summary</p>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-card">
+                    <span>Total annotations</span>
+                    <strong id="classValue">-</strong>
+                  </div>
+                  <div class="metric-card">
+                    <span>Active bounding box</span>
+                    <strong id="bboxValue">-</strong>
+                  </div>
+                </div>
+                <div class="metric-row metric-row-secondary">
+                  <div class="metric-card metric-card-compact">
+                    <span>Persons</span>
+                    <strong id="personCountValue">-</strong>
+                  </div>
+                  <div class="metric-card metric-card-compact">
+                    <span>Objects</span>
+                    <strong id="objectCountValue">-</strong>
+                  </div>
+                  <div class="metric-card metric-card-compact">
+                    <span>Warnings</span>
+                    <strong id="warningCountValue">-</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="result-section annotation-block">
+                <div class="section-bar">
+                  <p class="annotation-title">Annotations</p>
+                  <span id="annotationHint" class="section-hint">No annotation result yet</span>
+                </div>
+                <div id="annotationList" class="annotation-list">
+                  <div class="empty-state">
+                    <p>No annotation result yet.</p>
+                    <span>Upload an image and run the pipeline to inspect instance-level output.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="result-section annotation-block">
+                <div class="section-bar">
+                  <p class="annotation-title">Validation</p>
+                  <span id="validationSummary" class="section-hint">No validation result</span>
+                </div>
+                <div id="validationPanel" class="validation-panel">
+                  <div class="empty-state empty-state-compact">
+                    <p>No validation result yet.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="result-section annotation-block">
+                <div class="section-bar">
+                  <p class="annotation-title">Selected Annotation Sentences</p>
+                </div>
+                <ul id="sentenceList" class="sentence-list">
+                  <li>No annotation selected yet.</li>
+                </ul>
+              </div>
+
+              <div class="result-section json-block">
+                <div class="section-bar">
+                  <p class="annotation-title">JSON and Artifacts</p>
+                  <button id="downloadButton" class="button button-secondary" type="button" disabled>
+                    Download JSON
+                  </button>
+                </div>
+                <div class="json-view-switch" role="group" aria-label="JSON view">
+                  <button type="button" class="json-view-button is-active" data-json-view="frontend">Frontend</button>
+                  <button type="button" class="json-view-button" data-json-view="prediction">Prediction</button>
+                  <button type="button" class="json-view-button" data-json-view="evaluation">Evaluation</button>
+                </div>
+                <div id="artifactPanel" class="artifact-panel">
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Frontend</span>
+                    <code id="artifactFrontend">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Prediction</span>
+                    <code id="artifactPrediction">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Evaluation</span>
+                    <code id="artifactEvaluation">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Detections</span>
+                    <code id="artifactDetection">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Raw Output</span>
+                    <code id="artifactRaw">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Master</span>
+                    <code id="artifactMaster">not loaded</code>
+                  </div>
+                </div>
+                <pre id="jsonOutput" class="json-output">{
+  "uploaded_image_url": null,
+  "annotations": []
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js?v=20260625-hoi-bbox-fix"></script>
+</body>
+</html>

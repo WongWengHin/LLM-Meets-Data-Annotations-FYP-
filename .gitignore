@@ -1,4 +1,10 @@
 .env
 .env_sample
+.venv*/
+.tmp-venv/
 __pycache__/
+*/__pycache__/
 uploads/
+data/
+*.pyc
+*.pyo

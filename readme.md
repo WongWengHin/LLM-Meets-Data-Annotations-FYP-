@@ -1,1 +1,315 @@
-我的Final Year Project主题是Large Language Meets Data Annotation，我们需要接受用户上传的图片，然后做data annotation，然后网站会返回给用户一个json file，里面包含class, bounding box, data annotation sentences（一个集合储存）。然后请你使用gpt前端template来帮我创建一个前端demo。
+# Large Language Meets Data Annotation
+
+## Overview
+
+This project is my Final Year Project (FYP), exploring how large language models and multimodal models can support image-based data annotation.
+
+The system provides a web interface where a user uploads an image, the backend runs an annotation pipeline, and the application returns structured JSON output containing:
+
+- interaction class
+- person, object, and interaction bounding boxes
+- annotation sentences
+
+The project is designed not only as a frontend demo, but also as a research-oriented prototype for schema-based annotation generation, normalization, validation, and future evaluation.
+
+## Objectives
+
+The main goals of this project are:
+
+- explore how LLM/VLM systems can assist automated data annotation
+- generate structured annotation outputs from uploaded images
+- design a professional annotation pipeline beyond prompt-only output
+- support future evaluation with prediction files, ground truth files, and evaluation exports
+- support a research-grade JSON schema for evaluation-ready annotation records
+
+## Current Features
+
+The current prototype supports:
+
+- image upload through a browser-based interface
+- prompt-driven multimodal annotation generation
+- structured JSON return format
+- normalized bounding box handling
+- annotation sentence generation
+- normalization and validation of model outputs
+- master annotation schema generation
+- export-oriented backend architecture for future evaluation tasks
+
+## System Architecture
+
+The backend currently follows this pipeline:
+
+User Upload Image  
+-> Model Prompting  
+-> Raw Model Output  
+-> Normalizer  
+-> Validator  
+-> Master Annotation Schema  
+-> Frontend Response / Prediction File / Ground Truth File / Evaluation Export
+
+This design separates:
+
+- model generation
+- data normalization
+- data validation
+- schema construction
+- output export
+
+## Schema v1.0
+
+The current backend uses a research-grade `JSON schema v1.0`.
+
+### Master annotation schema
+
+The master annotation record is the source of truth and contains:
+
+- `schema_version`
+- `image.image_id`, `file_name`, `width`, `height`
+- `annotation.annotation_id`, `task`, `class`, `person_class`, `object_class`
+- `person_bounding_box`, `object_bounding_box`, `interaction_bounding_box`
+- `data_annotation_sentences`
+- `generation.provider`, `generation.model`, `generation.prompt_mode`
+- `validation.is_valid`, `validation.errors`, `validation.warnings`
+- `review.status`, `review.reviewed_by`, `review.reviewed_at`
+- `source.type`
+- `timestamps.created_at`
+
+### ID rules
+
+- `image_id` uses the uploaded image stem
+- `annotation_id` uses `<image_id>_001`
+- IDs are stored as strings across master, prediction, and ground truth records
+
+### Review lifecycle
+
+- `unreviewed`
+  Default state for model-generated records
+
+- `approved`
+  Human-reviewed records that can be exported as ground truth
+
+- `rejected`
+  Records excluded from evaluation export and ground truth export
+
+### Export purposes
+
+- `frontend response`
+  Lightweight response used by the web UI
+
+- `prediction file`
+  Model output record for experiment tracking and future evaluation
+
+- `ground truth file`
+  Export for human-reviewed approved records only
+
+- `evaluation export`
+  Two evaluation blocks for this phase:
+  `bbox_export` and `text_export`
+
+## Project Structure
+
+```text
+FIT3163/
+  main.py
+  frontend/
+  prompts/
+  core/
+  clients/
+  images/
+  annotations/
+  web/
+  data/
+  COCO_JSON_structure/
+```
+
+### Key folders
+
+- `main.py`
+  Project entry point
+
+- `frontend/`
+  Frontend HTML, CSS, and JavaScript files
+
+- `prompts/`
+  Prompt templates for annotation generation
+
+- `clients/`
+  External model API client logic
+
+- `images/`
+  Image metadata and bounding box utilities
+
+- `annotations/`
+  Annotation normalization, validation, schema generation, exporters, and pipeline logic
+
+- `web/`
+  FastAPI app assembly, route definitions, response utilities, and API schemas
+
+- `data/`
+  Runtime output directory for uploads and generated JSON artifacts
+
+- `COCO_JSON_structure/`
+  COCO-style annotation reference files for schema understanding and future evaluation alignment
+
+## How to Run
+
+### 1. Requirements
+
+- Python 3.10+
+- A valid API key for the selected provider
+
+### 2. Install dependencies
+
+For the default FastAPI backend without RT-DETR:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+If you also want detector mode (`ENABLE_DETECTOR=true`), install the detector extras too:
+
+```powershell
+python -m pip install -r requirements-detector.txt
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file based on `.env_example`.
+
+Example:
+
+```env
+LLM_PROVIDER=bai
+
+BAI_API_KEY=your_bai_api_key_here
+BAI_BASE_URL=https://api.b.ai/v1
+BAI_MODEL=gpt-5.2
+
+PORT=8000
+```
+
+You may also configure other providers already listed in `.env_example`, such as OpenAI, Anthropic, MINMAX, or MIMO.
+
+### 4. Start the project
+
+```powershell
+python main.py
+```
+
+The backend now runs on FastAPI and is started through `uvicorn` inside `main.py`.
+
+Windows PowerShell shortcut:
+
+```powershell
+.\start_server.ps1
+```
+
+Recommended first-run sequence:
+
+```powershell
+Copy-Item .env_example .env
+python -m pip install -r requirements.txt
+.\start_server.ps1
+```
+
+### 5. Open the application
+
+After the server starts, open:
+
+```text
+http://127.0.0.1:8000
+```
+
+Useful endpoints:
+
+- `GET /`
+  Frontend page
+- `GET /health`
+  FastAPI health check
+- `POST /upload`
+  Image upload and annotation endpoint with documented response schema in FastAPI OpenAPI docs
+- `GET /docs`
+  Swagger UI for trying the API in the browser
+
+### 6. Use the demo
+
+- upload an image
+- choose a prompt mode
+- click `Upload and Annotate`
+- inspect the returned JSON output in the interface
+
+## Input and Output
+
+### Input
+
+- user-uploaded image
+
+### Output
+
+The system returns structured JSON containing fields such as:
+
+- `class`
+- `person_class`
+- `object_class`
+- `person_bounding_box`
+- `object_bounding_box`
+- `interaction_bounding_box`
+- `data_annotation_sentences`
+
+## Output Files
+
+Generated files are stored in the `data/` directory:
+
+- `data/uploads/`
+  Uploaded images
+
+- `data/raw_outputs/`
+  Raw model responses
+
+- `data/master_annotations/`
+  Normalized master annotation records
+
+- `data/predictions/`
+  Prediction-oriented exports
+
+- `data/evaluation_exports/`
+  Evaluation-oriented exports
+
+Ground truth support is part of the architecture, but the full human-reviewed ground truth workflow is still under development.
+
+The current export behavior is:
+
+- prediction exports are written from validated master annotations
+- evaluation exports are written from validated master annotations unless a record is marked `rejected`
+- ground truth exports are only valid for records marked `approved`
+
+## Current Limitations
+
+This project is still a prototype, so several limitations remain:
+
+- annotation quality still depends partly on model output quality
+- no complete human-reviewed ground truth dataset is included yet
+- confidence scoring is currently nullable because the model pipeline does not return a reliable score
+- evaluation workflow is still being expanded
+- human review still happens outside the current web interface
+
+## Future Work
+
+Planned future extensions include:
+
+- improving the master schema design further
+- building a human-reviewed ground truth dataset
+- adding quantitative evaluation metrics
+- comparing prompt settings and model output quality
+- improving robustness across different image types
+
+## Research Relevance
+
+This project sits at the intersection of:
+
+- large language models
+- multimodal understanding
+- structured data annotation
+- evaluation-ready schema design
+
+It is intended as both a demo system and an experimental foundation for studying how LLM-based systems can contribute to automated annotation workflows.
