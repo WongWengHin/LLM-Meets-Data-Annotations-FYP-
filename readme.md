@@ -1,0 +1,5 @@
+我的Final Year Project主题是Large Language Meets Data Annotation，我们需要接受用户上传的图片，然后做data annotation，然后网站会返回给用户一个json file，里面包含class, bounding box, data annotation sentences（一个集合储存）。然后请你使用gpt前端template来帮我创建一个前端demo。
+
+# COCO-2017 set up
+python -m venv env
+env\Scripts\activate.ps1
