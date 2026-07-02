@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import psycopg2
+# import psycopg2
 import base64
 import json
 import os
@@ -799,60 +799,62 @@ def run() -> None:
     print(f"Server running at http://{host}:{port}")
     server.serve_forever()
 
-def test_database_connection():
-    try:
-        # Connect using your local PostgreSQL credentials
-        conn = psycopg2.connect(
-            dbname="postgres", # or your specific db name
-            user="postgres", 
-            password="Zxcvb123!!", 
-            host="localhost", 
-            port="5432"
-        )
-        cur = conn.cursor()
+# def test_database_connection():
+#     try:
+#         # Connect using your local PostgreSQL credentials
+#         conn = psycopg2.connect(
+#             dbname="postgres", # or your specific db name
+#             user="postgres", 
+#             password="Zxcvb123!!", 
+#             host="localhost", 
+#             port="5432"
+#         )
+#         cur = conn.cursor()
         
-        # Test INSERT using the mock data
-        insert_query = """
-        INSERT INTO image_annotations (
-            uploaded_image_url, class, person_class, object_class, 
-            person_bounding_box, object_bounding_box, interaction_bounding_box, 
-            data_annotation_sentences
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
-        """
+#         # Test INSERT using the mock data
+#         insert_query = """
+#         INSERT INTO image_annotations (
+#             uploaded_image_url, class, person_class, object_class, 
+#             person_bounding_box, object_bounding_box, interaction_bounding_box, 
+#             data_annotation_sentences
+#         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
+#         """
         
-        cur.execute(insert_query, (
-            "test_image.png",
-            mock_annotation["class"],
-            mock_annotation["person_class"],
-            mock_annotation["object_class"],
-            mock_annotation["person_bounding_box"],
-            mock_annotation["object_bounding_box"],
-            mock_annotation["interaction_bounding_box"],
-            mock_annotation["data_annotation_sentences"]
-        ))
+#         cur.execute(insert_query, (
+#             "test_image.png",
+#             mock_annotation["class"],
+#             mock_annotation["person_class"],
+#             mock_annotation["object_class"],
+#             mock_annotation["person_bounding_box"],
+#             mock_annotation["object_bounding_box"],
+#             mock_annotation["interaction_bounding_box"],
+#             mock_annotation["data_annotation_sentences"]
+#         ))
         
-        conn.commit()
-        print("Database Test Successful: Row inserted!")
+#         conn.commit()
+#         print("Database Test Successful: Row inserted!")
         
-        cur.close()
-        conn.close()
-    except Exception as e:
-        print(f"Database Test Failed: {e}")
+#         cur.close()
+#         conn.close()
+#     except Exception as e:
+#         print(f"Database Test Failed: {e}")
 
-mock_annotation = {
-    "class": "person holding apple",
-    "person_class": "person",
-    "object_class": "apple",
-    "person_bounding_box": [0.2, 0.1, 0.6, 0.9],
-    "object_bounding_box": [0.4, 0.5, 0.5, 0.6],
-    "interaction_bounding_box": [0.2, 0.1, 0.6, 0.9],
-    "data_annotation_sentences": [
-        "A person is holding a red apple.",
-        "The apple is in the person's right hand.",
-        "The scene is a bright kitchen."
-    ]
-}
-if __name__ == "__main__":
-    test_database_connection()
+# mock_annotation = {
+#     "class": "person holding apple",
+#     "person_class": "person",
+#     "object_class": "apple",
+#     "person_bounding_box": [0.2, 0.1, 0.6, 0.9],
+#     "object_bounding_box": [0.4, 0.5, 0.5, 0.6],
+#     "interaction_bounding_box": [0.2, 0.1, 0.6, 0.9],
+#     "data_annotation_sentences": [
+#         "A person is holding a red apple.",
+#         "The apple is in the person's right hand.",
+#         "The scene is a bright kitchen."
+#     ]
+# }
 # if __name__ == "__main__":
-#     run()
+#     test_database_connection()
+
+
+if __name__ == "__main__":
+    run()
