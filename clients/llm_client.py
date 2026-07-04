@@ -10,8 +10,6 @@ from urllib.request import Request, urlopen
 from core.config import LLMConfig
 from core.errors import ExternalAPIError
 from images.bbox_utils import guess_mime_type
-from prompts.detector_guided_prompts import SYSTEM_PROMPT as DETECTOR_SYSTEM_PROMPT
-from prompts.detector_guided_prompts import build_detector_guided_user_prompt
 from prompts.image_annotation_prompts import get_annotation_prompts
 
 
@@ -26,12 +24,7 @@ def request_image_annotation(
             "<PROVIDER>_API_KEY, or keep using the legacy ANNOTATION_API_KEY."
         )
 
-    if detections:
-        active_prompt_mode = "detector_guided"
-        system_prompt = DETECTOR_SYSTEM_PROMPT
-        user_prompt = build_detector_guided_user_prompt(detections)
-    else:
-        active_prompt_mode, system_prompt, user_prompt = get_annotation_prompts(None)
+    active_prompt_mode, system_prompt, user_prompt = get_annotation_prompts(None)
 
     image_bytes = image_path.read_bytes()
     image_base64 = base64.b64encode(image_bytes).decode("utf-8")

@@ -233,17 +233,13 @@ def resolve_image_preprocess_config() -> ImagePreprocessConfig:
 
 
 def resolve_detector_config() -> DetectorConfig:
-    score_threshold = parse_env_float("RT_DETR_SCORE_THRESHOLD", 0.4)
-    if not 0 <= score_threshold <= 1:
-        raise RuntimeError("RT_DETR_SCORE_THRESHOLD must be between 0 and 1.")
-
     return DetectorConfig(
-        enabled=parse_env_bool("ENABLE_DETECTOR", False),
-        provider=os.environ.get("DETECTOR_PROVIDER", "rt_detr").strip().lower() or "rt_detr",
-        model_name=os.environ.get("RT_DETR_MODEL", "PekingU/rtdetr_r50vd").strip() or "PekingU/rtdetr_r50vd",
-        score_threshold=score_threshold,
-        max_detections=parse_env_int("RT_DETR_MAX_DETECTIONS", 20),
-        device=os.environ.get("RT_DETR_DEVICE", "cpu").strip().lower() or "cpu",
+        enabled=False,
+        provider="disabled",
+        model_name="",
+        score_threshold=0.0,
+        max_detections=0,
+        device="cpu",
     )
 
 

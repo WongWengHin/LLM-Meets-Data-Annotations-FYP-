@@ -11,14 +11,11 @@ from annotations.exporters import (
     export_prediction_file,
 )
 from annotations.normalizer import parse_and_normalize_model_output
-from annotations.normalizer import merge_detector_and_llm_annotations
 from annotations.schema import build_master_annotation
 from annotations.validator import validate_annotation
 from clients.llm_client import request_image_annotation
 from core.config import AppConfig
 from core.errors import AnnotationValidationError
-from detectors.postprocess import filter_detections
-from detectors.rt_detr_client import detect_instances
 from images.preprocess import prepare_inference_image
 
 
@@ -44,34 +41,17 @@ def run_annotation_pipeline(image_path: Path, config: AppConfig) -> dict:
             f"({inference_image.inference_size[0]}x{inference_image.inference_size[1]})"
         )
 
-    detections: list[dict] = []
     detection_artifact_path = build_json_artifact_path(config.paths.detections_dir, image_path.stem, "detections")
-    if config.detector.enabled:
-        print("[pipeline] Running RT-DETR detector...")
-        raw_detections = detect_instances(inference_image.image_path, config.detector)
-        detections = filter_detections(
-            raw_detections,
-            config.detector.score_threshold,
-            config.detector.max_detections,
-        )
-        print(f"[pipeline] Detector returned {len(detections)} filtered detection(s).")
-        _write_json(detection_artifact_path, {"detections": detections})
 
     print("[pipeline] Requesting annotation from LLM...")
     active_prompt_mode, raw_model_output = request_image_annotation(
         inference_image.image_path,
         config.llm,
-        detections=detections or None,
     )
     print("[pipeline] LLM response received.")
 
     print("[pipeline] Normalizing model output...")
-    llm_normalized_annotation = parse_and_normalize_model_output(raw_model_output, image_path)
-    normalized_annotation = (
-        merge_detector_and_llm_annotations(detections, llm_normalized_annotation)
-        if detections
-        else llm_normalized_annotation
-    )
+    normalized_annotation = parse_and_normalize_model_output(raw_model_output, image_path)
     print("[pipeline] Validating normalized annotation...")
     validation = validate_annotation(normalized_annotation)
 
@@ -134,7 +114,7 @@ def run_annotation_pipeline(image_path: Path, config: AppConfig) -> dict:
         "master_annotation_file": str(master_annotation_path.relative_to(config.paths.base_dir)),
         "prediction_file": str(prediction_path.relative_to(config.paths.base_dir)),
         "evaluation_file": str(evaluation_path.relative_to(config.paths.base_dir)),
-        "detection_file": str(detection_artifact_path.relative_to(config.paths.base_dir)) if detections else None,
+        "detection_file": None,
         "inference_image_file": (
             str(inference_image.image_path.relative_to(config.paths.base_dir))
             if inference_image.resized
