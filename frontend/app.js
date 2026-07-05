@@ -1,3 +1,5 @@
+/*** 前端工作台的上传、标注展示与产物面板交互逻辑。 ***/
+
 const imageInput = document.getElementById("imageInput");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
@@ -5,8 +7,8 @@ const bboxOverlay = document.getElementById("bboxOverlay");
 const previewFrame = document.querySelector(".preview-frame");
 const analyzeButton = document.getElementById("analyzeButton");
 const statusPill = document.getElementById("statusPill");
-const classValue = document.getElementById("classValue");
-const bboxValue = document.getElementById("bboxValue");
+const annotationCountValue = document.getElementById("annotationCountValue");
+const activeBoundingBoxValue = document.getElementById("activeBoundingBoxValue");
 const personCountValue = document.getElementById("personCountValue");
 const objectCountValue = document.getElementById("objectCountValue");
 const warningCountValue = document.getElementById("warningCountValue");
@@ -68,8 +70,8 @@ function setStatus(text) {
 
 function setErrorState(message) {
   setStatus("Failed");
-  classValue.textContent = "-";
-  bboxValue.textContent = "-";
+  annotationCountValue.textContent = "-";
+  activeBoundingBoxValue.textContent = "-";
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
@@ -105,7 +107,7 @@ function resetPreview() {
   hideBoundingBox();
 }
 
-function showPreviewPreviewState() {
+function showPreviewState() {
   previewImage.hidden = false;
   previewPlaceholder.hidden = true;
 }
@@ -202,13 +204,13 @@ function renderSummary(result) {
   const peopleCount = annotations.filter((annotation) => annotation?.subject === "person").length;
   const objectCount = annotations.filter((annotation) => annotation?.object && annotation.object !== "person").length;
 
-  classValue.textContent = annotations.length > 0 ? String(annotations.length) : "-";
+  annotationCountValue.textContent = annotations.length > 0 ? String(annotations.length) : "-";
   personCountValue.textContent = annotations.length > 0 ? String(peopleCount) : "-";
   objectCountValue.textContent = annotations.length > 0 ? String(objectCount) : "-";
   warningCountValue.textContent = String(warningCount);
 
   const activeAnnotation = getActiveAnnotation(annotations);
-  bboxValue.textContent = formatAnnotationBoxes(activeAnnotation || annotations[0] || null);
+  activeBoundingBoxValue.textContent = formatAnnotationBoxes(activeAnnotation || annotations[0] || null);
 }
 
 function formatAgentText(value) {
@@ -505,8 +507,8 @@ renderAgentSummary(null);
 function handleSelectedFile(file) {
   currentResult = null;
   activeAnnotationId = null;
-  classValue.textContent = "-";
-  bboxValue.textContent = "-";
+  annotationCountValue.textContent = "-";
+  activeBoundingBoxValue.textContent = "-";
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
@@ -550,7 +552,7 @@ function handleSelectedFile(file) {
   }
 
   previewObjectUrl = URL.createObjectURL(file);
-  showPreviewPreviewState();
+  showPreviewState();
   previewImage.src = previewObjectUrl;
   setStatus("Image Ready");
 }
@@ -578,7 +580,7 @@ imageInput.addEventListener("change", (event) => {
 });
 
 previewImage.addEventListener("load", () => {
-  showPreviewPreviewState();
+  showPreviewState();
   if (currentResult) {
     renderBoundingBox(currentResult);
   }

@@ -1,14 +1,16 @@
+"""*** FastAPI 标注服务的应用启动入口。 ***"""
+
 from __future__ import annotations
 
 from pathlib import Path
 
 import uvicorn
 
-from core.config import choose_llm_provider_interactively, load_app_config, print_llm_provider_options
-from web.app import create_app
+from app.core.config import choose_llm_provider_interactively, load_app_config, print_llm_provider_options
+from app.api.app import create_app
 
 
-def run() -> None:
+def run_server() -> None:
     base_dir = Path(__file__).resolve().parent
     config = load_app_config(base_dir)
 
@@ -24,4 +26,4 @@ def run() -> None:
 
 
 if __name__ == "__main__":
-    run()
+    run_server()
