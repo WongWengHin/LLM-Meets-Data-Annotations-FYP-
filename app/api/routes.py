@@ -1,5 +1,3 @@
-"""*** 健康检查与图像标注上传接口的路由定义。 ***"""
-
 from __future__ import annotations
 
 import traceback
@@ -39,15 +37,24 @@ async def health() -> HealthResponse:
 )
 async def upload_image(
     request: Request,
-    uploaded_image: UploadFile = File(..., description="Image file to annotate."),
+    image: UploadFile | None = File(None, alias="image", description="Image file to annotate."),
+    uploaded_image: UploadFile | None = File(
+        None,
+        alias="uploaded_image",
+        description="Legacy image file field name.",
+    ),
 ) -> UploadResponse | JSONResponse:
     config = _get_config(request)
     try:
-        filename = Path(uploaded_image.filename or "").name
+        selected_image = image or uploaded_image
+        if selected_image is None:
+            raise ValueError("No image file provided.")
+
+        filename = Path(selected_image.filename or "").name
         if not filename:
             raise ValueError("No image file provided.")
 
-        file_bytes = await uploaded_image.read()
+        file_bytes = await selected_image.read()
         if not file_bytes:
             raise ValueError("No image file provided.")
 
