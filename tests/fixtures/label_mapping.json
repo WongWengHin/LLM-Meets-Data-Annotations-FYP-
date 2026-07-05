@@ -1,0 +1,15 @@
+{
+  "coco": {
+    "object_to_category_id": {
+      "bike": 1
+    }
+  },
+  "hicodet": {
+    "object_to_id": {
+      "bike": 2
+    },
+    "predicate_to_id": {
+      "ride": 76
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "coco": {
+    "object_to_category_id": {
+      "person": 1,
+      "bicycle": 2,
+      "bike": 2,
+      "car": 3
+    }
+  },
+  "hicodet": {
+    "object_to_id": {
+      "bicycle": 2,
+      "bike": 2,
+      "cup": 47
+    },
+    "predicate_to_id": {
+      "ride": 76,
+      "hold": 36,
+      "drink_with": 19
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "id": "img1",
+      "file_name": "img1.jpg",
+      "width": 100,
+      "height": 100
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "bicycle"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 1,
+      "image_id": "img1",
+      "category_id": 1,
+      "bbox": [40, 40, 40, 50]
+    }
+  ]
+}

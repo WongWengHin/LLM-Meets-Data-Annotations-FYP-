@@ -30,10 +30,17 @@ def export_prediction_file(master_annotation: dict) -> dict:
     return {
         "schema_version": master_annotation["schema_version"],
         "image_id": image["image_id"],
+        "image": {
+            "image_id": image["image_id"],
+            "file_name": image["file_name"],
+            "width": image["width"],
+            "height": image["height"],
+        },
         "caption": master_annotation["caption"],
         "predictions": [
             {
                 "annotation_id": annotation["annotation_id"],
+                "image_id": image["image_id"],
                 "subject": annotation["subject"],
                 "object": annotation["object"],
                 "predicate": annotation["predicate"],
@@ -43,6 +50,7 @@ def export_prediction_file(master_annotation: dict) -> dict:
                 "bounding_box": annotation["bounding_box"],
                 "sentences": annotation["sentences"],
                 "score": annotation.get("score"),
+                "dataset_labels": annotation.get("dataset_labels"),
                 "generation": {
                     "provider": generation["provider"],
                     "model": generation["model"],
@@ -117,6 +125,7 @@ def export_evaluation_record(master_annotation: dict) -> dict:
                 "category": annotation["category"],
                 "bounding_box": annotation["bounding_box"],
                 "score": annotation.get("score"),
+                "dataset_labels": annotation.get("dataset_labels"),
             }
             for annotation in master_annotation["annotations"]
         ],
