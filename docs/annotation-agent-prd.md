@@ -272,20 +272,20 @@ The MVP should not require:
 
 ### Suggested Internal Modules
 
-- `agent/orchestrator.py`
-- `agent/state.py`
-- `agent/policies.py`
-- `agent/tools.py`
-- `agent/trace.py`
+- `app/agent/orchestrator.py`
+- `app/agent/state.py`
+- `app/agent/policies.py`
+- `app/agent/tools.py`
+- `app/agent/trace.py`
 
 ### Tool Mapping to Current Code
 
-- preprocess tool -> `images.preprocess`
-- llm tool -> `clients.llm_client`
-- normalize tool -> `annotations.normalizer`
-- validate tool -> `annotations.validator`
-- schema tool -> `annotations.schema`
-- export tool -> `annotations.exporters`
+- preprocess tool -> `app.domain.images.preprocess`
+- llm tool -> `app.services.llm.client`
+- normalize tool -> `app.domain.annotations.normalizer`
+- validate tool -> `app.domain.annotations.validator`
+- schema tool -> `app.domain.annotations.schema`
+- export tool -> `app.domain.annotations.exporters`
 
 ## Example Decision Policy
 

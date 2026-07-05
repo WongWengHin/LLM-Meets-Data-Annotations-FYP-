@@ -123,16 +123,11 @@ The master annotation record is the source of truth and contains:
 ```text
 FIT3163/
   main.py
-  agent/
+  app/
   frontend/
-  prompts/
-  core/
-  clients/
-  images/
-  annotations/
-  web/
+  samples/
+  scripts/
   data/
-  COCO_JSON_structure/
 ```
 
 ### Key folders
@@ -143,29 +138,23 @@ FIT3163/
 - `frontend/`
   Frontend HTML, CSS, and JavaScript files
 
-- `agent/`
-  Annotation Agent orchestration layer, task state, policies, tool wrappers, and trace writing
+- `app/`
+  Layered application modules:
+  `app/api/` for FastAPI wiring,
+  `app/agent/` for annotation orchestration, task state, policies, tool wrappers, and trace writing,
+  `app/core/` for shared configuration and error types,
+  `app/domain/images/` and `app/domain/annotations/` for core domain logic,
+  `app/services/llm/` and `app/services/prompts/` for external model access and prompt templates,
+  `app/evaluation/` for offline COCO and HICO-DET aligned evaluation
 
-- `prompts/`
-  Prompt templates for annotation generation
+- `scripts/`
+  Local helper scripts such as the PowerShell startup shortcut
 
-- `clients/`
-  External model API client logic
-
-- `images/`
-  Image metadata and bounding box utilities
-
-- `annotations/`
-  Annotation normalization, validation, schema generation, exporters, and pipeline logic
-
-- `web/`
-  FastAPI app assembly, route definitions, response utilities, and API schemas
+- `samples/`
+  Example images and XML annotations kept for manual inspection or demos
 
 - `data/`
   Runtime output directory for uploads and generated JSON artifacts
-
-- `COCO_JSON_structure/`
-  COCO-style annotation reference files for schema understanding and future evaluation alignment
 
 ## How to Run
 
@@ -211,7 +200,13 @@ The backend now runs on FastAPI and is started through `uvicorn` inside `main.py
 Windows PowerShell shortcut:
 
 ```powershell
-.\start_server.ps1
+.\scripts\start_server.ps1
+```
+
+Offline evaluation shortcut:
+
+```powershell
+.\scripts\run_eval.ps1 --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco
 ```
 
 Recommended first-run sequence:
@@ -219,7 +214,7 @@ Recommended first-run sequence:
 ```powershell
 Copy-Item .env_example .env
 python -m pip install -r requirements.txt
-.\start_server.ps1
+.\scripts\start_server.ps1
 ```
 
 ### 5. Open the application
@@ -248,19 +243,19 @@ The repository also includes an offline IoU evaluation module for COCO and HICO-
 Example COCO run:
 
 ```powershell
-python -m evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco
+python -m app.evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco
 ```
 
 Example HICO-DET run:
 
 ```powershell
-python -m evaluation.run_eval --dataset hicodet --predictions-dir data/predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet
+python -m app.evaluation.run_eval --dataset hicodet --predictions-dir data/predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet
 ```
 
 Optional label mapping:
 
 ```powershell
-python -m evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco --label-mapping evaluation\label_mappings.example.json
+python -m app.evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco --label-mapping app\evaluation\label_mappings.example.json
 ```
 
 The evaluator writes:
