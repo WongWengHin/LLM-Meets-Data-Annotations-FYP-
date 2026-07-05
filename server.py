@@ -218,7 +218,7 @@ def annotate_image(image_path: Path, prompt_mode: str | None = None) -> dict:
         ],
         "stream": False,
         "temperature": 0.2,
-        "max_tokens": 1024,
+        "max_completion_tokens": 1024,
     }
 
     request = Request(
