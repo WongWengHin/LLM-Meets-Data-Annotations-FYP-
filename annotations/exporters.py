@@ -43,7 +43,6 @@ def export_prediction_file(master_annotation: dict) -> dict:
                 "bounding_box": annotation["bounding_box"],
                 "sentences": annotation["sentences"],
                 "score": annotation.get("score"),
-                "detection": annotation.get("detection"),
                 "generation": {
                     "provider": generation["provider"],
                     "model": generation["model"],
@@ -85,7 +84,6 @@ def export_ground_truth_record(master_annotation: dict) -> dict:
                 "bounding_box": annotation["bounding_box"],
                 "sentences": annotation["sentences"],
                 "score": annotation.get("score"),
-                "detection": annotation.get("detection"),
                 "review": {
                     "status": review["status"],
                     "reviewed_by": review["reviewed_by"],

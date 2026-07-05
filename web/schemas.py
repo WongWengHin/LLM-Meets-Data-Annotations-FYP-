@@ -19,11 +19,6 @@ class SourceSummary(BaseModel):
     type: str = Field(examples=["model_generated"])
 
 
-class DetectionMetadata(BaseModel):
-    source: str | None = Field(default=None, examples=["rt_detr"])
-    model: str | None = Field(default=None, examples=["PekingU/rtdetr_r50vd"])
-
-
 class FrontendAnnotation(BaseModel):
     annotation_id: str = Field(examples=["image-7_001"])
     subject: str = Field(examples=["person"])
@@ -35,16 +30,28 @@ class FrontendAnnotation(BaseModel):
     bounding_box: list[float] = Field(examples=[[0.329688, 0.095833, 0.625000, 0.862500]])
     sentences: list[str] = Field(examples=[["A person is riding a snowboard on a snowy slope."]])
     score: float | None = Field(default=None, examples=[0.9421])
-    detection: DetectionMetadata | None = None
 
 
 class ArtifactSummary(BaseModel):
-    raw_output_file: str = Field(examples=["data/raw_outputs/image-7-raw-output.json"])
-    master_annotation_file: str = Field(examples=["data/master_annotations/image-7-master-annotation.json"])
-    prediction_file: str = Field(examples=["data/predictions/image-7-prediction.json"])
-    evaluation_file: str = Field(examples=["data/evaluation_exports/image-7-evaluation.json"])
-    detection_file: str | None = Field(default=None, examples=["data/detections/image-7-detections.json"])
+    raw_output_file: str | None = Field(default=None, examples=["data/raw_outputs/image-7-raw-output.json"])
+    master_annotation_file: str | None = Field(default=None, examples=["data/master_annotations/image-7-master-annotation.json"])
+    prediction_file: str | None = Field(default=None, examples=["data/predictions/image-7-prediction.json"])
+    evaluation_file: str | None = Field(default=None, examples=["data/evaluation_exports/image-7-evaluation.json"])
     inference_image_file: str | None = Field(default=None, examples=["data/inference_images/image-7-inference.jpg"])
+    normalized_output_file: str | None = Field(default=None, examples=["data/normalized_outputs/image-7-normalized.json"])
+    validation_report_file: str | None = Field(default=None, examples=["data/validation_reports/image-7-validation.json"])
+    orchestration_trace_file: str | None = Field(default=None, examples=["data/orchestration_traces/image-7-trace.json"])
+    task_state_file: str | None = Field(default=None, examples=["data/task_states/image-7-task.json"])
+
+
+class AgentSummary(BaseModel):
+    task_id: str = Field(examples=["task_image-7_20260705T101530Z"])
+    task_status: str = Field(examples=["completed"])
+    stage: str = Field(examples=["export"])
+    strategy: str = Field(examples=["llm_only"])
+    attempt_count: int = Field(examples=[1])
+    review_required: bool = Field(examples=[False])
+    review_reason: str | None = Field(default=None, examples=["Validation failed after 2 attempts."])
 
 
 class UploadResponse(BaseModel):
@@ -61,6 +68,7 @@ class UploadResponse(BaseModel):
     validation: ValidationSummary
     source: SourceSummary
     annotations: list[FrontendAnnotation]
+    agent: AgentSummary
     artifacts: ArtifactSummary
 
 

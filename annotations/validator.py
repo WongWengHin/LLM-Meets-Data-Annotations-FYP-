@@ -55,18 +55,6 @@ def validate_annotation(normalized_annotation: dict) -> dict:
         if score is not None and not _is_valid_score(score):
             errors.append(f"annotations[{index}].score must be a number between 0 and 1 when provided.")
 
-        detection = annotation.get("detection")
-        if detection is not None:
-            if not isinstance(detection, dict):
-                errors.append(f"annotations[{index}].detection must be an object when provided.")
-            else:
-                source = detection.get("source")
-                model = detection.get("model")
-                if source is not None and (not isinstance(source, str) or not source.strip()):
-                    errors.append(f"annotations[{index}].detection.source must be a non-empty string when provided.")
-                if model is not None and (not isinstance(model, str) or not model.strip()):
-                    errors.append(f"annotations[{index}].detection.model must be a non-empty string when provided.")
-
         sentences = annotation.get("sentences")
         if not isinstance(sentences, list) or not sentences:
             errors.append(f"annotations[{index}].sentences must be a non-empty list.")

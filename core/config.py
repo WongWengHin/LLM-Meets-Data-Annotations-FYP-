@@ -25,35 +25,27 @@ class ImagePreprocessConfig:
 
 
 @dataclass(frozen=True)
-class DetectorConfig:
-    enabled: bool
-    provider: str
-    model_name: str
-    score_threshold: float
-    max_detections: int
-    device: str
-
-
-@dataclass(frozen=True)
 class AppPaths:
     base_dir: Path
     frontend_dir: Path
     data_dir: Path
     uploads_dir: Path
     inference_images_dir: Path
-    detections_dir: Path
     raw_outputs_dir: Path
     master_annotations_dir: Path
     predictions_dir: Path
     ground_truth_dir: Path
     evaluation_exports_dir: Path
+    normalized_outputs_dir: Path
+    validation_reports_dir: Path
+    orchestration_traces_dir: Path
+    task_states_dir: Path
 
 
 @dataclass(frozen=True)
 class AppConfig:
     llm: LLMConfig
     image_preprocess: ImagePreprocessConfig
-    detector: DetectorConfig
     paths: AppPaths
     host: str
     port: int
@@ -99,24 +91,30 @@ def build_app_paths(base_dir: Path) -> AppPaths:
         data_dir=data_dir,
         uploads_dir=data_dir / "uploads",
         inference_images_dir=data_dir / "inference_images",
-        detections_dir=data_dir / "detections",
         raw_outputs_dir=data_dir / "raw_outputs",
         master_annotations_dir=data_dir / "master_annotations",
         predictions_dir=data_dir / "predictions",
         ground_truth_dir=data_dir / "ground_truth",
         evaluation_exports_dir=data_dir / "evaluation_exports",
+        normalized_outputs_dir=data_dir / "normalized_outputs",
+        validation_reports_dir=data_dir / "validation_reports",
+        orchestration_traces_dir=data_dir / "orchestration_traces",
+        task_states_dir=data_dir / "task_states",
     )
 
     for path in (
         paths.data_dir,
         paths.uploads_dir,
         paths.inference_images_dir,
-        paths.detections_dir,
         paths.raw_outputs_dir,
         paths.master_annotations_dir,
         paths.predictions_dir,
         paths.ground_truth_dir,
         paths.evaluation_exports_dir,
+        paths.normalized_outputs_dir,
+        paths.validation_reports_dir,
+        paths.orchestration_traces_dir,
+        paths.task_states_dir,
     ):
         path.mkdir(parents=True, exist_ok=True)
 
@@ -151,19 +149,6 @@ def parse_env_bool(name: str, default: bool) -> bool:
         return False
 
     raise RuntimeError(f"Invalid boolean value for {name}: {raw_value}")
-
-
-def parse_env_float(name: str, default: float) -> float:
-    raw_value = os.environ.get(name, "").strip()
-    if not raw_value:
-        return default
-
-    try:
-        parsed_value = float(raw_value)
-    except ValueError as exc:
-        raise RuntimeError(f"Invalid float value for {name}: {raw_value}") from exc
-
-    return parsed_value
 
 
 def resolve_llm_config() -> LLMConfig:
@@ -229,21 +214,6 @@ def resolve_image_preprocess_config() -> ImagePreprocessConfig:
         enable_resize=parse_env_bool("ENABLE_IMAGE_RESIZE", True),
         max_side=parse_env_int("IMAGE_MAX_SIDE", 768),
         jpeg_quality=jpeg_quality,
-    )
-
-
-def resolve_detector_config() -> DetectorConfig:
-    score_threshold = parse_env_float("RT_DETR_SCORE_THRESHOLD", 0.4)
-    if not 0 <= score_threshold <= 1:
-        raise RuntimeError("RT_DETR_SCORE_THRESHOLD must be between 0 and 1.")
-
-    return DetectorConfig(
-        enabled=parse_env_bool("ENABLE_DETECTOR", False),
-        provider=os.environ.get("DETECTOR_PROVIDER", "rt_detr").strip().lower() or "rt_detr",
-        model_name=os.environ.get("RT_DETR_MODEL", "PekingU/rtdetr_r50vd").strip() or "PekingU/rtdetr_r50vd",
-        score_threshold=score_threshold,
-        max_detections=parse_env_int("RT_DETR_MAX_DETECTIONS", 20),
-        device=os.environ.get("RT_DETR_DEVICE", "cpu").strip().lower() or "cpu",
     )
 
 
@@ -313,11 +283,9 @@ def load_app_config(base_dir: Path) -> AppConfig:
     paths = build_app_paths(base_dir)
     llm = resolve_llm_config()
     image_preprocess = resolve_image_preprocess_config()
-    detector = resolve_detector_config()
     return AppConfig(
         llm=llm,
         image_preprocess=image_preprocess,
-        detector=detector,
         paths=paths,
         host="127.0.0.1",
         port=int(os.environ.get("PORT", "8000")),

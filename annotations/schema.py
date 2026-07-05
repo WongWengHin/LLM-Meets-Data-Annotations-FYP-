@@ -46,7 +46,7 @@ def build_master_annotation(
             "reviewed_at": None,
         },
         "source": {
-            "type": "detector_assisted" if any(annotation.get("detection") for annotation in annotations) else "model_generated",
+            "type": "model_generated",
         },
         "generation": {
             "prompt_mode": prompt_mode,
