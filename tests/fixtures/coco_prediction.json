@@ -1,0 +1,17 @@
+{
+  "image_id": "img1",
+  "image": {
+    "image_id": "img1",
+    "file_name": "img1.jpg",
+    "width": 100,
+    "height": 100
+  },
+  "predictions": [
+    {
+      "annotation_id": "pred1",
+      "object": "bike",
+      "object_bbox": [0.4, 0.4, 0.8, 0.9],
+      "score": 0.9
+    }
+  ]
+}

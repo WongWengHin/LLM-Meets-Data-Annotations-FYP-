@@ -1,0 +1,23 @@
+{
+  "images": [
+    {
+      "id": "img1",
+      "file_name": "img1.jpg",
+      "width": 100,
+      "height": 100
+    }
+  ],
+  "annotations": [
+    {
+      "id": "gt1",
+      "image_id": "img1",
+      "subject": "person",
+      "object": "bicycle",
+      "predicate": "ride",
+      "object_id": 2,
+      "predicate_id": 76,
+      "subject_bbox": [10, 10, 40, 80],
+      "object_bbox": [40, 40, 80, 90]
+    }
+  ]
+}

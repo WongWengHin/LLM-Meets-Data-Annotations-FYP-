@@ -241,6 +241,36 @@ Useful endpoints:
 - `GET /docs`
   Swagger UI for trying the API in the browser
 
+### 5.1 Run offline evaluation
+
+The repository also includes an offline IoU evaluation module for COCO and HICO-DET style evaluation.
+
+Example COCO run:
+
+```powershell
+python -m evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco
+```
+
+Example HICO-DET run:
+
+```powershell
+python -m evaluation.run_eval --dataset hicodet --predictions-dir data/predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet
+```
+
+Optional label mapping:
+
+```powershell
+python -m evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco --label-mapping evaluation\label_mappings.example.json
+```
+
+The evaluator writes:
+
+- summary json
+- csv breakdown files
+- markdown summary
+- per-image debug match reports
+- mapping-aware category or verb/object id assignment when a label mapping file is provided
+
 ### 6. Use the demo
 
 - upload an image
