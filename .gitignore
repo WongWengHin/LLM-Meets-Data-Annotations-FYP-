@@ -7,3 +7,4 @@ uploads/
 .agents
 agent
 skills-lock.json
+setup_COCO.py
