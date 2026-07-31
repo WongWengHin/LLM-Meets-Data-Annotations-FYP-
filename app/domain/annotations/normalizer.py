@@ -1,5 +1,3 @@
-"""*** 原始模型标注输出的解析与标准化处理逻辑。 ***"""
-
 from __future__ import annotations
 
 import json
@@ -113,8 +111,10 @@ def parse_and_normalize_model_output(raw_model_output: str, image_path: Path | N
         for index, item in enumerate(raw_annotations)
     ]
 
-    caption = _normalize_caption(data, normalized_annotations)
+    annotation_type = _detect_annotation_type(data, normalized_annotations)
+    caption = _normalize_caption(data, normalized_annotations, annotation_type)
     return {
+        "annotation_type": annotation_type,
         "caption": caption,
         "annotations": normalized_annotations,
     }
@@ -129,6 +129,13 @@ def _normalize_annotation_item(
     if not isinstance(item, dict):
         raise ValueError(f"Annotation item at index {index} is not a JSON object. Raw content: {raw_content}")
 
+    if _looks_like_object_detection_item(item):
+        return _normalize_object_detection_item(item, image_path, raw_content, index)
+
+    return _normalize_hoi_annotation_item(item, image_path, raw_content, index)
+
+
+def _normalize_hoi_annotation_item(item: dict, image_path: Path | None, raw_content: str, index: int) -> dict:
     subject = _normalize_label(
         pick_first_value(item, "subject", "person", "person_class", "human", "human_class", "subject_class")
     )
@@ -194,7 +201,7 @@ def _normalize_annotation_item(
 
     sentences = _normalize_sentences(
         pick_first_value(item, "sentences", "data_annotation_sentences", "descriptions", "captions", "annotation_sentences"),
-        fallback=[f"A {subject} is {predicate} a {object_name}."],
+        fallback=[f"A {subject} is {predicate} a {object_name} "],
         raw_content=raw_content,
         field_name=f"annotations[{index}].sentences",
     )
@@ -210,7 +217,45 @@ def _normalize_annotation_item(
     )
 
 
-def _normalize_caption(data: dict, annotations: list[dict]) -> str:
+def _normalize_object_detection_item(item: dict, image_path: Path | None, raw_content: str, index: int) -> dict:
+    class_name = _normalize_label(pick_first_value(item, "class", "category", "label", "name", "object", "object_name"))
+    bbox = normalize_optional_bbox(
+        pick_first_value(item, "bbox", "bounding_box", "box", "coordinates"),
+        image_path,
+        raw_content,
+        f"annotations[{index}].bbox",
+    )
+
+    if bbox is None:
+        raise ValueError(f"Annotation item at index {index} is missing bbox. Raw content: {raw_content}")
+
+    sentences = _normalize_sentences(
+        pick_first_value(item, "sentences", "descriptions", "captions", "annotation_sentences"),
+        fallback=[f"A {class_name or 'object'} is visible in the image."],
+        raw_content=raw_content,
+        field_name=f"annotations[{index}].sentences",
+    )
+
+    annotation_id = _normalize_label(pick_first_value(item, "annotation_id", "id", "annotationId"))
+    image_id = _normalize_label(pick_first_value(item, "image_id", "imageId"))
+
+    return {
+        "annotation_type": "object_detection",
+        "annotation_id": annotation_id or (f"{image_id}_{index:03d}" if image_id else f"{index:03d}"),
+        "image_id": image_id,
+        "class": class_name or "object",
+        "bbox": bbox,
+        "category": class_name or "object",
+        "bounding_box": bbox,
+        "sentences": sentences,
+        "score": item.get("score"),
+    }
+
+
+def _normalize_caption(data: dict, annotations: list[dict], annotation_type: str) -> str:
+    if annotation_type == "object_detection":
+        return ""
+
     caption = pick_first_value(data, "caption", "image_caption", "description", "scene_description", "summary")
     if isinstance(caption, str) and caption.strip():
         return caption.strip()
@@ -251,6 +296,31 @@ def _normalize_label(value: object) -> str:
     if not isinstance(value, str):
         return ""
     return value.strip()
+
+
+def _detect_annotation_type(data: dict, annotations: list[dict]) -> str:
+    if any(annotation.get("annotation_type") == "object_detection" for annotation in annotations if isinstance(annotation, dict)):
+        return "object_detection"
+
+    if any("class" in annotation for annotation in annotations if isinstance(annotation, dict)):
+        return "object_detection"
+
+    if any("subject" in annotation or "object" in annotation or "predicate" in annotation for annotation in annotations if isinstance(annotation, dict)):
+        return "hoi"
+
+    if isinstance(data.get("caption"), str) and data.get("caption", "").strip():
+        return "hoi"
+
+    if "caption" in data:
+        return "hoi"
+
+    return "object_detection"
+
+
+def _looks_like_object_detection_item(item: dict) -> bool:
+    return any(key in item for key in ("class", "bbox", "annotation_id", "image_id")) and not any(
+        key in item for key in ("subject", "object", "predicate", "subject_bbox", "object_bbox")
+    )
 
 
 def _parse_legacy_category(category: str) -> tuple[str, str, str]:

@@ -1,5 +1,3 @@
-"""*** 标准化标注结果的校验规则定义。 ***"""
-
 from __future__ import annotations
 
 
@@ -7,9 +5,11 @@ def validate_annotation(normalized_annotation: dict) -> dict:
     errors: list[str] = []
     warnings: list[str] = []
 
-    caption = normalized_annotation.get("caption")
-    if not isinstance(caption, str) or not caption.strip():
-        errors.append("caption must be a non-empty string.")
+    annotation_type = normalized_annotation.get("annotation_type") or "hoi"
+    if annotation_type == "hoi":
+        caption = normalized_annotation.get("caption")
+        if not isinstance(caption, str) or not caption.strip():
+            errors.append("caption must be a non-empty string.")
 
     annotations = normalized_annotation.get("annotations")
     if not isinstance(annotations, list) or not annotations:
@@ -23,6 +23,39 @@ def validate_annotation(normalized_annotation: dict) -> dict:
     for index, annotation in enumerate(annotations, start=1):
         if not isinstance(annotation, dict):
             errors.append(f"annotations[{index}] must be an object.")
+            continue
+
+        if annotation_type == "object_detection":
+            annotation_id = annotation.get("annotation_id")
+            if not isinstance(annotation_id, str) or not annotation_id.strip():
+                errors.append(f"annotations[{index}].annotation_id must be a non-empty string.")
+
+            image_id = annotation.get("image_id")
+            if image_id is not None and (not isinstance(image_id, str) or not image_id.strip()):
+                errors.append(f"annotations[{index}].image_id must be a non-empty string when provided.")
+
+            class_name = annotation.get("class")
+            if not isinstance(class_name, str) or not class_name.strip():
+                errors.append(f"annotations[{index}].class must be a non-empty string.")
+
+            bbox = annotation.get("bbox")
+            if not _is_valid_bbox(bbox):
+                errors.append(f"annotations[{index}].bbox must be a normalized [x1, y1, x2, y2] box.")
+
+            score = annotation.get("score")
+            if score is not None and not _is_valid_score(score):
+                errors.append(f"annotations[{index}].score must be a number between 0 and 1 when provided.")
+
+            sentences = annotation.get("sentences")
+            if not isinstance(sentences, list) or not sentences:
+                errors.append(f"annotations[{index}].sentences must be a non-empty list.")
+                continue
+
+            cleaned_sentences = [sentence.strip() for sentence in sentences if isinstance(sentence, str) and sentence.strip()]
+            if len(cleaned_sentences) != len(sentences) or not cleaned_sentences:
+                errors.append(f"annotations[{index}].sentences must contain only non-empty strings.")
+            elif len({sentence.casefold() for sentence in cleaned_sentences}) != len(cleaned_sentences):
+                warnings.append(f"annotations[{index}].sentences contains duplicated sentence content.")
             continue
 
         subject = annotation.get("subject")
