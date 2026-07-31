@@ -23,11 +23,13 @@ def build_master_annotation(
     normalized_annotations = normalized_annotation.get("annotations", [])
     annotations = [
         {
-            "annotation_id": f"{image_id}_{index:03d}",
             **annotation,
+            "annotation_id": annotation.get("annotation_id") or f"{image_id}_{index:03d}",
         }
         for index, annotation in enumerate(normalized_annotations, start=1)
     ]
+
+    task = "object_detection" if normalized_annotation.get("annotation_type") == "object_detection" else "hoi_annotation"
 
     return {
         "schema_version": "3.0.0",
@@ -39,7 +41,7 @@ def build_master_annotation(
         },
         "caption": caption,
         "annotations": annotations,
-        "task": "hoi_annotation",
+        "task": task,
         "raw_model_output": raw_model_output,
         "validation": validation,
         "review": {

@@ -41,20 +41,23 @@ def request_image_annotation(
     )
 
     payload = {
-        "model": llm_config.model,
-        "messages": [
-            {
-                "role": "system",
-                "content": system_prompt,
-            },
-            {
-                "role": "user",
-                "content": _build_user_content(user_prompt, mime_type, image_base64),
-            },
-        ],
-        "stream": False,
-        "temperature": 0.2,
-        "max_tokens": llm_config.max_tokens,
+    "model": llm_config.model,
+    "messages": [
+        {
+            "role": "system",
+            "content": system_prompt,
+        },
+        {
+            "role": "user",
+            "content": _build_user_content(user_prompt, mime_type, image_base64),
+        },
+    ],
+    "stream": False,
+    "temperature": 0,
+    "max_tokens": llm_config.max_tokens,
+    "reasoning": {
+        "effort": "none"
+    },
     }
 
     if llm_config.provider == "ollama":

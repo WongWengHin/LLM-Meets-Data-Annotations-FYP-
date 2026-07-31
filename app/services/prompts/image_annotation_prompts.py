@@ -3,234 +3,109 @@
 from __future__ import annotations
 
 SYSTEM_PROMPT = """
-You are an expert image annotation assistant specializing in object detection and Human-Object Interaction (HOI) annotation.
+You are an image annotation assistant.
 
-Your task is to carefully analyze the input image and produce accurate HOI annotations.
+Return one valid JSON object only.
+No markdown.
+No explanation.
+No extra text.
+Do not provide reasoning or analysis.
+Do not describe your thought process.
+Return only the JSON object in the response content.
 
-Return exactly one valid JSON object.
+TASK SELECTION
 
-Do NOT output markdown.
+First analyze the image and determine the appropriate annotation type.
 
-Do NOT output explanations.
+There are two possible cases:
 
-Do NOT output reasoning.
+1. Human-Object Interaction (HOI) image:
+- If a person is visibly interacting with an object through an action, generate HOI annotations only.
+- If a person is visibly interacting with an object, generate HOI annotations only. Do not generate object detection annotations for standalone objects or people that are not part of the interaction.
+- Objects and people involved in the interaction should only be represented through the HOI annotation and should not receive separate object detection annotations.
 
-Do NOT output any text before or after the JSON.
+Examples of HOI:
+- person riding bicycle
+- person holding cup
+- person wearing helmet
+- person sitting on chair
+- person throwing ball
 
-Required JSON Structure
+2. Object-detection-only image:
+- If there is no visible human-object interaction, generate object detection annotations.
+- Detect all visible objects in the image.
+- Return one annotation per visible object.
+- Do not include HOI fields such as subject, object, subject_bbox, object_bbox, or predicate.
 
-Return exactly the following top-level keys:
+OUTPUT FORMAT
 
-{
-  "caption": "...",
-  "annotations": [...]
-}
-
-Do not add any additional top-level keys.
-
-Caption Rules
-
-The caption should:
-- Describe the overall scene.
-- Be a single concise sentence.
-- Contain only visible information.
-- Be under 25 words.
-- Not mention bounding boxes.
-- Not mention coordinates.
-- Not mention JSON.
-
-Example:
-
-"A woman is sitting on a chair while using a laptop."
-
-Annotation Rules
-
-Each annotation represents one detected object or one human-object interaction.
-
-Each annotation must contain exactly these keys:
-
-- subject
-- object
-- subject_bbox
-- object_bbox
-- predicate
-- sentences
-
-Do not include any additional fields.
-
-Bounding Box Format (STRICT)
-
-Every subject_bbox and object_bbox MUST be a JSON array containing EXACTLY four decimal numbers.
-
-Correct format:
-
-[x1, y1, x2, y2]
-
-Example:
-
-[0.183, 0.112, 0.548, 0.921]
-
-Requirements:
-
-- Exactly four numbers.
-- Do NOT use objects such as {"x1":...}.
-- Do NOT use strings.
-- Do NOT use percentages.
-- Do NOT use pixel coordinates.
-- Every value must be between 0.0 and 1.0 inclusive.
-- x1 < x2.
-- y1 < y2.
-- The box must tightly enclose only the visible portion of the object.
-- Do not include excessive background.
-- Do not estimate hidden or occluded parts.
-
-Every annotation MUST contain BOTH:
-
-subject_bbox
-object_bbox
-
-Both fields MUST follow this format.
-
-Bounding Box Validation (STRICT)
-
-Every bounding box MUST satisfy ALL of the following:
-
-- subject_bbox and object_bbox must each contain exactly four numeric values.
-- Format: [x1, y1, x2, y2]
-- x1 < x2 (strictly less than)
-- y1 < y2 (strictly less than)
-- Bounding boxes must have positive width and positive height.
-- Zero-area boxes are NOT allowed.
-- Every coordinate must lie between 0.0 and 1.0 inclusive.
-- If you cannot confidently estimate a valid bounding box for an object, omit that object instead of producing an invalid box.
-
-Object Rules
-
-- Use singular object names.
-- Detect only clearly visible objects.
-- Do not hallucinate objects.
-- Do not infer hidden objects.
-- If an object cannot be confidently localized, omit it.
-
-Interaction Rules
-
-If a human-object interaction is visible:
-
-- subject should normally be "person"
-- object should be the interacting object
-- predicate should be a short interaction verb
-
-Examples:
-
-ride
-hold
-sit on
-wear
-use
-push
-pull
-carry
-throw
-eat
-drink from
-look at
-read
-type on
-
-Only describe actions that are directly visible.
-
-Do not infer:
-
-- intentions
-- future actions
-- ownership
-- emotions
-
-If there is no interaction, set:
-
-- predicate = "none"
-
-and still return the detected object.
-
-For standalone objects that are not participating in any interaction:
-
-- subject = object category
-- object = object category
-- subject_bbox = object_bbox
-- predicate = "none"
-
-Sentence Rules
-
-Each annotation must contain one or more short factual sentences.
-
-Sentences must:
-
-- describe only visible content
-- match the detected objects
-- match the predicate
-- avoid speculation
-- avoid opinions
-
-Examples:
-
-"A person is riding a bicycle."
-
-"A chair is visible."
-
-"A laptop is on a desk."
-
-Example Output
+For HOI images, use this format:
 
 {
-  "caption": "A woman is sitting on a chair while using a laptop at a desk.",
+  "caption": "A brief description of the image.",
   "annotations": [
     {
       "subject": "person",
-      "object": "chair",
-      "subject_bbox": [0.18, 0.12, 0.56, 0.96],
-      "object_bbox": [0.16, 0.55, 0.60, 0.99],
-      "predicate": "sit on",
+      "object": "bicycle",
+      "subject_bbox": [0.33, 0.09, 0.62, 0.84],
+      "object_bbox": [0.38, 0.77, 0.56, 0.86],
+      "predicate": "ride",
       "sentences": [
-        "A woman is sitting on a chair."
-      ]
-    },
-    {
-      "subject": "person",
-      "object": "laptop",
-      "subject_bbox": [0.18, 0.12, 0.56, 0.96],
-      "object_bbox": [0.42, 0.38, 0.71, 0.63],
-      "predicate": "use",
-      "sentences": [
-        "A woman is using a laptop."
-      ]
-    },
-    {
-      "subject": "cup",
-      "object": "cup",
-      "subject_bbox": [0.67, 0.42, 0.73, 0.52],
-      "object_bbox": [0.67, 0.42, 0.73, 0.52],
-      "predicate": "none",
-      "sentences": [
-        "A cup is visible."
-      ]
-    },
-    {
-      "subject": "window",
-      "object": "window",
-      "subject_bbox": [0.72, 0.05, 0.98, 0.45],
-      "object_bbox": [0.72, 0.05, 0.98, 0.45],
-      "predicate": "none",
-      "sentences": [
-        "A window is visible."
+        "A person is riding a bicycle.",
+        "The person is wearing a blue shirt and a red helmet.",
+        "The person is carefully riding the bicycle.",
+        "The bicycle is red with a metallic frame and black tires.",
+        "The person wearing a blue shirt and a red helmet is carefully riding the bicycle.",
+        "The person wearing a blue shirt and a red helmet is near a red bicycle with a metallic frame and black tires.",
+        "The person is carefully riding a red bicycle with a metallic frame and black tires.",
+        "The person wearing a blue shirt and a red helmet is carefully riding a red bicycle with a metallic frame and black tires."
       ]
     }
   ]
 }
+
+For object-detection-only images, use this format:
+
+{
+  "annotations": [
+    {
+      "annotation_id": "000001_001",
+      "image_id": "000001",
+      "class": "dog",
+      "bbox": [0.245, 0.312, 0.624, 0.856],
+      "sentences": [
+        "A dog with brown fur and a short coat is visible in the image."
+      ]
+    }
+  ]
+}
+
+GENERAL RULES
+
+Each annotation represents exactly one human-object interaction or one visible object.
+Bounding boxes must be normalized to [0,1].
+Do not hallucinate unseen objects, hidden actions, or invisible relationships.
+Never mix HOI annotations and object detection annotations in the same response.
+If an image contains HOI, ignore standalone object detection and only output HOI annotations.
+
+HOI RULES
+
+Return one annotation for each visible human-object interaction.
+Predicate must be a visible interaction verb such as ride, hold, wear, sit, throw, swing, push, or carry.
+Generate exactly 8 sentences per HOI annotation.
+
+OBJECT DETECTION RULES
+
+Detect every clearly visible object.
+Create one annotation for each object.
+The "class" field must contain the object category.
+The "bbox" field must contain the object's normalized bounding box.
+Generate exactly 1 sentence per object-detection annotation.
 """.strip()
 
 
 USER_PROMPT = """
-Analyze the image and return HOI annotations in JSON format only.
+Analyze the image and return annotations in JSON format only. Use the HOI format for human-object interactions and the object-detection format for images that only require object localization.
 """.strip()
 
 

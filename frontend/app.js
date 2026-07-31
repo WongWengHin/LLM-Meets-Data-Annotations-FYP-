@@ -1,11 +1,9 @@
-/*** 前端工作台的上传、标注展示与产物面板交互逻辑。 ***/
-
+const analyzeButton = document.getElementById("analyzeButton");
 const imageInput = document.getElementById("imageInput");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
+const previewFrame = document.getElementById("previewFrame");
 const bboxOverlay = document.getElementById("bboxOverlay");
-const previewFrame = document.querySelector(".preview-frame");
-const analyzeButton = document.getElementById("analyzeButton");
 const statusPill = document.getElementById("statusPill");
 const annotationCountValue = document.getElementById("annotationCountValue");
 const activeBoundingBoxValue = document.getElementById("activeBoundingBoxValue");
@@ -152,6 +150,11 @@ function formatAnnotationBoxes(annotation) {
   if (Array.isArray(annotation.object_bbox)) {
     parts.push(`object ${formatBoundingBox(annotation.object_bbox)}`);
   }
+  if (Array.isArray(annotation.bbox)) {
+    parts.push(`bbox ${formatBoundingBox(annotation.bbox)}`);
+  } else if (Array.isArray(annotation.bounding_box)) {
+    parts.push(`bbox ${formatBoundingBox(annotation.bounding_box)}`);
+  }
 
   return parts.length > 0 ? parts.join(" | ") : "-";
 }
@@ -167,6 +170,7 @@ function getPredictionJson(result) {
       annotation_id: annotation.annotation_id,
       category: annotation.category,
       bounding_box: annotation.bounding_box,
+      bbox: annotation.bbox ?? null,
       sentences: annotation.sentences,
       score: annotation.score ?? null
     })),
@@ -186,6 +190,7 @@ function getEvaluationJson(result) {
       annotation_id: annotation.annotation_id,
       category: annotation.category,
       bounding_box: annotation.bounding_box,
+      bbox: annotation.bbox ?? null,
       score: annotation.score ?? null
     })),
     text_export: getAnnotations(result).map((annotation) => ({
@@ -202,7 +207,7 @@ function renderSummary(result) {
   const annotations = getAnnotations(result);
   const warningCount = Array.isArray(result?.validation?.warnings) ? result.validation.warnings.length : 0;
   const peopleCount = annotations.filter((annotation) => annotation?.subject === "person").length;
-  const objectCount = annotations.filter((annotation) => annotation?.object && annotation.object !== "person").length;
+  const objectCount = annotations.filter((annotation) => annotation?.object || annotation?.class || annotation?.category).length;
 
   annotationCountValue.textContent = annotations.length > 0 ? String(annotations.length) : "-";
   personCountValue.textContent = annotations.length > 0 ? String(peopleCount) : "-";
@@ -267,7 +272,7 @@ function renderAnnotationList(annotations) {
 
     const heading = document.createElement("div");
     heading.className = "annotation-item-header";
-    heading.innerHTML = `<strong>${annotation.annotation_id}</strong><span>${annotation.category}</span>`;
+    heading.innerHTML = `<strong>${annotation.annotation_id}</strong><span>${annotation.category || annotation.class || "-"}</span>`;
 
     const bbox = document.createElement("code");
     bbox.className = "annotation-bbox";
@@ -431,20 +436,65 @@ function syncOverlayToImage() {
   return true;
 }
 
-function renderAnnotationBoxes(annotation, filter) {
-  const rendered = [];
+function getAnnotationRenderBox(annotation, filter) {
   if (filter === "person") {
-    rendered.push(
-      renderBoxRect(annotation, "subject_bbox", "bbox-rect-person", "bbox-label-person", annotation?.subject || "subject")
-    );
-  }
-  if (filter === "object") {
-    rendered.push(
-      renderBoxRect(annotation, "object_bbox", "bbox-rect-object", "bbox-label-object", annotation?.object || "object")
-    );
+    if (Array.isArray(annotation?.subject_bbox)) {
+      return {
+        field: "subject_bbox",
+        label: annotation?.subject || "person",
+        rectClassName: "bbox-rect-person",
+        labelClassName: "bbox-label-person"
+      };
+    }
+
+    return null;
   }
 
-  return rendered.some(Boolean);
+  if (filter === "object") {
+    if (Array.isArray(annotation?.object_bbox)) {
+      return {
+        field: "object_bbox",
+        label: annotation?.object || "object",
+        rectClassName: "bbox-rect-object",
+        labelClassName: "bbox-label-object"
+      };
+    }
+
+    if (Array.isArray(annotation?.bbox)) {
+      return {
+        field: "bbox",
+        label: annotation?.class || annotation?.category || "object",
+        rectClassName: "bbox-rect-object",
+        labelClassName: "bbox-label-object"
+      };
+    }
+
+    if (Array.isArray(annotation?.bounding_box)) {
+      return {
+        field: "bounding_box",
+        label: annotation?.class || annotation?.category || "object",
+        rectClassName: "bbox-rect-object",
+        labelClassName: "bbox-label-object"
+      };
+    }
+  }
+
+  return null;
+}
+
+function renderAnnotationBoxes(annotation, filter) {
+  const renderBox = getAnnotationRenderBox(annotation, filter);
+  if (!renderBox) {
+    return false;
+  }
+
+  return renderBoxRect(
+    annotation,
+    renderBox.field,
+    renderBox.rectClassName,
+    renderBox.labelClassName,
+    renderBox.label
+  );
 }
 
 function renderBoxRect(annotation, bboxField, rectClassName, labelClassName, labelText) {
@@ -454,7 +504,10 @@ function renderBoxRect(annotation, bboxField, rectClassName, labelClassName, lab
   }
 
   const [x1, y1, x2, y2] = boundingBox.map((value) => Number(value));
-  const isNormalized = [x1, y1, x2, y2].every((value) => Number.isFinite(value) && value >= 0 && value <= 1);
+  const isNormalized = [x1, y1, x2, y2].every(
+    (value) => Number.isFinite(value) && value >= 0 && value <= 1
+  );
+
   if (!isNormalized || x2 <= x1 || y2 <= y1) {
     return false;
   }
@@ -482,7 +535,16 @@ function getFilteredAnnotations(annotations) {
     return annotations.filter((annotation) => Array.isArray(annotation?.subject_bbox));
   }
 
-  return annotations.filter((annotation) => Array.isArray(annotation?.object_bbox));
+  if (activeBboxFilter === "object") {
+    return annotations.filter(
+      (annotation) =>
+        Array.isArray(annotation?.object_bbox) ||
+        Array.isArray(annotation?.bbox) ||
+        Array.isArray(annotation?.bounding_box)
+    );
+  }
+
+  return [];
 }
 
 function setActiveBboxFilter(filter) {
@@ -582,7 +644,9 @@ imageInput.addEventListener("change", (event) => {
 previewImage.addEventListener("load", () => {
   showPreviewState();
   if (currentResult) {
-    renderBoundingBox(currentResult);
+    setTimeout(() => {
+      renderBoundingBox(currentResult);
+    }, 50);
   }
 });
 
