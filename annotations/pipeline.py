@@ -41,13 +41,8 @@ def run_annotation_pipeline(image_path: Path, config: AppConfig) -> dict:
             f"({inference_image.inference_size[0]}x{inference_image.inference_size[1]})"
         )
 
-    detection_artifact_path = build_json_artifact_path(config.paths.detections_dir, image_path.stem, "detections")
-
     print("[pipeline] Requesting annotation from LLM...")
-    active_prompt_mode, raw_model_output = request_image_annotation(
-        inference_image.image_path,
-        config.llm,
-    )
+    active_prompt_mode, raw_model_output = request_image_annotation(inference_image.image_path, config.llm)
     print("[pipeline] LLM response received.")
 
     print("[pipeline] Normalizing model output...")
@@ -114,7 +109,6 @@ def run_annotation_pipeline(image_path: Path, config: AppConfig) -> dict:
         "master_annotation_file": str(master_annotation_path.relative_to(config.paths.base_dir)),
         "prediction_file": str(prediction_path.relative_to(config.paths.base_dir)),
         "evaluation_file": str(evaluation_path.relative_to(config.paths.base_dir)),
-        "detection_file": None,
         "inference_image_file": (
             str(inference_image.image_path.relative_to(config.paths.base_dir))
             if inference_image.resized

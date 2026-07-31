@@ -37,23 +37,35 @@ The current prototype supports:
 
 ## System Architecture
 
-The backend currently follows this pipeline:
+The backend now follows a `single orchestrator agent + deterministic tools` design.
+
+High-level flow:
 
 User Upload Image  
--> Model Prompting  
--> Raw Model Output  
--> Normalizer  
--> Validator  
+-> Annotation Agent  
+-> Image Preprocess Tool  
+-> LLM Annotation Tool  
+-> Normalizer Tool  
+-> Validator Tool  
 -> Master Annotation Schema  
--> Frontend Response / Prediction File / Ground Truth File / Evaluation Export
+-> Frontend Response / Prediction File / Evaluation Export / Trace Artifacts
+
+The `Annotation Agent` is responsible for:
+
+- selecting the active annotation strategy
+- retrying bounded recoverable failures
+- escalating unresolved results to review
+- writing task state and orchestration trace artifacts
 
 This design separates:
 
+- orchestration and strategy control
 - model generation
 - data normalization
 - data validation
 - schema construction
 - output export
+- traceability and review escalation
 
 ## Schema v1.0
 
@@ -111,6 +123,7 @@ The master annotation record is the source of truth and contains:
 ```text
 FIT3163/
   main.py
+  agent/
   frontend/
   prompts/
   core/
@@ -129,6 +142,9 @@ FIT3163/
 
 - `frontend/`
   Frontend HTML, CSS, and JavaScript files
+
+- `agent/`
+  Annotation Agent orchestration layer, task state, policies, tool wrappers, and trace writing
 
 - `prompts/`
   Prompt templates for annotation generation
@@ -160,16 +176,10 @@ FIT3163/
 
 ### 2. Install dependencies
 
-For the default FastAPI backend without RT-DETR:
+Install the FastAPI backend dependencies:
 
 ```powershell
 python -m pip install -r requirements.txt
-```
-
-If you also want detector mode (`ENABLE_DETECTOR=true`), install the detector extras too:
-
-```powershell
-python -m pip install -r requirements-detector.txt
 ```
 
 ### 3. Configure environment variables
@@ -234,9 +244,9 @@ Useful endpoints:
 ### 6. Use the demo
 
 - upload an image
-- choose a prompt mode
 - click `Upload and Annotate`
 - inspect the returned JSON output in the interface
+- review the agent strategy, attempt count, and review escalation status in the workspace
 
 ## Input and Output
 
@@ -263,17 +273,32 @@ Generated files are stored in the `data/` directory:
 - `data/uploads/`
   Uploaded images
 
+- `data/inference_images/`
+  Resized inference copies used by the agent when preprocessing is enabled
+
 - `data/raw_outputs/`
   Raw model responses
 
+- `data/normalized_outputs/`
+  Normalized intermediate annotation payloads
+
+- `data/validation_reports/`
+  Validation results recorded per run
+
 - `data/master_annotations/`
-  Normalized master annotation records
+  Master annotation records
 
 - `data/predictions/`
   Prediction-oriented exports
 
 - `data/evaluation_exports/`
   Evaluation-oriented exports
+
+- `data/orchestration_traces/`
+  Agent decision traces including attempts, strategy changes, and final outcome
+
+- `data/task_states/`
+  Serialized task state snapshots for debugging and reproducibility
 
 Ground truth support is part of the architecture, but the full human-reviewed ground truth workflow is still under development.
 
@@ -282,6 +307,7 @@ The current export behavior is:
 - prediction exports are written from validated master annotations
 - evaluation exports are written from validated master annotations unless a record is marked `rejected`
 - ground truth exports are only valid for records marked `approved`
+- review-required runs keep their trace and task state artifacts even when final export quality is unresolved
 
 ## Current Limitations
 

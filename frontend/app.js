@@ -10,6 +10,12 @@ const bboxValue = document.getElementById("bboxValue");
 const personCountValue = document.getElementById("personCountValue");
 const objectCountValue = document.getElementById("objectCountValue");
 const warningCountValue = document.getElementById("warningCountValue");
+const agentHint = document.getElementById("agentHint");
+const agentStatusValue = document.getElementById("agentStatusValue");
+const agentStrategyValue = document.getElementById("agentStrategyValue");
+const agentAttemptValue = document.getElementById("agentAttemptValue");
+const agentReviewValue = document.getElementById("agentReviewValue");
+const agentReviewPanel = document.getElementById("agentReviewPanel");
 const sentenceList = document.getElementById("sentenceList");
 const annotationList = document.getElementById("annotationList");
 const annotationHint = document.getElementById("annotationHint");
@@ -23,9 +29,12 @@ const bboxFilterButtons = Array.from(document.querySelectorAll("[data-bbox-filte
 const artifactFrontend = document.getElementById("artifactFrontend");
 const artifactPrediction = document.getElementById("artifactPrediction");
 const artifactEvaluation = document.getElementById("artifactEvaluation");
-const artifactDetection = document.getElementById("artifactDetection");
 const artifactRaw = document.getElementById("artifactRaw");
 const artifactMaster = document.getElementById("artifactMaster");
+const artifactNormalized = document.getElementById("artifactNormalized");
+const artifactValidation = document.getElementById("artifactValidation");
+const artifactTrace = document.getElementById("artifactTrace");
+const artifactTaskState = document.getElementById("artifactTaskState");
 
 let uploadedImageName = "";
 let uploadedFile = null;
@@ -43,6 +52,7 @@ function renderResult(result) {
   }
 
   renderSummary(result);
+  renderAgentSummary(result?.agent);
   renderAnnotationList(annotations);
   renderValidation(result?.validation);
   renderSentencePanel(getActiveAnnotation(annotations));
@@ -63,6 +73,12 @@ function setErrorState(message) {
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
+  agentHint.textContent = "No agent run yet";
+  agentStatusValue.textContent = "-";
+  agentStrategyValue.textContent = "-";
+  agentAttemptValue.textContent = "-";
+  agentReviewValue.textContent = "-";
+  agentReviewPanel.innerHTML = "<p>No review signal yet.</p>";
   annotationHint.textContent = "No annotation result";
   annotationList.innerHTML = `<div class="empty-state"><p>Annotation request failed.</p><span>${message}</span></div>`;
   validationSummary.textContent = "Error returned";
@@ -138,22 +154,6 @@ function formatAnnotationBoxes(annotation) {
   return parts.length > 0 ? parts.join(" | ") : "-";
 }
 
-function formatDetectionIndices(annotation) {
-  if (!annotation) {
-    return "-";
-  }
-
-  const parts = [];
-  if (Number.isInteger(annotation.subject_detection_index)) {
-    parts.push(`subject#${annotation.subject_detection_index}`);
-  }
-  if (Number.isInteger(annotation.object_detection_index)) {
-    parts.push(`object#${annotation.object_detection_index}`);
-  }
-
-  return parts.length > 0 ? parts.join(" | ") : "-";
-}
-
 function getPredictionJson(result) {
   if (!result) {
     return { message: "Prediction export not loaded yet.", artifact: "not loaded" };
@@ -166,8 +166,7 @@ function getPredictionJson(result) {
       category: annotation.category,
       bounding_box: annotation.bounding_box,
       sentences: annotation.sentences,
-      score: annotation.score ?? null,
-      detection: annotation.detection || null
+      score: annotation.score ?? null
     })),
     artifact_path: result?.artifacts?.prediction_file || "not loaded"
   };
@@ -212,6 +211,43 @@ function renderSummary(result) {
   bboxValue.textContent = formatAnnotationBoxes(activeAnnotation || annotations[0] || null);
 }
 
+function formatAgentText(value) {
+  if (value === null || value === undefined || value === "") {
+    return "-";
+  }
+  return String(value);
+}
+
+function renderAgentSummary(agent) {
+  if (!agent) {
+    agentHint.textContent = "No agent run yet";
+    agentStatusValue.textContent = "-";
+    agentStrategyValue.textContent = "-";
+    agentAttemptValue.textContent = "-";
+    agentReviewValue.textContent = "-";
+    agentReviewPanel.innerHTML = "<p>No review signal yet.</p>";
+    return;
+  }
+
+  agentHint.textContent = agent.task_id || "Agent run recorded";
+  agentStatusValue.textContent = formatAgentText(agent.task_status);
+  agentStrategyValue.textContent = formatAgentText(agent.strategy);
+  agentAttemptValue.textContent = formatAgentText(agent.attempt_count);
+  agentReviewValue.textContent = agent.review_required ? "Yes" : "No";
+
+  if (agent.review_reason) {
+    agentReviewPanel.innerHTML = `<p>Review reason</p><span>${agent.review_reason}</span>`;
+    return;
+  }
+
+  if (agent.review_required) {
+    agentReviewPanel.innerHTML = "<p>Review required.</p><span>The agent marked this run for manual inspection.</span>";
+    return;
+  }
+
+  agentReviewPanel.innerHTML = "<p>No review required.</p><span>The agent completed the run without escalation.</span>";
+}
+
 function renderAnnotationList(annotations) {
   annotationList.innerHTML = "";
   if (annotations.length === 0) {
@@ -235,10 +271,6 @@ function renderAnnotationList(annotations) {
     bbox.className = "annotation-bbox";
     bbox.textContent = formatAnnotationBoxes(annotation);
 
-    const detectionIndices = document.createElement("code");
-    detectionIndices.className = "annotation-bbox";
-    detectionIndices.textContent = formatDetectionIndices(annotation);
-
     const sentencePreview = document.createElement("p");
     sentencePreview.className = "annotation-preview";
     sentencePreview.textContent = Array.isArray(annotation.sentences) && annotation.sentences.length > 0
@@ -247,7 +279,6 @@ function renderAnnotationList(annotations) {
 
     button.appendChild(heading);
     button.appendChild(bbox);
-    button.appendChild(detectionIndices);
     button.appendChild(sentencePreview);
     button.addEventListener("click", () => {
       activeAnnotationId = annotation.annotation_id;
@@ -342,9 +373,12 @@ function renderArtifacts(result) {
   artifactFrontend.textContent = result?.uploaded_image_url || "not loaded";
   artifactPrediction.textContent = result?.artifacts?.prediction_file || "not loaded";
   artifactEvaluation.textContent = result?.artifacts?.evaluation_file || "not loaded";
-  artifactDetection.textContent = result?.artifacts?.detection_file || "not loaded";
   artifactRaw.textContent = result?.artifacts?.raw_output_file || "not loaded";
   artifactMaster.textContent = result?.artifacts?.master_annotation_file || "not loaded";
+  artifactNormalized.textContent = result?.artifacts?.normalized_output_file || "not loaded";
+  artifactValidation.textContent = result?.artifacts?.validation_report_file || "not loaded";
+  artifactTrace.textContent = result?.artifacts?.orchestration_trace_file || "not loaded";
+  artifactTaskState.textContent = result?.artifacts?.task_state_file || "not loaded";
 }
 
 function updateJsonViewButtons() {
@@ -466,6 +500,7 @@ resetPreview();
 updateJsonViewButtons();
 renderValidation(null);
 renderArtifacts(null);
+renderAgentSummary(null);
 
 function handleSelectedFile(file) {
   currentResult = null;
@@ -475,6 +510,7 @@ function handleSelectedFile(file) {
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
+  renderAgentSummary(null);
   sentenceList.innerHTML = "<li>No annotation selected yet.</li>";
   annotationHint.textContent = "No annotation result yet";
   annotationList.innerHTML = `<div class="empty-state"><p>No annotation result yet.</p><span>Upload an image and run the pipeline to inspect instance-level output.</span></div>`;
@@ -599,7 +635,7 @@ analyzeButton.addEventListener("click", () => {
     .then((uploadResult) => {
       currentResult = uploadResult;
       renderResult(currentResult);
-      setStatus("Completed");
+      setStatus(uploadResult?.agent?.review_required ? "Review Required" : "Completed");
     })
     .catch((error) => {
       let message = "Upload Failed";

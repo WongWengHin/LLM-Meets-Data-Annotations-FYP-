@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi import APIRouter, File, Request, UploadFile
 from fastapi.responses import JSONResponse
 
-from annotations.pipeline import run_annotation_pipeline
+from agent.orchestrator import AnnotationAgent
 from core.config import AppConfig
 from web.responses import format_exception_message, format_exception_status
 from web.schemas import ErrorResponse, HealthResponse, UploadResponse
@@ -28,10 +28,10 @@ async def health() -> HealthResponse:
     "/upload",
     response_model=UploadResponse,
     responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
-    summary="Upload image and run annotation pipeline",
+    summary="Upload image and run annotation agent workflow",
     description=(
         "Accepts a multipart image file under the `image` field, stores the upload, "
-        "runs the annotation pipeline, writes export artifacts, and returns the "
+        "runs the single-orchestrator annotation agent, writes export and trace artifacts, and returns the "
         "frontend-oriented annotation response."
     ),
 )
@@ -54,7 +54,8 @@ async def upload_image(
         print(f"Saved upload: {destination.name}")
         print(f"[upload] Stored file at {destination}")
         print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
-        response_payload = run_annotation_pipeline(destination, config=config)
+        agent = AnnotationAgent(config)
+        response_payload = agent.run(destination)
         return UploadResponse.model_validate(response_payload)
     except ValueError as exc:
         return _json_error_response(exc, status_code=400, log_traceback=False)

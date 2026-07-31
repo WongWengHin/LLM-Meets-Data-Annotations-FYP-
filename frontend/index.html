@@ -159,6 +159,34 @@
 
               <div class="result-section annotation-block">
                 <div class="section-bar">
+                  <p class="annotation-title">Agent Run</p>
+                  <span id="agentHint" class="section-hint">No agent run yet</span>
+                </div>
+                <div class="agent-grid">
+                  <div class="metric-card metric-card-compact">
+                    <span>Task status</span>
+                    <strong id="agentStatusValue">-</strong>
+                  </div>
+                  <div class="metric-card metric-card-compact">
+                    <span>Strategy</span>
+                    <strong id="agentStrategyValue">-</strong>
+                  </div>
+                  <div class="metric-card metric-card-compact">
+                    <span>Attempts</span>
+                    <strong id="agentAttemptValue">-</strong>
+                  </div>
+                  <div class="metric-card metric-card-compact">
+                    <span>Review required</span>
+                    <strong id="agentReviewValue">-</strong>
+                  </div>
+                </div>
+                <div id="agentReviewPanel" class="empty-state empty-state-compact">
+                  <p>No review signal yet.</p>
+                </div>
+              </div>
+
+              <div class="result-section annotation-block">
+                <div class="section-bar">
                   <p class="annotation-title">Annotations</p>
                   <span id="annotationHint" class="section-hint">No annotation result yet</span>
                 </div>
@@ -217,16 +245,28 @@
                     <code id="artifactEvaluation">not loaded</code>
                   </div>
                   <div class="artifact-chip">
-                    <span class="artifact-label">Detections</span>
-                    <code id="artifactDetection">not loaded</code>
-                  </div>
-                  <div class="artifact-chip">
                     <span class="artifact-label">Raw Output</span>
                     <code id="artifactRaw">not loaded</code>
                   </div>
                   <div class="artifact-chip">
                     <span class="artifact-label">Master</span>
                     <code id="artifactMaster">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Normalized</span>
+                    <code id="artifactNormalized">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Validation</span>
+                    <code id="artifactValidation">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Trace</span>
+                    <code id="artifactTrace">not loaded</code>
+                  </div>
+                  <div class="artifact-chip">
+                    <span class="artifact-label">Task State</span>
+                    <code id="artifactTaskState">not loaded</code>
                   </div>
                 </div>
                 <pre id="jsonOutput" class="json-output">{

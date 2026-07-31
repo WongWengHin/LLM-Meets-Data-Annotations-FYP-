@@ -118,91 +118,6 @@ def parse_and_normalize_model_output(raw_model_output: str, image_path: Path | N
     }
 
 
-def merge_detector_and_llm_annotations(detections: list[dict], llm_annotation: dict) -> dict:
-    merged_annotations: list[dict] = []
-    llm_annotations = llm_annotation.get("annotations")
-    llm_items = llm_annotations if isinstance(llm_annotations, list) else []
-    if not llm_items:
-        llm_items = [{}]
-
-    for index, llm_item in enumerate(llm_items, start=1):
-        if not isinstance(llm_item, dict):
-            continue
-
-        subject = _normalize_label(llm_item.get("subject")) or "person"
-        object_name = _normalize_label(llm_item.get("object")) or "unknown"
-        predicate = _normalize_label(llm_item.get("predicate")) or "interact_with"
-
-        subject_detection_index = _normalize_detection_index(llm_item.get("subject_detection_index"))
-        object_detection_index = _normalize_detection_index(llm_item.get("object_detection_index"))
-
-        subject_detection = _resolve_detection(
-            detections,
-            preferred_index=subject_detection_index,
-            preferred_category="person",
-            fallback_category="person",
-        )
-        object_detection = _resolve_detection(
-            detections,
-            preferred_index=object_detection_index,
-            preferred_category=object_name,
-            exclude_indices={subject_detection_index} if subject_detection_index is not None else None,
-        )
-
-        subject_bbox = (
-            subject_detection.get("bounding_box")
-            if subject_detection is not None
-            else llm_item.get("subject_bbox")
-        )
-        object_bbox = (
-            object_detection.get("bounding_box")
-            if object_detection is not None
-            else llm_item.get("object_bbox")
-        )
-
-        if not _is_bbox(subject_bbox) or not _is_bbox(object_bbox):
-            continue
-
-        if not object_name and object_detection is not None:
-            object_name = _normalize_label(object_detection.get("category")) or "unknown"
-
-        sentences = _normalize_sentences(
-            llm_item.get("sentences"),
-            fallback=[f"A {subject} is interacting with a {object_name} in the image."],
-            raw_content=json.dumps(llm_item, ensure_ascii=False),
-            field_name=f"annotations[{index}].sentences",
-        )
-
-        detection_metadata = None
-        detection_scores: list[float] = []
-        if isinstance(subject_detection, dict) and isinstance(subject_detection.get("score"), (int, float)):
-            detection_scores.append(float(subject_detection["score"]))
-            detection_metadata = subject_detection.get("detection")
-        if isinstance(object_detection, dict) and isinstance(object_detection.get("score"), (int, float)):
-            detection_scores.append(float(object_detection["score"]))
-            detection_metadata = detection_metadata or object_detection.get("detection")
-
-        merged_annotations.append(
-            _build_annotation_record(
-                subject=subject,
-                object_name=object_name,
-                predicate=predicate,
-                subject_bbox=subject_bbox,
-                object_bbox=object_bbox,
-                sentences=sentences,
-                score=min(detection_scores) if detection_scores else None,
-                detection=detection_metadata,
-                subject_detection_index=subject_detection_index,
-                object_detection_index=object_detection_index,
-            )
-        )
-
-    return {
-        "caption": llm_annotation.get("caption") or _derive_caption_from_annotations(merged_annotations),
-        "annotations": merged_annotations,
-    }
-
-
 def _normalize_annotation_item(
     item: object,
     image_path: Path | None,
@@ -270,19 +185,10 @@ def _normalize_annotation_item(
     if object_bbox is None and legacy_bbox is not None:
         object_bbox = legacy_bbox
 
-    subject_detection_index = _normalize_detection_index(
-        pick_first_value(item, "subject_detection_index", "subject_index")
-    )
-    object_detection_index = _normalize_detection_index(
-        pick_first_value(item, "object_detection_index", "object_index")
-    )
-
     if subject_bbox is None:
-        if subject_detection_index is None:
-            raise ValueError(f"Annotation item at index {index} is missing subject_bbox. Raw content: {raw_content}")
+        raise ValueError(f"Annotation item at index {index} is missing subject_bbox. Raw content: {raw_content}")
     if object_bbox is None:
-        if object_detection_index is None:
-            raise ValueError(f"Annotation item at index {index} is missing object_bbox. Raw content: {raw_content}")
+        raise ValueError(f"Annotation item at index {index} is missing object_bbox. Raw content: {raw_content}")
 
     sentences = _normalize_sentences(
         pick_first_value(item, "sentences", "data_annotation_sentences", "descriptions", "captions", "annotation_sentences"),
@@ -299,9 +205,6 @@ def _normalize_annotation_item(
         object_bbox=object_bbox,
         sentences=sentences,
         score=item.get("score"),
-        detection=item.get("detection"),
-        subject_detection_index=subject_detection_index,
-        object_detection_index=object_detection_index,
     )
 
 
@@ -369,9 +272,6 @@ def _build_annotation_record(
     object_bbox: list[float] | None,
     sentences: list[str],
     score: object = None,
-    detection: object = None,
-    subject_detection_index: int | None = None,
-    object_detection_index: int | None = None,
 ) -> dict:
     category = " ".join(part for part in (subject, predicate, object_name) if part).strip()
     bounding_box = (
@@ -392,67 +292,4 @@ def _build_annotation_record(
     }
     if score is not None:
         record["score"] = score
-    if isinstance(detection, dict) and detection:
-        record["detection"] = detection
-    if subject_detection_index is not None:
-        record["subject_detection_index"] = subject_detection_index
-    if object_detection_index is not None:
-        record["object_detection_index"] = object_detection_index
     return record
-
-
-def _is_bbox(value: object) -> bool:
-    return (
-        isinstance(value, list)
-        and len(value) == 4
-        and all(isinstance(item, int | float) for item in value)
-    )
-
-
-def _normalize_detection_index(value: object) -> int | None:
-    if value is None or value == "":
-        return None
-
-    try:
-        numeric = int(value)
-    except (TypeError, ValueError):
-        return None
-
-    return numeric if numeric > 0 else None
-
-
-def _resolve_detection(
-    detections: list[dict],
-    *,
-    preferred_index: int | None = None,
-    preferred_category: str | None = None,
-    fallback_category: str | None = None,
-    exclude_indices: set[int] | None = None,
-) -> dict | None:
-    excluded = exclude_indices or set()
-
-    if preferred_index is not None and 1 <= preferred_index <= len(detections) and preferred_index not in excluded:
-        detection = detections[preferred_index - 1]
-        if isinstance(detection, dict):
-            return detection
-
-    normalized_preferred_category = _normalize_label(preferred_category).casefold()
-    if normalized_preferred_category:
-        for index, detection in enumerate(detections, start=1):
-            if index in excluded:
-                continue
-            if _normalize_label(detection.get("category")).casefold() == normalized_preferred_category:
-                return detection
-
-    normalized_fallback_category = _normalize_label(fallback_category).casefold()
-    if normalized_fallback_category:
-        for index, detection in enumerate(detections, start=1):
-            if index in excluded:
-                continue
-            if _normalize_label(detection.get("category")).casefold() == normalized_fallback_category:
-                return detection
-
-    for index, detection in enumerate(detections, start=1):
-        if index not in excluded:
-            return detection
-    return None

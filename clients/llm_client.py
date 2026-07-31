@@ -16,7 +16,6 @@ from prompts.image_annotation_prompts import get_annotation_prompts
 def request_image_annotation(
     image_path: Path,
     llm_config: LLMConfig,
-    detections: list[dict] | None = None,
 ) -> tuple[str, str]:
     if not llm_config.api_key:
         raise RuntimeError(
@@ -35,7 +34,6 @@ def request_image_annotation(
         f"model={llm_config.model}, "
         f"image={image_path.name}, "
         f"bytes={len(image_bytes)}, "
-        f"detections={len(detections or [])}, "
         f"max_tokens={llm_config.max_tokens}, "
         f"timeout={llm_config.timeout_seconds}s"
     )
