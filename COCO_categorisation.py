@@ -1160,7 +1160,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [0.0,71.01,639.06,350.23],
             "category_id": 51, #Original Annotation: Bowl
-            "id": 709513
+            "id": 709513,
+            "data_annotation_sentences": ["A white bowl holding a bunch of green apples"]
         },
         {
             "segmentation": [[100.47,237.11,96.45,227.06,98.46,194.91,111.52,153.72,130.61,125.59,164.77,108.51,241.13,94.44,277.3,102.48,321.51,145.68,339.59,196.92,330.55,272.28,296.39,310.45,235.1,325.52,184.87,274.28,161.76,264.24,145.68,258.21]],
@@ -1169,7 +1170,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [96.45,94.44,243.14,231.08],
             "category_id": 53, #Original Annotation: Apple
-            "id": 1047376
+            "id": 1047376,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1178,7 +1180,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [340.81, 72.65, 243.14, 248.98],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990003
+            "id": 990003,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1187,7 +1190,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [0.0, 237.63, 243.14, 157.93],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990004
+            "id": 990004,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1196,7 +1200,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [250.58, 348.14, 205.01, 51.31],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990005
+            "id": 990005,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1205,7 +1210,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [447.44, 301.44, 192.56, 89.45],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990006
+            "id": 990006,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1214,7 +1220,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [248.22, 304.56, 192.56, 87.11],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990007
+            "id": 990007,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
         {
             "segmentation": [],
@@ -1223,7 +1230,8 @@ ANNOTATIONS_100 = {
             "image_id": 2149,
             "bbox": [78.57, 74.21, 162.98, 160.26],
             "category_id": 53,  # Added Annotations: apple
-            "id": 990008
+            "id": 990008,
+            "data_annotation_sentences": ["A large green apple in a white bowl"]
         },
 
         ####################################################################################################
@@ -1234,7 +1242,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [18.59,40.53,463.86,211.01],
             "category_id": 53, #Original Annotation: apple
-            "id": 1049971
+            "id": 1049971,
+            "data_annotation_sentences": ["A group of apples arranged behind a large orange"]
         },
         {
             "segmentation": [[127.65,139.76,131.38,133.24,133.24,122.99,137.9,111.81,146.29,100.63,153.74,91.31,165.85,83.86,177.04,79.2,183.56,74.54,195.67,69.88,217.1,68.02,238.53,72.68,253.44,76.4,263.69,80.13,272.08,85.72,279.53,97.84,286.05,109.02,291.64,119.27,297.23,127.65,302.82,135.11,306.55,144.42,306.55,154.67,306.55,161.2,305.62,168.65,304.69,177.97,304.69,184.49,300.96,192.88,295.37,202.19,289.78,217.1,289.78,223.62,282.32,230.15,272.08,233.87,259.96,240.4,251.58,244.12,243.19,247.85,237.6,247.85,218.96,250.64,217.1,250.64,209.65,250.64,204.06,250.64,180.76,248.78,167.72,245.99,146.29,225.49,143.49,222.69,138.83,208.72,136.04,194.74,132.31,179.83,126.72,165.85,122.99,151.88,131.38,134.17]],
@@ -1243,7 +1252,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [122.99,68.02,183.56,182.62],
             "category_id": 55, #Original Annotation: orange
-            "id": 1054367
+            "id": 1054367,
+            "data_annotation_sentences": ["A large orange placed in a center of the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1252,7 +1262,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [123.38, 337.61, 82.48, 47.47],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990330
+            "id": 990330,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1261,7 +1272,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [212.99, 312.94, 79.87, 65.58],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990331
+            "id": 990331,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1270,7 +1282,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [245.45, 346.05, 46.75, 4.55],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990332
+            "id": 990332,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1279,7 +1292,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [372.08, 310.99, 62.99, 53.25],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990333
+            "id": 990333,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1288,7 +1302,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [291.56, 300.60, 90.26, 76.62],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990334
+            "id": 990334,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1297,7 +1312,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [12.35, 291.51, 92.85, 54.62],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990335
+            "id": 990335,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1306,7 +1322,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [108.44, 302.55, 135.71, 51.95],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990336
+            "id": 990336,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1315,7 +1332,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [396.75, 270.73, 87.01, 68.18],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990337
+            "id": 990337,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1324,7 +1342,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [13.64, 264.23, 111.04, 33.77],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990338
+            "id": 990338,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
         {
             "segmentation": [],
@@ -1333,7 +1352,8 @@ ANNOTATIONS_100 = {
             "image_id": 6614,
             "bbox": [287.01, 217.48, 113.64, 53.90],
             "category_id": 111,  # Added Annotations: peanuts (Custom category)
-            "id": 990339
+            "id": 990339,
+            "data_annotation_sentences": ["A piece of peanut scattered around the fruit arrangement"]
         },
 
         ####################################################################################################
@@ -1344,7 +1364,8 @@ ANNOTATIONS_100 = {
             "image_id": 11615,
             "bbox": [289.61,165.63,65.81,37.66],
             "category_id": 8, #Original Annotation: Truck
-            "id": 1799592
+            "id": 1799592,
+            "data_annotation_sentences": ["A logo of a truck visible on the road sign"]
         },
         {
             "segmentation": [],
@@ -1353,7 +1374,8 @@ ANNOTATIONS_100 = {
             "image_id": 11615,
             "bbox": [102.57, 539.78, 91.79, 50.66],
             "category_id": 8,  # Added Annotations: truck
-            "id": 990010
+            "id": 990010,
+            "data_annotation_sentences": ["A logo of a truck visible on the road sign"]
         },
 
         ####################################################################################################
@@ -1364,7 +1386,8 @@ ANNOTATIONS_100 = {
             "image_id": 3501,
             "bbox": [125.28,67.68,138.24,155.52],
             "category_id": 56, #Original Annotation: broccoli
-            "id": 1059398
+            "id": 1059398,
+            "data_annotation_sentences": ["A piece of green broccoli in a bowl"]
         },
         {
             "segmentation": [[246.24,331.2,211.68,329.76,188.64,344.16,168.48,360.0,148.32,361.44,102.24,351.36,120.96,298.08,106.56,290.88,106.56,269.28,87.84,256.32,74.88,226.08,82.08,216.0,108.0,223.2,109.44,221.76,95.04,194.4,97.92,174.24,113.76,195.84,135.36,181.44,148.32,182.88,174.24,205.92,181.44,223.2,191.52,236.16,205.92,250.56,210.24,270.72,224.64,264.96,249.12,273.6,257.76,289.44,250.56,303.84,247.68,316.8]],
@@ -1373,7 +1396,8 @@ ANNOTATIONS_100 = {
             "image_id": 3501,
             "bbox": [74.88,174.24,182.88,187.2],
             "category_id": 56, #Original Annotation: broccoli
-            "id": 1060257
+            "id": 1060257,
+            "data_annotation_sentences": ["A piece of green broccoli in a bowl"]
         },
         {
             "segmentation": [[12.38,303.94,27.51,375.45,48.13,429.09,81.14,479.97,116.9,517.11,158.16,543.24,224.17,569.37,276.43,583.12,372.7,580.37,430.46,565.24,492.35,526.73,534.98,486.85,569.37,442.84,602.37,352.07,603.75,240.67,577.62,165.03,539.11,110.02,500.6,77.02,451.09,45.38,382.33,17.88,314.94,8.25,240.67,13.75,185.66,31.63,132.03,59.14,74.27,114.15,46.76,155.41,24.76,213.17,13.75,294.31]],
@@ -1382,7 +1406,8 @@ ANNOTATIONS_100 = {
             "image_id": 3501,
             "bbox": [12.38,8.25,591.37,574.87],
             "category_id": 51, #Original Annotation: bowl
-            "id": 1533127
+            "id": 1533127,
+            "data_annotation_sentences": ["A small white bowl containing rice, broccoli and tomato stew"]
         },
         {
             "segmentation": [],
@@ -1391,7 +1416,8 @@ ANNOTATIONS_100 = {
             "image_id": 3501,
             "bbox": [139.89, 267.05, 259.90, 239.24],
             "category_id": 91,  # Added Annotations: rice (Custom category)
-            "id": 990327
+            "id": 990327,
+            "data_annotation_sentences": ["A serving of white rice in a bowl"]
         },
 
         ####################################################################################################
@@ -1402,7 +1428,8 @@ ANNOTATIONS_100 = {
             "image_id": 31050,
             "bbox": [158.82,248.26,115.87,318.85],
             "category_id": 86, #Original Annotation: Vase
-            "id": 1153302
+            "id": 1153302,
+            "data_annotation_sentences": ["A tall decorative ceramic vase holding dried plants and branches"]  
         },
         {
             "segmentation": [],
@@ -1411,7 +1438,8 @@ ANNOTATIONS_100 = {
             "image_id": 31050,
             "bbox": [0.0, 144.38, 62.66, 176.97],
             "category_id": 86,  # Added Annotations: vase
-            "id": 990012
+            "id": 990012,
+            "data_annotation_sentences": ["A dark brown ceramic vase partially visible on the highest pedestal"]  
         },
         {
             "segmentation": [],
@@ -1420,7 +1448,8 @@ ANNOTATIONS_100 = {
             "image_id": 31050,
             "bbox": [359.16, 518.94, 67.84, 121.06],
             "category_id": 86,  # Added Annotations: vase
-            "id": 990013
+            "id": 990013,
+            "data_annotation_sentences": ["A small dark brown ceramic vase partially visible beside the tall vase"]  
         },
 
         ####################################################################################################
@@ -1431,7 +1460,8 @@ ANNOTATIONS_100 = {
             "image_id": 31749,
             "bbox": [91.64,257.56,181.16,206.84],
             "category_id": 85, # Original Annotation: clock
-            "id": 2197091     
+            "id": 2197091,
+            "data_annotation_sentences": ["A white clock overlaid on a doll's face"]    
         },
         {
             "segmentation": [],
@@ -1440,7 +1470,8 @@ ANNOTATIONS_100 = {
             "image_id": 31749,
             "bbox": [364.31, 257.56, 181.16, 206.84],
             "category_id": 85,  # Added Annotations: clock
-            "id": 990015
+            "id": 990015,
+            "data_annotation_sentences": ["A white clock overlaid on a doll's face"]  
         },
 
         ####################################################################################################
@@ -1451,7 +1482,8 @@ ANNOTATIONS_100 = {
             "image_id": 35770,
             "bbox": [144.07,462.2,218.02,177.78],
             "category_id": 70, # Original Annotation: toilet
-            "id": 1094478
+            "id": 1094478,
+            "data_annotation_sentences": ["A black and white toilet with a cow pattern beside the sink"]
         },
         {
             "segmentation": [[302.7,106.67,454.05,213.33,480.0,370.45,350.27,403.6,245.05,341.62,38.92,266.67,56.22,201.8,295.5,309.91,308.47,110.99]],
@@ -1460,7 +1492,8 @@ ANNOTATIONS_100 = {
             "image_id": 35770,
             "bbox": [38.92,106.67,441.08,296.93],
             "category_id": 81, # Original Annotation: sink
-            "id": 1136070
+            "id": 1136070,
+            "data_annotation_sentences": ["A white sink basin under a glass frame"]
          },
         {
             "segmentation": [[286.9,19.13,273.58,22.46,266.92,25.12,256.27,45.09,252.94,61.74,254.94,68.4,255.6,89.04,309.53,120.33,323.52,107.68,344.16,98.36,348.15,79.05,336.17,49.09,312.2,26.45,293.55,20.46]],
@@ -1469,7 +1502,8 @@ ANNOTATIONS_100 = {
             "image_id": 35770,
             "bbox": [252.94,19.13,95.21,101.2],
             "category_id": 70, # Original Annotation: toilet
-            "id": 1967721
+            "id": 1967721,
+            "data_annotation_sentences": ["A blue checkered toilet beside the sink"]
         },
         {
             "segmentation": [[233.25,282.92,145.11,235.85,75.5,203.3,53.97,180.76,47.46,167.74,59.48,133.19,74.0,89.62,77.5,81.1,81.01,74.09,108.55,75.59,117.07,56.06,124.08,44.55,154.63,26.02,260.79,86.11,301.36,116.16,304.86,175.75,300.86,229.34,298.86,278.42,293.85,299.45,283.83,302.96]],
@@ -1478,7 +1512,8 @@ ANNOTATIONS_100 = {
             "image_id": 35770,
             "bbox": [47.46,26.02,257.4,276.94],
             "category_id": 81, # Original Annotation: sink
-            "id": 2196306
+            "id": 2196306,
+            "data_annotation_sentences": ["A white sink basin under a glass frame"]
         },
         {
             "segmentation": [],
@@ -1487,7 +1522,8 @@ ANNOTATIONS_100 = {
             "image_id": 35770,
             "bbox": [0.0, 378.86, 126.59, 261.14],
             "category_id": 70,  # toilet
-            "id": 990020
+            "id": 990020,
+            "data_annotation_sentences": ["A blue decorated toilet partially visible beside the sink"]
         },
 
         ####################################################################################################
@@ -1498,7 +1534,8 @@ ANNOTATIONS_100 = {
             "image_id": 36539,
             "bbox": [167.89,292.66,96.15,239.64],
             "category_id": 1, # Original Annotation: person
-            "id": 472315
+            "id": 472315,
+            "data_annotation_sentences": ["A person wearing a black jacket snowboarding down a snowy slop"]
          },
         {
             "segmentation": [[86.0,450.59,87.16,431.03,87.16,411.47,87.16,397.66,79.1,381.56,76.8,380.4,74.5,368.9,77.95,358.54,102.11,363.15,112.47,373.5,111.32,388.46,110.17,410.32,112.47,429.88,115.92,447.14,119.37,450.59,117.07,457.49,104.41,458.64,103.26,452.89,106.71,445.99,105.56,434.48,99.81,439.08,98.66,448.29,97.51,451.74]],
@@ -1507,7 +1544,8 @@ ANNOTATIONS_100 = {
             "image_id": 36539,
             "bbox": [74.5,358.54,44.87,100.1],
             "category_id": 1, # Original Annotation: person
-            "id": 492474
+            "id": 492474,
+            "data_annotation_sentences": ["A person wearing a pink jacket standing on a snowy slope "]
          },
         {
             "segmentation": [[203.77,521.73,229.75,524.91,229.22,529.68,237.17,532.33,245.65,532.33,252.01,528.09,284.34,533.39,306.61,531.8,291.76,538.16,270.03,542.93,248.3,539.75,162.96,527.56,137.51,523.85,135.39,521.2,141.75,515.9,149.17,515.37,174.09,519.08,173.56,522.79,178.33,524.91,191.58,524.38,203.24,521.2]],
@@ -1516,7 +1554,8 @@ ANNOTATIONS_100 = {
             "image_id": 36539,
             "bbox": [135.39,515.37,171.22,27.56],
             "category_id": 36, # Original Annotation: snowboard
-            "id": 616108
+            "id": 616108,
+            "data_annotation_sentences": ["A snowboard beneath a person on the snow"]
         },
         {
             "segmentation": [],
@@ -1524,8 +1563,9 @@ ANNOTATIONS_100 = {
             "iscrowd": 0,
             "image_id": 36539,
             "bbox": [238.70, 443.39, 72.65, 36.32],
-            "category_id": 31,  # Added Annotations: skis
-            "id": 990202
+            "category_id": 35,  # Added Annotations: skis
+            "id": 990202,
+            "data_annotation_sentences": ["A pair of skis lying on the snow beside the snowboarder"]
         },
         
         ####################################################################################################
@@ -1536,7 +1576,8 @@ ANNOTATIONS_100 = {
             "image_id": 36861,
             "bbox": [167.02,37.68,74.15,198.65],
             "category_id": 14, # Original Annotation: parking meter
-            "id": 418766
+            "id": 418766,
+            "data_annotation_sentences": ["A black parking meter mounted on a roadside pole"]
         },
         {
             "segmentation": [[168.09,62.9,159.14,50.69,150.18,44.18,133.91,35.23,119.26,35.23,109.49,43.37,95.66,49.88,93.22,61.27,93.22,76.74,102.98,103.01,102.98,114.4,103.8,121.72,108.68,131.72,102.17,140.67,102.17,145.55,102.98,178.33,102.98,209.49,109.49,221.69,114.38,233.32,131.47,234.13,136.35,230.06,145.3,218.67,151.0,208.9,152.63,135.66,154.25,122.64,157.51,113.69,164.83,94.97,168.09,75.44,169.72,62.42]],
@@ -1545,7 +1586,8 @@ ANNOTATIONS_100 = {
             "image_id": 36861,
             "bbox": [93.22,35.23,76.5,198.9],
             "category_id": 14, # Original Annotation: parking meter
-            "id": 418890
+            "id": 418890,
+            "data_annotation_sentences": ["A black parking meter mounted on a roadside pole"]
         },
         {
             "segmentation": [],
@@ -1554,7 +1596,8 @@ ANNOTATIONS_100 = {
             "image_id": 36861,
             "bbox": [70.65, 235.23, 11.99, 30.51],
             "category_id": 14,  # Added Annotations: parking meter
-            "id": 990023
+            "id": 990023,
+            "data_annotation_sentences": ["A black parking meter mounted on a roadside pole"]
         },
         {
             "segmentation": [],
@@ -1563,7 +1606,8 @@ ANNOTATIONS_100 = {
             "image_id": 36861,
             "bbox": [82.89, 235.37, 11.36, 30.40],
             "category_id": 14,  # Added Annotations: parking meter
-            "id": 990024
+            "id": 990024,
+            "data_annotation_sentences": ["A black parking meter mounted on a roadside pole"]
         },
 
         ####################################################################################################
@@ -1574,7 +1618,8 @@ ANNOTATIONS_100 = {
             "image_id": 49259,
             "bbox": [165.3,56.78,120.4,78.9],
             "category_id": 1, # Original Annotation: person
-            "id": 456518
+            "id": 456518,
+            "data_annotation_sentences": ["A person sunbathing beside the ocean"]
          },
          {
             "segmentation": [],
@@ -1583,7 +1628,8 @@ ANNOTATIONS_100 = {
             "image_id": 49259,
             "bbox": [58.23, 411.10, 288.29, 158.56],
             "category_id": 13,  # Added Annotations: stop sign
-            "id": 990204
+            "id": 990204,
+            "data_annotation_sentences": ["A closed sign laid on the ground"]
         },
 
          ####################################################################################################
@@ -1594,7 +1640,8 @@ ANNOTATIONS_100 = {
             "image_id": 218249,
             "bbox": [200.3,71.05,322.32,181.9],
             "category_id": 54, # Original Annotation: sandwich
-            "id": 309664
+            "id": 309664,
+            "data_annotation_sentences": ["A sandwich filled with a patty and vegetables on a tray"]
          },
         {
             "segmentation": [[5.55,45.47,236.24,35.49,241.78,3.33,463.6,2.22,492.44,5.55,499.09,36.6,519.05,38.82,640.0,184.11,640.0,421.45,1.11,421.45]],
@@ -1603,7 +1650,8 @@ ANNOTATIONS_100 = {
             "image_id": 218249,
             "bbox": [1.11,2.22,638.89,419.23],
             "category_id": 67, # Original Annotation: dining table
-            "id": 1961466
+            "id": 1961466,
+            "data_annotation_sentences": ["A white dining table with a tray a food on it"]
         },
         {
             "segmentation": [],
@@ -1611,8 +1659,9 @@ ANNOTATIONS_100 = {
             "iscrowd": 0,
             "image_id": 218249,
             "bbox": [25.00, 277.99, 329.99, 149.00],
-            "category_id": 103,  # Added Annotations: fries (Custom category)
-            "id": 990350
+            "category_id": 110,  # Added Annotations: fries (Custom category)
+            "id": 990350,
+            "data_annotation_sentences": ["A box of large fries placed on a tray"]
         },
 
         ####################################################################################################
@@ -1623,7 +1672,8 @@ ANNOTATIONS_100 = {
             "image_id": 239041,
             "bbox": [269.63,205.58,88.28,63.33],
             "category_id": 72, # Original Annotation: tv
-            "id": 30662
+            "id": 30662,
+            "data_annotation_sentences": ["A television screen reflection partially visible in the mirror"]
          },
         {
             "segmentation": [[0.0,422.2,2.88,294.58,20.15,295.54,44.14,305.14,62.37,309.93,81.56,323.37,87.32,366.55,80.6,373.27,27.83,388.62,17.27,412.61,15.35,421.24]],
@@ -1632,7 +1682,8 @@ ANNOTATIONS_100 = {
             "image_id": 239041,
             "bbox": [0.0,294.58,87.32,127.62],
             "category_id": 81, # Original Annotation: sink
-            "id": 1132819
+            "id": 1132819,
+            "data_annotation_sentences": ["A white sink partially visible under a mirror"]
          },
         {
             "segmentation": [[71.87,190.88,98.2,191.83,106.73,192.02,107.87,195.81,108.63,200.54,107.49,206.8,103.89,210.59,100.29,212.48,94.79,213.62,90.82,235.79,90.82,240.71,90.82,243.93,80.4,242.23,81.91,215.7,66.75,210.4,61.45,205.09,63.15,194.48,66.75,192.78]],
@@ -1641,7 +1692,8 @@ ANNOTATIONS_100 = {
             "image_id": 239041,
             "bbox": [61.45,190.88,47.18,53.05],
             "category_id": 89, # Original Annotation: hair drier
-            "id": 1676042
+            "id": 1676042,
+            "data_annotation_sentences": ["A white hair dryer mounted on the wall"]
          },
         {
             "segmentation": [[39.09,339.81,33.14,309.03,37.6,299.85,37.6,292.65,38.84,289.92,37.85,284.96,31.15,287.19,30.66,284.46,43.06,280.25,43.06,286.45,45.79,292.65,47.28,298.86,53.49,307.05,59.94,335.34,52.0,341.79,43.06,341.79]],
@@ -1650,7 +1702,8 @@ ANNOTATIONS_100 = {
             "image_id": 239041,
             "bbox": [30.66,280.25,29.28,61.54],
             "category_id": 44, # Original Annotation: bottle
-            "id": 2094161
+            "id": 2094161,
+            "data_annotation_sentences": ["A soap dispenser bottle on the white sink"]
          },
          {
             "segmentation": [],
@@ -1659,7 +1712,8 @@ ANNOTATIONS_100 = {
             "image_id": 239041,
             "bbox": [428.14, 129.15, 48.68, 94.81],
             "category_id": 65,  # Added Annotations: bed
-            "id": 990248
+            "id": 990248,
+            "data_annotation_sentences": ["A bed partially visible through the open doorway"]
         },
 
          ####################################################################################################
@@ -1670,7 +1724,8 @@ ANNOTATIONS_100 = {
             "image_id": 245651,
             "bbox": [2.25,34.83,360.67,337.08],
             "category_id": 61, # Original Annotation: cake
-            "id": 1085770
+            "id": 1085770,
+            "data_annotation_sentences": ["A cake decorated with stars on a dining table"]
          },
          {
             "segmentation": [],
@@ -1679,7 +1734,8 @@ ANNOTATIONS_100 = {
             "image_id": 245651,
             "bbox": [0.0, 8.98, 375.0, 491.02],
             "category_id": 67,  # Added Annotations: dining table
-            "id": 990250
+            "id": 990250,
+            "data_annotation_sentences": ["A black dining table resting a star decorated cake on it"]
         },
         
         ####################################################################################################
@@ -1690,7 +1746,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [197.03,115.06,133.76,432.9],
             "category_id": 1, # Original Annotation: person
-            "id": 473873
+            "id": 473873,
+            "data_annotation_sentences": ["A person walking barefoot holding a tennis racket"]
         },
         {
             "segmentation": [[314.02,367.41,320.22,364.52,323.52,361.21,330.54,385.99,333.43,393.43,343.76,409.12,359.04,418.62,367.3,428.12,371.02,435.14,375.97,455.91,374.32,472.02,366.47,483.58,355.74,489.37,338.8,489.37,326.83,478.21,322.28,467.06,319.8,448.48,322.7,432.78,326.0,411.72,326.41,394.79,318.57,376.61],[307.0,342.33,305.76,336.96,314.02,335.31,311.96,342.75,307.83,342.75]],
@@ -1699,7 +1756,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [305.76,335.31,70.21,154.06],
             "category_id": 43, # Original Annotation: tennis racket 
-            "id": 658855
+            "id": 658855,
+            "data_annotation_sentences": ["A tennis racket held by a person"]
         },
         {
             "segmentation": [],
@@ -1708,7 +1766,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [0.85, 545.86, 22.39, 18.86],
             "category_id": 37,  # sports ball
-            "id": 990045
+            "id": 990045,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
         {
             "segmentation": [[83.99,552.8,76.42,546.5,80.2,534.73,88.61,533.47,96.59,539.77,98.28,546.92,94.07,551.54,87.35,554.48]],
@@ -1717,7 +1776,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [76.42,533.47,21.86,21.01],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1854091
+            "id": 1854091,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
         {
             "segmentation": [[407.64,495.25,398.06,499.7,395.32,505.18,399.42,511.68,406.61,513.05,414.83,509.28,415.85,503.12,410.72,497.99]],
@@ -1726,7 +1786,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [395.32,495.25,20.53,17.8],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1854260
+            "id": 1854260,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
         {
             "segmentation": [[142.99,596.45,135.03,596.45,130.92,589.32,132.43,582.61,136.13,579.45,141.89,578.36,147.1,580.0,148.74,584.8,148.61,589.05,147.51,592.07,143.81,596.45]],
@@ -1735,7 +1796,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [130.92,578.36,17.82,18.09],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1855051
+            "id": 1855051,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
         {
             "segmentation": [[85.56,182.84,84.95,181.85,84.99,179.79,85.44,178.38,86.47,177.43,88.34,177.28,89.41,178.15,90.01,179.87,89.98,182.11,89.21,183.03,86.51,183.49,86.13,183.1]],
@@ -1744,7 +1806,8 @@ ANNOTATIONS_100 = {
             "image_id": 302536,
             "bbox": [84.95,177.28,5.06,6.21],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1855133
+            "id": 1855133,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
         {
             "segmentation": [[60.61,574.86,47.72,572.0,46.28,564.36,49.15,559.11,55.35,556.72,64.42,555.29,71.11,560.54,72.06,567.7,63.47,574.38]],
@@ -1753,7 +1816,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [46.28,555.29,25.78,19.57],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1855168
+            "id": 1855168,
+            "data_annotation_sentences": ["A yellow tennis ball held by a person"]
         },
         {
             "segmentation": [[215.66,319.76,213.11,326.49,210.9,331.25,210.9,331.95,208.12,329.97,207.42,324.29,207.77,322.31,209.51,319.87,212.3,319.06,215.2,319.18]],
@@ -1762,7 +1826,8 @@ ANNOTATIONS_100 = {
             "image_id": 261535,
             "bbox": [207.42,319.06,8.24,12.89],
             "category_id": 37, # Original Annotation: sports ball
-            "id": 1855236
+            "id": 1855236,
+            "data_annotation_sentences": ["A yellow tennis ball on the ground"]
         },
 
         ####################################################################################################
@@ -1773,7 +1838,8 @@ ANNOTATIONS_100 = {
             "image_id": 265108,
             "bbox": [196.72,424.34,23.14,187.54],
             "category_id": 28, # Original Annotation: umbrella
-            "id": 281850
+            "id": 281850,
+            "data_annotation_sentences": ["A black and white patterned umbrella leaned on the wall"]
         },
         {
             "segmentation": [[280.45,467.42,257.44,480.36,250.25,537.89,250.25,566.65,258.88,596.85,276.13,609.8,352.36,593.98,335.1,467.42,316.4,465.98,313.53,465.98,307.78,388.31,299.15,386.88,271.82,392.63,271.82,394.07]],
@@ -1782,7 +1848,8 @@ ANNOTATIONS_100 = {
             "image_id": 265108,
             "bbox": [250.25,386.88,102.11,222.92],
             "category_id": 33, # Original Annotation: suitcase
-            "id": 1185557
+            "id": 1185557,
+            "data_annotation_sentences": ["A blue suitcase beside the umbrella"]
         },
         {
             "segmentation": [],
@@ -1791,7 +1858,8 @@ ANNOTATIONS_100 = {
             "image_id": 265108,
             "bbox": [172.43, 261.55, 88.48, 101.39],
             "category_id": 109,  # Added Annotations: balloon (Custom category)
-            "id": 990356
+            "id": 990356,
+            "data_annotation_sentences": ["A red balloon floating on top of the umbrella"]
         },
 
         ####################################################################################################
@@ -1802,16 +1870,18 @@ ANNOTATIONS_100 = {
             "image_id": 265518,
             "bbox": [56.66,42.98,163.68,152.84],
             "category_id": 47, # Original Annotation: cup
-            "id": 669880
+            "id": 669880,
+            "data_annotation_sentences": ["A white cup filled with coffee on a smooth stone table"]
         },
         {
             "segmentation": [[100.3,429.82,137.67,453.04,165.14,470.32,177.88,474.0,190.06,470.88,196.29,468.62,212.71,474.0,238.12,485.21,301.64,518.69,356.42,545.87,381.06,558.06,388.42,539.34,307.16,501.55,256.32,479.81,204.49,460.08,199.47,454.73,193.79,442.02,111.62,405.48,110.9,405.72,170.62,438.06,172.68,440.64,172.17,442.19,108.91,411.76,107.87,412.11,168.21,448.21,166.15,451.99,105.3,420.19,104.26,420.7,165.29,458.01,164.43,461.62,100.83,427.75,100.48,429.3]],
-         "area": 5332.95275,
-         "iscrowd": 0,
-         "image_id": 265518,
-         "bbox": [100.3,405.48,288.12,152.58],
-         "category_id": 48, # Original Annotation: fork
-         "id": 689541
+            "area": 5332.95275,
+            "iscrowd": 0,
+            "image_id": 265518,
+            "bbox": [100.3,405.48,288.12,152.58],
+            "category_id": 48, # Original Annotation: fork
+            "id": 689541,
+            "data_annotation_sentences": ["A metal fork placed on a smooth stone table"]
          },
         {
             "segmentation": [[254.34,268.64,282.95,375.15,430.78,321.1,457.81,309.97,462.58,295.67,410.12,190.75,410.12,190.75,403.76,185.98,251.16,244.8,254.34,262.29]],
@@ -1820,7 +1890,8 @@ ANNOTATIONS_100 = {
             "image_id": 265518,
             "bbox": [251.16,185.98,211.42,189.17],
             "category_id": 54, # Original Annotation: sandwich
-            "id": 1910442
+            "id": 1910442,
+            "data_annotation_sentences": ["A sandwich topped with eggs and vegetables on a plate"]
          },
         {
             "segmentation": [[399.64,283.21,378.04,268.15,381.64,260.63,390.81,253.75,408.15,255.39,420.92,262.26,419.61,274.05,413.39,278.63,401.61,279.94]],
@@ -1829,7 +1900,8 @@ ANNOTATIONS_100 = {
             "image_id": 265518,
             "bbox": [378.04,253.75,42.88,29.46],
             "category_id": 56, # Original Annotation: broccoli
-            "id": 1914586
+            "id": 1914586,
+            "data_annotation_sentences": ["A piece of broccoli on top of the sandwich"]
          },
         {
             "segmentation": [[368.25,245.06,378.94,230.44,383.22,223.66,389.64,217.6,396.06,216.17,399.63,221.52,394.99,229.72,389.29,237.21,383.94,241.85,379.66,245.06,372.53,247.91,369.32,248.98]],
@@ -1838,7 +1910,8 @@ ANNOTATIONS_100 = {
             "image_id": 265518,
             "bbox": [368.25,216.17,31.38,32.81],
             "category_id": 56, # Original Annotation: broccoli
-            "id": 1916454
+            "id": 1916454,
+            "data_annotation_sentences": ["A piece of broccoli on top of the sandwich"]
          },
          {
             "segmentation": [],
@@ -1847,7 +1920,8 @@ ANNOTATIONS_100 = {
             "image_id": 265518,
             "bbox": [171.00, 111.46, 362.08, 358.62],
             "category_id": 51,  # Added Annotations: bowl
-            "id": 990246
+            "id": 990246,
+            "data_annotation_sentences": ["A black and white patterned plate holding the sandwich"]
         },
         
         ####################################################################################################
@@ -1858,7 +1932,8 @@ ANNOTATIONS_100 = {
             "image_id": 279769,
             "bbox": [126.69,74.51,309.25,94.22],
             "category_id": 52, # Original Annotation: banana
-            "id": 1042267
+            "id": 1042267,
+            "data_annotation_sentences": ["A yellow banana placed on a paper towel"]
         },
         {
             "segmentation": [[448.99,89.42,550.7,251.9,640.0,408.18,640.0,150.2,564.34,139.03,506.05,91.9]],
@@ -1867,7 +1942,8 @@ ANNOTATIONS_100 = {
             "image_id": 279769,
             "bbox": [448.99,89.42,191.01,318.76],
             "category_id": 67, # Original Annotation: dining table 
-            "id": 1958202
+            "id": 1958202,
+            "data_annotation_sentences": ["A wooden dining table with two bananas resting on it"]
         },
         {
             "segmentation": [],
@@ -1876,36 +1952,40 @@ ANNOTATIONS_100 = {
             "image_id": 279769,
             "bbox": [14.02, 228.51, 511.25, 165.55],
             "category_id": 52,  # Added Annotations: banana
-            "id": 990025
+            "id": 990025,
+            "data_annotation_sentences": ["A brightly lit yellow banana placed on a paper towel"]
         },
 
         ####################################################################################################
         {
             "segmentation": [[130.52,462.41,111.1,389.06,125.12,342.68,253.48,288.75,313.89,267.18,412.04,238.05,446.56,251.0,464.9,239.13,529.62,238.05,587.87,266.1,616.99,299.54,579.24,386.91,523.15,469.96,412.04,468.88,235.15,472.12,136.99,468.88,126.2,459.18]],
-         "area": 91303.13735,
-         "iscrowd": 0,
-         "image_id": 329080,
-         "bbox": [111.1,238.05,505.89,234.07],
-         "category_id": 65, # Original Annotation: bed
-         "id": 318591
+            "area": 91303.13735,
+            "iscrowd": 0,
+            "image_id": 329080,
+            "bbox": [111.1,238.05,505.89,234.07],
+            "category_id": 65, # Original Annotation: bed
+            "id": 318591,
+            "data_annotation_sentences": ["An unmade bed with white pillows and a gray-green blanket"]
          },
         {
             "segmentation": [[61.21,363.11,118.12,349.15,121.34,339.48,143.89,328.74,184.7,310.49,215.84,301.9,234.09,290.09,250.2,282.57,259.87,270.76,281.34,262.17,295.3,255.72,297.45,242.84,300.67,234.25,318.93,227.8,328.59,223.51,316.78,207.4,240.54,183.78,223.36,183.78,195.44,193.44,134.23,209.55,135.3,217.07,138.52,224.58,141.74,231.03,121.34,235.32,111.68,235.32,127.79,247.13,115.97,251.43,88.05,253.58,77.32,265.39,50.47,266.46,48.32,254.65,49.4,252.5,21.48,252.5,15.03,257.87,15.03,266.46,4.3,275.05,0.0,278.27,0.0,309.42,60.13,362.03]],
-         "area": 29113.829450000012,
-         "iscrowd": 0,
-         "image_id": 329080,
-         "bbox": [0.0,183.78,328.59,179.33],
-         "category_id": 65, # Original Annotation: bed
-         "id": 318688
+            "area": 29113.829450000012,
+            "iscrowd": 0,
+            "image_id": 329080,
+            "bbox": [0.0,183.78,328.59,179.33],
+            "category_id": 65, # Original Annotation: bed
+            "id": 318688,
+            "data_annotation_sentences": ["A bed with a gray-green blanket and clothes scattered on top"]
          },
         {
             "segmentation": [[0.19,303.84,20.64,321.5,18.47,340.7,0.19,347.83]],
-         "area": 617.5496999999999,
-         "iscrowd": 0,
-         "image_id": 329080,
-         "bbox": [0.19,303.84,20.45,43.99],
-         "category_id": 33, # Original Annotation: suitcase
-         "id": 1444448
+            "area": 617.5496999999999,
+            "iscrowd": 0,
+            "image_id": 329080,
+            "bbox": [0.19,303.84,20.45,43.99],
+            "category_id": 33, # Original Annotation: suitcase
+            "id": 1444448,
+            "data_annotation_sentences": ["A black suitcase partially visible on the floor"]
          },
          {
             "segmentation": [],
@@ -1914,7 +1994,8 @@ ANNOTATIONS_100 = {
             "image_id": 329080,
             "bbox": [347.50, 187.15, 12.01, 40.58],
             "category_id": 77,  # Added Annotations: cell phone
-            "id": 990250
+            "id": 990250,
+            "data_annotation_sentences": ["A black cell phone resting on a bedside table"]
         },
 
          ####################################################################################################
@@ -1925,7 +2006,8 @@ ANNOTATIONS_100 = {
             "image_id": 331569,
             "bbox": [238.44,19.08,373.56,546.82],
             "category_id": 47, # Original Annotation: cup
-            "id": 1879964
+            "id": 1879964,
+            "data_annotation_sentences": ["A glass cup filled with strawberry milkshake on a white plate"]
          },
          {
             "segmentation": [],
@@ -1934,7 +2016,8 @@ ANNOTATIONS_100 = {
             "image_id": 331569,
             "bbox": [100.15, 280.57, 138.30, 156.58],
             "category_id": 108,  # Added Annotations: strawberry (Custom category)
-            "id": 990358
+            "id": 990358,
+            "data_annotation_sentences": ["A red strawberry placed on a white plate"]
         },
         {
             "segmentation": [],
@@ -1943,7 +2026,8 @@ ANNOTATIONS_100 = {
             "image_id": 331569,
             "bbox": [151.81, 346.53, 136.71, 196.32],
             "category_id": 108,  # Added Annotations: strawberry (Custom category)
-            "id": 990359
+            "id": 990359,
+            "data_annotation_sentences": ["A red strawberry placed on a white plate"]
         },
         
         ####################################################################################################
@@ -1954,7 +2038,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [125.38,358.09,70.7,65.91],
             "category_id": 8, # Original Annotation: truck
-            "id": 396014
+            "id": 396014,
+            "data_annotation_sentences": ["A white box truck parked along the side of the road"]
         },
         {
             "segmentation": [[418.79,301.49,422.23,266.76,428.33,265.23,434.06,265.61,439.4,267.52,442.07,267.9,445.51,270.19,445.51,277.06,442.45,280.88,439.4,280.88,442.84,287.37,442.84,289.66,439.02,294.62,437.49,296.52,440.55,297.29,442.45,298.05,443.6,301.49]],
@@ -1963,7 +2048,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [418.79,265.23,26.72,36.26],
             "category_id": 10, # Original Annotation: traffic light
-            "id": 1198939
+            "id": 1198939,
+            "data_annotation_sentences": ["A traffic light hanging above the intersection in front of the church"]
         },
         {
             "segmentation": [[542.21,340.84,541.67,307.45,544.68,307.45,552.61,309.64,554.25,310.74,554.53,313.2,551.52,316.21,548.78,317.58,550.42,321.41,553.71,321.96,555.07,324.14,548.23,326.88,546.32,327.7,546.32,329.62,549.05,331.26,553.16,331.53,554.53,333.17,552.89,338.1,547.69,341.38]],
@@ -1972,7 +2058,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [541.67,307.45,13.4,33.93],
             "category_id": 10, # Original Annotation: traffic light
-            "id": 1199040
+            "id": 1199040,
+            "data_annotation_sentences": ["A traffic light hanging above the intersection in front of the church"]
         },
         {
             "segmentation": [[449.72,415.85,449.72,397.47,451.73,395.96,453.25,395.96,463.57,396.97,465.33,397.47,465.83,398.98,466.09,403.76,459.54,404.77,462.06,406.03,465.08,407.29,465.83,411.07,464.07,414.09,458.28,414.84,456.77,416.35]],
@@ -1981,7 +2068,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [449.72,395.96,16.37,20.39],
             "category_id": 10, # Original Annotation: traffic light
-            "id": 1199696
+            "id": 1199696,
+            "data_annotation_sentences": ["A traffic signal mounted on a pole in front of the church"]
         },
         {
             "segmentation": [[373.12,299.4,379.96,257.27,388.72,256.72,398.02,258.63,402.13,260.28,403.5,267.66,401.85,272.59,399.39,278.33,400.76,283.81,399.67,287.36,399.12,290.37,400.76,293.66,401.31,296.67,401.03,301.59,399.67,302.96,392.55,303.78,375.31,303.78,372.58,301.59]],
@@ -1990,7 +2078,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [372.58,256.72,30.92,47.06],
             "category_id": 10, # Original Annotation: traffic light
-            "id": 1199755
+            "id": 1199755,
+            "data_annotation_sentences": ["A traffic light hanging above the intersection in front of the church"]
         },
         {
             "segmentation": [[607.93,348.89,609.1,361.57,617.32,360.63,617.32,345.37]],
@@ -1999,7 +2088,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [607.93,345.37,9.39,16.2],
             "category_id": 10, # Original Annotation: traffic light
-            "id": 1805441
+            "id": 1805441,
+            "data_annotation_sentences": ["A traffic light hanging above the intersection in front of the church"]
         },
         {
             "segmentation": [],
@@ -2008,7 +2098,8 @@ ANNOTATIONS_100 = {
             "image_id": 339870,
             "bbox": [429.98, 395.96, 13.42, 20.15],
             "category_id": 10,  # Added Annotations: traffic light
-            "id": 990034
+            "id": 990034,
+            "data_annotation_sentences": ["A traffic signal mounted on a pole in front of the church"]
         },
 
         ####################################################################################################
@@ -2019,7 +2110,8 @@ ANNOTATIONS_100 = {
             "image_id": 340451,
             "bbox": [42.88,166.74,527.11,202.87],
             "category_id": 15, # Original Annotation: bench
-            "id": 572044
+            "id": 572044,
+            "data_annotation_sentences": ["A large wooden park bench with a person sitting on it"]
         },
         {
             "segmentation": [[285.21,160.81,264.02,154.8,243.15,144.36,238.09,130.45,244.73,93.13,253.9,69.09,255.48,63.4,258.96,52.01,263.71,63.4,267.5,48.85,269.4,46.95,269.08,61.82,272.25,46.95,274.14,45.69,274.14,63.08,278.89,48.85,281.1,46.64,282.05,51.06,281.73,61.5,283.31,64.03,282.05,69.09,278.89,82.37,276.67,90.91,272.25,101.35,272.88,107.67,272.88,114.0,284.9,114.32,301.34,110.52,314.94,114.0,316.84,100.72,316.52,94.07,316.52,85.54,318.1,76.36,325.69,70.36,330.44,67.51,339.29,66.88,339.29,63.71,345.93,69.09,350.05,64.66,356.06,73.52,356.06,77.95,357.0,92.49,363.01,98.19,367.76,110.52,371.55,117.48,379.46,119.06,386.42,132.98,394.96,156.06,391.16,164.6,393.06,178.83,391.79,191.8,383.89,196.23,387.37,206.03,382.62,210.78,385.15,220.58,381.99,230.07,378.51,234.81,374.08,235.45,372.82,238.29,370.92,241.77,364.59,252.84,356.37,252.84,358.9,261.06,358.59,284.15,358.9,298.7,358.9,304.39,359.85,321.15,360.48,336.33,362.06,349.3,363.33,357.21,363.33,366.7,355.74,378.4,345.93,378.4,329.49,374.92,327.59,359.42,330.44,346.45,332.97,334.12,332.97,318.31,326.33,277.82,323.48,265.49,319.68,256.32,318.42,251.89,319.37,250.31,310.2,251.26,308.3,277.82,307.03,298.7,307.03,304.39,304.5,347.4,300.39,363.85,299.44,367.01,287.74,381.88,269.08,373.34,266.87,363.85,270.66,352.78,277.94,336.97,277.94,326.85,276.04,313.88,275.41,282.25,273.19,259.17,272.88,252.52,274.78,239.24,273.19,231.97,278.25,220.26,276.36,212.67,279.84,197.18,284.36,179.05]],
@@ -2028,7 +2120,8 @@ ANNOTATIONS_100 = {
             "image_id": 340451,
             "bbox": [238.09,45.69,156.87,336.19],
             "category_id": 1, # Original Annotation: person
-            "id": 2164049
+            "id": 2164049,
+            "data_annotation_sentences": ["A person wearing a yellow jacket waving sitting on the park bench"]
         },
         {
             "segmentation": [],
@@ -2037,7 +2130,8 @@ ANNOTATIONS_100 = {
             "image_id": 340451,
             "bbox": [359.04, 191.39, 70.33, 89.09],
             "category_id": 1,  # Added Annotations: person
-            "id": 990037
+            "id": 990037,
+            "data_annotation_sentences": ["A person wearing a black jacket crouched behind the park bench"]
         },
 
         ####################################################################################################
@@ -2048,7 +2142,8 @@ ANNOTATIONS_100 = {
             "image_id": 76731,
             "bbox": [50.18,31.02,551.98,315.68],
             "category_id": 73, # Original Annotation: laptop
-            "id": 1100252
+            "id": 1100252,
+            "data_annotation_sentences": ["A blue laptop closed shut on a wooden table"]
          },
          {
             "segmentation": [],
@@ -2057,7 +2152,8 @@ ANNOTATIONS_100 = {
             "image_id": 76731,
             "bbox": [202.06, 158.62, 277.79, 83.83],
             "category_id": 107,  # Added Annotations: pen (Custom category)
-            "id": 990341
+            "id": 990341,
+            "data_annotation_sentences": ["An orange pen placed above the blue laptop"]
         },
          
          ####################################################################################################
@@ -2068,7 +2164,8 @@ ANNOTATIONS_100 = {
             "image_id": 80949,
             "bbox": [26.37,129.99,599.08,235.48],
             "category_id": 17, # Original Annotation: cat
-            "id": 49104
+            "id": 49104,
+            "data_annotation_sentences": ["A fluffy white cat laying across the keyboard of a laptop"]
         },
         {
             "segmentation": [[89.17,144.13,88.19,2.05,529.13,2.05,522.27,167.65,487.97,168.63,487.97,173.53,522.27,174.51,523.25,181.37,498.75,182.35,488.95,179.41,474.26,175.49,462.5,167.65,452.7,159.81,441.92,151.97,427.22,145.11,406.64,140.22,377.25,135.32,350.79,135.32,337.07,135.32,309.64,139.24,272.4,143.16,245.95,150.01,229.29,164.71,224.39,173.53,216.55,173.53,169.52,156.87,126.4,149.03,90.15,141.2],[51.93,268.58,3.92,389.1,4.9,403.8,67.61,406.74,512.47,408.7,594.78,404.78,638.87,400.86,639.85,375.38,578.12,269.56,542.85,261.72,539.91,261.72,548.72,285.24,558.52,298.95,558.52,316.59,559.5,332.27,545.79,338.15,538.93,345.99,522.27,337.17,512.47,331.29,509.53,320.51,502.67,287.2,401.74,271.52,388.03,277.4,368.43,285.24,329.23,281.32,303.76,284.26,288.08,297.97,284.16,316.59,269.46,326.39,259.66,335.21,239.09,338.15,204.79,345.99,169.52,351.87,142.08,355.79,123.46,364.6,92.11,368.52,78.39,362.65,72.51,351.87,75.45,337.17,68.59,329.33,66.63,319.53,74.47,299.93,70.55,296.99,66.63,289.16,59.77,289.16,54.87,270.54]],
@@ -2077,7 +2174,8 @@ ANNOTATIONS_100 = {
             "image_id": 80949,
             "bbox": [3.92,2.05,635.93,406.65],
             "category_id": 73, # Original Annotation: laptop 
-            "id": 1098811
+            "id": 1098811,
+            "data_annotation_sentences": ["A silver laptop with its screen open"]
         },
         {
             "segmentation": [[629.3,1.23,634.28,16.17,636.77,28.63,630.55,52.92,621.2,107.72,607.5,169.99,588.2,171.86,553.33,157.54,549.59,150.06,552.08,130.76,563.29,83.43,566.4,63.5,565.16,51.67,572.01,34.23,568.89,18.04,565.16,6.21,565.16,0.0,628.05,0.61]],
@@ -2086,7 +2184,8 @@ ANNOTATIONS_100 = {
             "image_id": 80949,
             "bbox": [549.59,0.0,87.18,171.86],
             "category_id": 44, # Original Annotation: bottle 
-            "id": 1484562
+            "id": 1484562,
+            "data_annotation_sentences": ["A dark glass bottle beside the laptop"]
         },
         {
             "segmentation": [[552.92,64.61,552.08,59.59,560.03,57.5,568.39,48.72,572.57,39.52,571.32,25.72,567.56,15.26,554.59,4.39,552.92,0.0,529.5,0.21,527.82,46.21,528.66,72.98,542.88,72.98,552.5,71.31]],
@@ -2095,7 +2194,8 @@ ANNOTATIONS_100 = {
             "image_id": 80949,
             "bbox": [527.82,0.0,44.75,72.98],
             "category_id": 47, # Original Annotation: cup 
-            "id": 2099631
+            "id": 2099631,
+            "data_annotation_sentences": ["A white cup behind the laptop"]
          },
         {
             "segmentation": [],
@@ -2104,7 +2204,8 @@ ANNOTATIONS_100 = {
             "image_id": 80949,
             "bbox": [0.16, 28.69, 25.14, 171.86],
             "category_id": 44,  # Added Annotations: bottle
-            "id": 990050
+            "id": 990050,
+            "data_annotation_sentences": ["A partially visible bottle beside the laptop"]
         },
 
         ####################################################################################################
@@ -2115,7 +2216,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [132.29,261.12,97.96,76.02],
             "category_id": 3, # Original Annotation: car
-            "id": 348329
+            "id": 348329,
+            "data_annotation_sentences": ["A silver car driving on a rain-soaked road"]
          },
         {
             "segmentation": [[95.29,265.65,86.94,274.79,82.56,285.13,84.15,303.81,94.49,302.22,132.26,302.22,141.8,285.52,137.43,276.78,131.86,263.26,98.47,263.26]],
@@ -2124,7 +2226,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [82.56,263.26,59.24,40.55],
             "category_id": 3, # Original Annotation: car
-            "id": 350385
+            "id": 350385,
+            "data_annotation_sentences": ["A white car with its headlights on driving on a rain-soaked road"]
          },
         {
             "segmentation": [[229.75,148.85,245.93,119.73,394.79,119.73,445.48,188.76,434.7,343.01,413.12,359.19,214.65,364.58,202.79,264.27,211.42,200.63]],
@@ -2133,7 +2236,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [202.79,119.73,242.69,244.85],
             "category_id": 6, # Original Annotation: bus 
-            "id": 366175
+            "id": 366175,
+            "data_annotation_sentences": ["A city bus driving on a rain-soaked road"]
          },
         {
             "segmentation": [[228.84,261.98,220.14,262.94,219.17,264.97,221.97,269.13,224.2,274.06,227.48,277.83,228.84,279.18,229.32,279.09,230.0,263.62,230.09,261.78]],
@@ -2142,7 +2246,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [219.17,261.78,10.92,17.4],
             "category_id": 3, # Original Annotation: car
-            "id": 1355468
+            "id": 1355468,
+            "data_annotation_sentences": ["A small yellow car partially visible behind the bus"]
          },
         {
             "segmentation": [[341.25,237.69,341.82,233.52,341.82,232.37,342.39,230.41,342.8,229.01,344.36,227.87,346.65,227.7,347.96,227.79,349.1,228.69,349.68,230.98,350.41,233.02,350.41,237.2,350.09,238.75,351.64,241.95,353.03,244.08,354.92,247.76,355.49,251.03,354.83,253.32,353.36,255.29,352.79,256.35,353.36,265.69,341.57,265.11,340.75,256.93,336.68,251.75,337.41,248.53,339.32,244.28,340.35,239.29,340.93,237.68]],
@@ -2151,7 +2256,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [336.68,227.7,18.81,37.99],
             "category_id": 1, # Original Annotation: person
-            "id": 1682257
+            "id": 1682257,
+            "data_annotation_sentences": ["A person partially visible through the front windshield of the bus"]
          },
         {
             "segmentation": [[29.28,244.53,45.84,251.93,42.32,285.77,40.2,288.59,25.75,286.83],[16.59,244.53,0.73,244.88,1.08,258.63,5.31,262.5,7.78,265.68,8.48,281.19,10.6,284.36]],
@@ -2160,7 +2266,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [0.73,244.53,45.11,44.06],
             "category_id": 3, # Original Annotation: car
-            "id": 1772957
+            "id": 1772957,
+            "data_annotation_sentences": ["A partially visible white car behind the trees"]
          },
         {
             "segmentation": [[255.23,256.4,261.29,245.67,263.47,235.41,267.98,229.2,275.9,225.78,283.99,227.33,286.47,229.04,285.23,233.24,285.07,234.79,287.72,245.98,288.8,249.72,294.56,260.44,254.92,258.26]],
@@ -2169,7 +2276,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [254.92,225.78,39.64,34.66],
             "category_id": 1, # Original Annotation: person
-            "id": 2007085
+            "id": 2007085,
+            "data_annotation_sentences": ["A person partially visible through the front windshield of the bus"]
         },
         {
             "segmentation": [],
@@ -2178,7 +2286,8 @@ ANNOTATIONS_100 = {
             "image_id": 84170,
             "bbox": [548.37, 74.99, 64.43, 68.01],
             "category_id": 13,  # Added Annotations: stop sign
-            "id": 990212
+            "id": 990212,
+            "data_annotation_sentences": ["A no-jaywalk sign mounted on a roadside pole"]
         },
         
         ####################################################################################################
@@ -2189,7 +2298,8 @@ ANNOTATIONS_100 = {
             "image_id": 85478,
             "bbox": [313.24,181.27,212.73,118.88],
             "category_id": 23, # Original Annotation: Bear
-            "id": 586735
+            "id": 586735,
+            "data_annotation_sentences": ["A polar bear in the water with its head above the surface"]
         },
         {
             "segmentation": [],
@@ -2198,7 +2308,8 @@ ANNOTATIONS_100 = {
             "image_id": 85478,
             "bbox": [27.65, 85.38, 190.90, 238.02],
             "category_id": 23,  # Added Annotations: bear
-            "id": 990052
+            "id": 990052,
+            "data_annotation_sentences": ["A polar bear rasing its paw above the surface of the water"]
         },
 
         ####################################################################################################
@@ -2209,7 +2320,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [514.59,155.14,125.41,317.83],
             "category_id": 44, # Original Annotation: bottle 
-            "id": 81028
+            "id": 81028,
+            "data_annotation_sentences": ["A plastic bottle of water beside the pizza"]
         },
         {
             "segmentation": [[164.13,114.65,165.16,90.91,163.1,67.17,160.0,44.46,59.87,24.84,50.58,20.71,47.48,2.13,567.74,1.1,582.19,27.94,584.26,32.07,565.68,41.36,564.65,51.68,558.45,64.07,553.29,67.17,552.26,16.58,528.52,20.71,513.03,27.94,500.65,32.07,485.16,21.75,476.9,34.13,469.68,48.58,452.13,56.84,433.55,57.88,435.61,46.52,435.61,46.52]],
@@ -2218,7 +2330,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [47.48,1.1,536.78,113.55],
             "category_id": 1, # Original Annotation: person 
-            "id": 189502
+            "id": 189502,
+            "data_annotation_sentences": ["A person wearing a white shirt beside the table "]
         },
         {
             "segmentation": [[293.39,404.49,248.09,404.49,169.35,382.92,105.71,327.91,83.06,284.76,85.21,224.36,108.94,177.98,169.35,139.15,230.83,107.87,316.04,105.71,417.44,136.99,473.53,145.62,533.93,166.11,538.25,225.44,541.48,277.21,528.54,311.73,542.56,343.01,538.25,372.13,498.34,396.94,477.84,430.38,450.88,465.98,399.1,469.21,357.03,460.58,317.12,443.33,302.02,415.28]],
@@ -2227,7 +2340,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [83.06,105.71,459.5,363.5],
             "category_id": 59, # Original Annotation: pizza
-            "id": 1074217
+            "id": 1074217,
+            "data_annotation_sentences": ["A pizza topped with mushroom, cheese and meat on the table"]
         },
         {
             "segmentation": [[86.66,295.28,93.02,300.85,93.42,314.37,91.03,323.91,95.41,348.56,85.47,371.22,64.8,384.73,38.56,384.34,23.05,386.32,1.19,367.64,0.79,308.01,17.09,295.68,43.33,288.13,64.4,286.14,77.91,288.92]],
@@ -2236,7 +2350,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [0.79,286.14,94.62,100.18],
             "category_id": 51, # Original Annotation: bowl
-            "id": 1535985
+            "id": 1535985,
+            "data_annotation_sentences": ["A small sauce cup placed beside the pizza"]
         },
         {
             "segmentation": [[2.58,45.09,34.44,103.64,42.19,132.05,67.16,139.8,67.16,143.24,0.86,159.6]],
@@ -2245,7 +2360,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [0.86,45.09,66.3,114.51],
             "category_id": 1, # Original Annotation: person
-            "id": 1733393
+            "id": 1733393,
+            "data_annotation_sentences": ["A partially visible person wearing a red shirt"]
         },
         {
             "segmentation": [],
@@ -2254,7 +2370,8 @@ ANNOTATIONS_100 = {
             "image_id": 141821,
             "bbox": [33.71, 446.68, 111.27, 32.04],
             "category_id": 51,  # Added Annotations: bowl
-            "id": 990058
+            "id": 990058,
+            "data_annotation_sentences": ["A small sauce cup placed beside the pizza"]
         },
 
         ####################################################################################################
@@ -2265,7 +2382,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [396.54,370.92,50.58,25.97],
             "category_id": 3, # Original Annotation: car
-            "id": 348216
+            "id": 348216,
+            "data_annotation_sentences": ["A gray car driving through the rainy intersection"]
         },
         {
             "segmentation": [[296.63,130.52,295.55,172.58,294.47,180.13,272.9,184.45,268.58,149.93,270.74,136.99,272.9,127.28,288.0,120.81,300.94,124.04]],
@@ -2274,7 +2392,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [268.58,120.81,32.36,63.64],
             "category_id": 10, # Original Annotation: traffic light 
-            "id": 405142
+            "id": 405142,
+            "data_annotation_sentences": ["A green traffic light hanging above the intersection"]
         },
         {
             "segmentation": [[497.79,404.05,496.94,398.06,496.94,392.93,495.23,391.5,496.08,381.24,499.22,378.68,504.35,378.39,508.06,373.55,510.34,370.41,523.45,368.7,535.99,369.27,539.98,375.83,542.26,377.54,546.25,376.97,547.96,376.97,548.25,380.1,544.54,382.38,547.39,388.94,547.68,394.64,543.97,403.48,540.55,402.34,538.27,397.49,534.28,396.35,533.71,401.2,532.57,405.47,527.15,404.05,526.58,396.35,519.74,396.63,517.18,397.2,518.03,400.34,517.46,402.62,513.19,402.34,511.76,396.35,506.92,396.06,502.64,396.63,502.93,402.05,497.22,404.9]],
@@ -2283,7 +2402,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [495.23,368.7,53.02,36.77],
             "category_id": 8, # Original Annotation: truck 
-            "id": 1369864 
+            "id": 1369864,
+            "data_annotation_sentences": ["A truck driving along the wet road"]
         },
         {
             "segmentation": [[535.73,396.19,534.11,403.0,529.24,403.65,526.97,396.52,517.89,397.16,517.89,402.68,512.05,403.0,510.76,395.22,504.59,395.87,502.65,401.06,499.41,401.71,498.43,399.76,499.73,384.52,506.22,369.92,537.35,369.92,541.57,379.65,545.46,381.6,547.73,389.38,547.73,395.87,546.43,402.68,543.52,403.65,542.22,396.19,535.73,395.87]],
@@ -2292,7 +2412,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [498.43,369.92,49.3,33.73],
             "category_id": 3, # Original Annotation: car
-            "id": 1776217
+            "id": 1776217,
+            "data_annotation_sentences": ["A car driving on a wet road"]
         },
         {
             "segmentation": [[476.55,307.7,500.35,307.5,500.08,319.96,500.08,325.26,476.75,326.33]],
@@ -2301,7 +2422,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [476.55,307.5,23.8,18.83],
             "category_id": 10, # Original Annotation: traffic light 
-            "id": 1804334 
+            "id": 1804334,
+            "data_annotation_sentences": ["A red traffic signal mounted on the roadside pole"]
         },
         {
             "segmentation": [[175.7,156.75,189.17,155.81,185.41,198.09,169.12,198.09,169.12,191.2,171.0,191.2,166.93,183.68,168.5,182.74,173.19,181.49,172.88,179.61,168.18,171.47,175.07,169.28,171.0,159.88]],
@@ -2310,7 +2432,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [166.93,155.81,22.24,42.28],
             "category_id": 10, # Original Annotation: traffic light 
-            "id": 1805792
+            "id": 1805792,
+            "data_annotation_sentences": ["A traffic light hanging over the intersection"]
         },
         {
             "segmentation": [[480.31,238.47,477.24,289.86,501.41,292.24,501.41,236.09,479.29,238.13]],
@@ -2319,7 +2442,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [477.24,236.09,24.17,56.15],
             "category_id": 10, # Original Annotation: traffic light 
-            "id": 1806149
+            "id": 1806149,
+            "data_annotation_sentences": ["A green traffic light mounted on a roadside pole"]
         },
         {
             "segmentation": [],
@@ -2328,7 +2452,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [543.70, 282.84, 31.13, 29.82],
             "category_id": 10,  # Added Annotations: traffic light
-            "id": 990066
+            "id": 990066,
+            "data_annotation_sentences": ["A traffic signal mounted on a roadside pole"]
         },
         {
             "segmentation": [],
@@ -2337,7 +2462,8 @@ ANNOTATIONS_100 = {
             "image_id": 144706,
             "bbox": [568.81, 176.27, 31.50, 76.24],
             "category_id": 10,  # Added Annotations: traffic light
-            "id": 990067
+            "id": 990067,
+            "data_annotation_sentences": ["A traffic light mounted on a roadside pole"]
         },
 
         ####################################################################################################
@@ -2348,7 +2474,8 @@ ANNOTATIONS_100 = {
             "image_id": 144784,
             "bbox": [244.29,340.18,130.71,150.69],
             "category_id": 1, # Original Annotation: person
-            "id": 439556
+            "id": 439556,
+            "data_annotation_sentences": ["A person reaching for the blender's control switch"]
          },
          {
             "segmentation": [],
@@ -2357,7 +2484,8 @@ ANNOTATIONS_100 = {
             "image_id": 144784,
             "bbox": [18.52, 0.0, 325.37, 384.46],
             "category_id": 106,  # Added Annotations: blender (Custom category)
-            "id": 990343
+            "id": 990343,
+            "data_annotation_sentences": ["A blender with a glass jar filled with yellow liquid on a countertop "]
         },
 
          ####################################################################################################
@@ -2368,7 +2496,8 @@ ANNOTATIONS_100 = {
             "image_id": 144932,
             "bbox": [478.49,183.89,78.29,49.23],
             "category_id": 9, # Original Annotation: boat 
-            "id": 175615
+            "id": 175615,
+            "data_annotation_sentences": ["A small yellow boat towing another boat across the water"]
         },
         {
             "segmentation": [[506.28,223.5,506.17,222.42,506.17,221.46,505.32,220.45,504.81,220.28,504.02,220.39,503.57,221.46,503.4,222.54,502.89,222.93,502.27,223.1,502.27,224.34,504.36,223.95]],
@@ -2377,7 +2506,8 @@ ANNOTATIONS_100 = {
             "image_id": 144932,
             "bbox": [502.27,220.28,4.01,4.06],
             "category_id": 1, # Original Annotation: person
-            "id": 1243542 
+            "id": 1243542,
+            "data_annotation_sentences": ["A person standing on top of the boat"]
         },
         {
             "segmentation": [[531.43,210.31,528.26,205.2,530.19,200.24,531.71,199.68,533.64,200.93,532.4,210.45]],
@@ -2386,7 +2516,8 @@ ANNOTATIONS_100 = {
             "image_id": 144932,
             "bbox": [528.26,199.68,5.38,10.77],
             "category_id": 1, # Original Annotation: person
-            "id": 2009814
+            "id": 2009814,
+            "data_annotation_sentences": ["A person standing inside the boat's cabin"]
         },
         {
             "segmentation": [],
@@ -2395,7 +2526,8 @@ ANNOTATIONS_100 = {
             "image_id": 144932,
             "bbox": [384.25, 209.57, 59.76, 21.70],
             "category_id": 9,  # Added Annotations: boat
-            "id": 990068
+            "id": 990068,
+            "data_annotation_sentences": ["A small boat carrying a portable toilet being towed"]
         },
 
         ####################################################################################################
