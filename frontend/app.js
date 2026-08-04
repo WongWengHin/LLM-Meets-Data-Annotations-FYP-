@@ -2,7 +2,7 @@ const analyzeButton = document.getElementById("analyzeButton");
 const imageInput = document.getElementById("imageInput");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
-const previewFrame = document.getElementById("previewFrame");
+const previewFrame = document.getElementById("previewFrame") || document.querySelector(".preview-frame");
 const bboxOverlay = document.getElementById("bboxOverlay");
 const statusPill = document.getElementById("statusPill");
 const annotationCountValue = document.getElementById("annotationCountValue");
@@ -395,6 +395,10 @@ function updateJsonViewButtons() {
 }
 
 function renderBoundingBox(result) {
+  if (!previewFrame || !previewImage || !bboxOverlay) {
+    return;
+  }
+
   if (previewImage.hidden) {
     hideBoundingBox();
     return;
@@ -421,6 +425,10 @@ function renderBoundingBox(result) {
 }
 
 function syncOverlayToImage() {
+  if (!previewFrame || !previewImage || !bboxOverlay) {
+    return false;
+  }
+
   const frameRect = previewFrame.getBoundingClientRect();
   const imageRect = previewImage.getBoundingClientRect();
 

@@ -1,4 +1,4 @@
-"""*** 图像标注请求所使用的提示词模板定义。 ***"""
+
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ Do not provide reasoning or analysis.
 Do not describe your thought process.
 Return only the JSON object in the response content.
 
+
 TASK SELECTION
 
 First analyze the image and determine the appropriate annotation type.
@@ -21,8 +22,9 @@ There are two possible cases:
 
 1. Human-Object Interaction (HOI) image:
 - If a person is visibly interacting with an object through an action, generate HOI annotations only.
-- If a person is visibly interacting with an object, generate HOI annotations only. Do not generate object detection annotations for standalone objects or people that are not part of the interaction.
-- Objects and people involved in the interaction should only be represented through the HOI annotation and should not receive separate object detection annotations.
+- Do not generate separate object detection annotations for the person or object involved in the interaction.
+- Focus only on the human-object interaction.
+- Objects involved in an interaction should only appear as part of the HOI annotation.
 
 Examples of HOI:
 - person riding bicycle
@@ -36,8 +38,11 @@ Examples of HOI:
 - Detect all visible objects in the image.
 - Return one annotation per visible object.
 - Do not include HOI fields such as subject, object, subject_bbox, object_bbox, or predicate.
+- Each annotation should describe only the detected object.
+
 
 OUTPUT FORMAT
+
 
 For HOI images, use this format:
 
@@ -64,6 +69,7 @@ For HOI images, use this format:
   ]
 }
 
+
 For object-detection-only images, use this format:
 
 {
@@ -80,27 +86,134 @@ For object-detection-only images, use this format:
   ]
 }
 
+
 GENERAL RULES
 
-Each annotation represents exactly one human-object interaction or one visible object.
-Bounding boxes must be normalized to [0,1].
-Do not hallucinate unseen objects, hidden actions, or invisible relationships.
-Never mix HOI annotations and object detection annotations in the same response.
-If an image contains HOI, ignore standalone object detection and only output HOI annotations.
+Each annotation represents exactly ONE human-object interaction OR ONE visible object.
 
-HOI RULES
+Bounding boxes must be normalized to [0,1].
+
+Bounding boxes must accurately cover the complete visible extent of the subject/object.
+
+The bounding box should:
+- Include the entire visible object or subject.
+- Avoid cutting off visible parts.
+- Follow the actual visible boundaries.
+- Minimize unnecessary background.
+
+Do not:
+- Crop visible parts.
+- Include unrelated nearby objects.
+- Make boxes unnecessarily small.
+
+
+HOI ANNOTATION RULES
 
 Return one annotation for each visible human-object interaction.
-Predicate must be a visible interaction verb such as ride, hold, wear, sit, throw, swing, push, or carry.
-Generate exactly 8 sentences per HOI annotation.
+
+Predicate must be a visible interaction verb:
+Examples:
+ride, hold, wear, sit, throw, swing, push, carry
+
+Describe only visible information.
+
+Do not hallucinate:
+- unseen objects
+- hidden actions
+- invisible relationships
+- unsupported attributes
+
+Attributes are not separate interactions.
+
+Example:
+
+Image:
+A person riding a bicycle while wearing a helmet.
+
+Correct:
+{
+  "subject": "person",
+  "object": "bicycle",
+  "predicate": "ride"
+}
+
+The helmet should only appear in the descriptions.
+
 
 OBJECT DETECTION RULES
 
-Detect every clearly visible object.
-Create one annotation for each object.
-The "class" field must contain the object category.
-The "bbox" field must contain the object's normalized bounding box.
-Generate exactly 1 sentence per object-detection annotation.
+For object-detection-only images:
+
+- Detect every clearly visible object.
+- Create one annotation for each object.
+- The "class" field must contain the object category.
+- The "bbox" field must contain the object's normalized bounding box.
+
+The sentence should be a single detailed description of the object.
+
+The sentence may describe:
+- appearance
+- color
+- shape
+- texture
+- material
+- visible condition
+
+Do not describe:
+- human-object interactions
+- relationships with people
+- actions
+- invisible properties
+
+Example:
+
+Class:
+"dog"
+
+Sentence:
+"A brown dog with short fur and a compact body is visible in the image."
+
+
+SENTENCE GENERATION FOR HOI
+
+For every HOI annotation, generate exactly 8 descriptions.
+
+The order must always remain the same.
+
+Each description must be exactly one sentence.
+
+1. Basic interaction:
+<subject> + <predicate> + <object>
+
+2. Human description:
+Visible human appearance only.
+
+3. Interaction description:
+How the interaction is performed.
+
+4. Object description:
+Visible object appearance only.
+
+5. Human + interaction.
+
+6. Human + object.
+
+7. Interaction + object.
+
+8. Human + interaction + object.
+
+
+IMPORTANT
+
+For HOI images:
+- Generate exactly 8 sentences per annotation.
+
+For object-detection-only images:
+- Generate exactly 1 sentence per annotation.
+
+Never mix HOI annotations and object detection annotations in the same response.
+
+If an image contains HOI, ignore standalone object detection and only output HOI annotations.
 """.strip()
 
 
