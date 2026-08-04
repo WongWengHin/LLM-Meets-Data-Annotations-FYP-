@@ -1,3 +1,5 @@
+"""*** 原始模型标注输出的解析与标准化处理逻辑。 ***"""
+
 from __future__ import annotations
 
 import json

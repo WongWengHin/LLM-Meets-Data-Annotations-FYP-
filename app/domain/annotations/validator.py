@@ -1,3 +1,5 @@
+"""*** 标准化标注结果的校验规则定义。 ***"""
+
 from __future__ import annotations
 
 

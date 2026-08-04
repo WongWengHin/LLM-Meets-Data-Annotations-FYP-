@@ -1,3 +1,5 @@
+"""*** Web API 返回数据使用的 Pydantic 结构定义。 ***"""
+
 from __future__ import annotations
 
 from typing import Literal
@@ -30,9 +32,11 @@ class FrontendAnnotation(BaseModel):
     object_bbox: list[float] | None = Field(default=None, examples=[[0.384375, 0.779167, 0.565625, 0.862500]])
     category: str | None = Field(default=None, examples=["person ride snowboard"])
     bounding_box: list[float] | None = Field(default=None, examples=[[0.329688, 0.095833, 0.625000, 0.862500]])
+    bbox: list[float] | None = Field(default=None, examples=[[0.245000, 0.312000, 0.624000, 0.856000]])
     sentences: list[str] = Field(examples=[["A person is riding a snowboard on a snowy slope."]])
     score: float | None = Field(default=None, examples=[0.9421])
     image_id: str | None = Field(default=None, examples=["image-7"])
+    class_name: str | None = Field(default=None, alias="class", examples=["dog"])
 
 
 class ArtifactSummary(BaseModel):

@@ -1,3 +1,5 @@
+"""*** 面向图像标注生成任务的 LLM 客户端请求逻辑。 ***"""
+
 from __future__ import annotations
 
 import base64

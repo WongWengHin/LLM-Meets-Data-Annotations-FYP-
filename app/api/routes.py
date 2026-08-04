@@ -1,3 +1,5 @@
+"""*** 健康检查与图像标注上传接口的路由定义。 ***"""
+
 from __future__ import annotations
 
 import traceback
@@ -7,9 +9,9 @@ from fastapi import APIRouter, File, Request, UploadFile
 from fastapi.responses import JSONResponse
 
 from app.agent.orchestrator import AnnotationAgent
-from app.core.config import AppConfig
 from app.api.responses import format_exception_message, format_exception_status
 from app.api.schemas import ErrorResponse, HealthResponse, UploadResponse
+from app.core.config import AppConfig
 
 router = APIRouter()
 

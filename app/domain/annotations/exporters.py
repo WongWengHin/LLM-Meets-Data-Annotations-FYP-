@@ -1,3 +1,5 @@
+"""*** 用于生成前端、预测与评估产物的导出构建逻辑。 ***"""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -99,16 +101,17 @@ def export_evaluation_record(master_annotation: dict) -> dict:
     if review["status"] == "rejected":
         raise ValueError("Rejected records are excluded from evaluation exports.")
 
+    image_id = master_annotation["image"]["image_id"]
     return {
         "schema_version": master_annotation["schema_version"],
-        "image_id": master_annotation["image"]["image_id"],
+        "image_id": image_id,
         "caption": master_annotation["caption"],
         "bbox_export": [
-            _build_evaluation_bbox_payload(annotation, master_annotation["image"]["image_id"])
+            _build_evaluation_bbox_payload(annotation, image_id)
             for annotation in master_annotation["annotations"]
         ],
         "text_export": [
-            _build_evaluation_text_payload(annotation, master_annotation["image"]["image_id"])
+            _build_evaluation_text_payload(annotation, image_id)
             for annotation in master_annotation["annotations"]
         ],
     }

@@ -1,3 +1,5 @@
+"""*** 主标注结构组装与 schema 构建辅助逻辑。 ***"""
+
 from __future__ import annotations
 
 from datetime import datetime, timezone
