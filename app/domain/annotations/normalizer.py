@@ -245,8 +245,6 @@ def _normalize_object_detection_item(item: dict, image_path: Path | None, raw_co
         "image_id": image_id,
         "class": class_name or "object",
         "bbox": bbox,
-        "category": class_name or "object",
-        "bounding_box": bbox,
         "sentences": sentences,
         "score": item.get("score"),
     }

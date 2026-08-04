@@ -5,29 +5,50 @@ from pathlib import Path
 
 def export_frontend_response(master_annotation: dict, uploaded_image_url: str, size_bytes: int) -> dict:
     image = master_annotation["image"]
-    return {
+    annotations = master_annotation["annotations"]
+    is_object_detection = all(
+        isinstance(annotation, dict) and annotation.get("annotation_type") == "object_detection"
+        for annotation in annotations
+    )
+
+    frontend_annotations = [
+        _build_frontend_annotation_payload(annotation)
+        for annotation in annotations
+    ]
+
+    payload = {
         "message": "Image uploaded and annotated successfully.",
         "filename": image["file_name"],
         "uploaded_image_url": uploaded_image_url,
         "size_bytes": size_bytes,
         "schema_version": master_annotation["schema_version"],
         "image_id": image["image_id"],
-        "caption": master_annotation["caption"],
-        "annotation_count": len(master_annotation["annotations"]),
+        "annotation_count": len(annotations),
         "validation": {
             "is_valid": master_annotation["validation"]["is_valid"],
             "errors": master_annotation["validation"]["errors"],
             "warnings": master_annotation["validation"]["warnings"],
         },
         "source": master_annotation["source"],
-        "annotations": master_annotation["annotations"],
+        "annotations": frontend_annotations,
     }
+
+    if not is_object_detection:
+        payload["caption"] = str(master_annotation.get("caption") or "").strip()
+
+    return payload
 
 
 def export_prediction_file(master_annotation: dict) -> dict:
     image = master_annotation["image"]
     generation = master_annotation["generation"]
-    return {
+    annotations = master_annotation.get("annotations", [])
+    is_object_detection = all(
+        isinstance(annotation, dict) and annotation.get("annotation_type") == "object_detection"
+        for annotation in annotations
+    )
+
+    payload = {
         "schema_version": master_annotation["schema_version"],
         "image_id": image["image_id"],
         "image": {
@@ -36,12 +57,16 @@ def export_prediction_file(master_annotation: dict) -> dict:
             "width": image["width"],
             "height": image["height"],
         },
-        "caption": master_annotation["caption"],
         "predictions": [
             _build_prediction_payload(annotation, image["image_id"], generation)
-            for annotation in master_annotation["annotations"]
+            for annotation in annotations
         ],
     }
+
+    if not is_object_detection:
+        payload["caption"] = str(master_annotation.get("caption") or "").strip()
+
+    return payload
 
 
 def export_ground_truth_record(master_annotation: dict) -> dict:
@@ -89,6 +114,32 @@ def export_evaluation_record(master_annotation: dict) -> dict:
     }
 
 
+def _build_frontend_annotation_payload(annotation: dict) -> dict:
+    if annotation.get("annotation_type") == "object_detection":
+        return {
+            "annotation_id": annotation["annotation_id"],
+            "image_id": annotation.get("image_id"),
+            "class": annotation.get("class"),
+            "bbox": annotation.get("bbox"),
+            "sentences": annotation.get("sentences"),
+            "score": annotation.get("score"),
+        }
+
+    return {
+        "annotation_id": annotation["annotation_id"],
+        "image_id": annotation.get("image_id"),
+        "subject": annotation.get("subject"),
+        "object": annotation.get("object"),
+        "predicate": annotation.get("predicate"),
+        "subject_bbox": annotation.get("subject_bbox"),
+        "object_bbox": annotation.get("object_bbox"),
+        "category": annotation.get("category"),
+        "bounding_box": annotation.get("bounding_box"),
+        "sentences": annotation.get("sentences"),
+        "score": annotation.get("score"),
+    }
+
+
 def _build_prediction_payload(annotation: dict, image_id: str, generation: dict) -> dict:
     if annotation.get("annotation_type") == "object_detection":
         return {
@@ -96,8 +147,6 @@ def _build_prediction_payload(annotation: dict, image_id: str, generation: dict)
             "image_id": image_id,
             "class": annotation.get("class"),
             "bbox": annotation.get("bbox"),
-            "category": annotation.get("category"),
-            "bounding_box": annotation.get("bounding_box"),
             "sentences": annotation.get("sentences"),
             "score": annotation.get("score"),
             "dataset_labels": annotation.get("dataset_labels"),

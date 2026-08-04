@@ -26,6 +26,21 @@ def validate_annotation(normalized_annotation: dict) -> dict:
             continue
 
         if annotation_type == "object_detection":
+            for forbidden_key in (
+                "subject",
+                "object",
+                "predicate",
+                "subject_bbox",
+                "object_bbox",
+                "category",
+                "bounding_box",
+            ):
+                if forbidden_key in annotation:
+                    errors.append(
+                        f"annotations[{index}].{forbidden_key} is not part of the object-detection schema. "
+                        "Use only annotation_id, image_id, class, bbox, sentences, and optional score."
+                    )
+
             annotation_id = annotation.get("annotation_id")
             if not isinstance(annotation_id, str) or not annotation_id.strip():
                 errors.append(f"annotations[{index}].annotation_id must be a non-empty string.")

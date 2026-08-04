@@ -513,32 +513,54 @@ function renderAnnotationBoxes(annotation, filter) {
 
 function renderBoxRect(annotation, bboxField, rectClassName, labelClassName, labelText) {
   const boundingBox = annotation?.[bboxField];
-  console.log("DRAWING BOX", boundingBox);
-  console.log("FIELD USED", bboxField);
-  console.log("ANNOTATION", annotation);
   if (!Array.isArray(boundingBox) || boundingBox.length !== 4) {
     return false;
   }
 
-const [x1, y1, x2, y2] = boundingBox.map((value) => Number(value));
+  const [x1, y1, x2, y2] = boundingBox.map((value) => Number(value));
+  const hasReliableImageSize = Number.isFinite(previewImage?.naturalWidth) && previewImage.naturalWidth > 0
+    && Number.isFinite(previewImage?.naturalHeight) && previewImage.naturalHeight > 0;
 
-const isNormalized = [x1, y1, x2, y2].every(
-  (value) => Number.isFinite(value) && value >= 0 && value <= 1
-);
+  let normalizedX1 = x1;
+  let normalizedY1 = y1;
+  let normalizedX2 = x2;
+  let normalizedY2 = y2;
 
-if (!isNormalized || x2 <= x1 || y2 <= y1) {
-  return false;
-}
+  const isNormalized = [x1, y1, x2, y2].every(
+    (value) => Number.isFinite(value) && value >= 0 && value <= 1
+  );
+
+  if (!isNormalized && hasReliableImageSize) {
+    normalizedX1 = x1 / previewImage.naturalWidth;
+    normalizedY1 = y1 / previewImage.naturalHeight;
+    normalizedX2 = x2 / previewImage.naturalWidth;
+    normalizedY2 = y2 / previewImage.naturalHeight;
+  }
+
+  if (
+    ![
+      normalizedX1,
+      normalizedY1,
+      normalizedX2,
+      normalizedY2,
+    ].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)
+  ) {
+    return false;
+  }
+
+  if (normalizedX2 <= normalizedX1 || normalizedY2 <= normalizedY1) {
+    return false;
+  }
 
   const rect = document.createElement("div");
   const isActive = annotation?.annotation_id === activeAnnotationId;
   rect.className = `bbox-rect ${rectClassName}${isActive ? " is-active" : " is-dimmed"}`;
   rect.dataset.annotationId = annotation?.annotation_id || "";
   rect.dataset.bboxType = bboxField;
-  rect.style.left = `${x1 * 100}%`;
-  rect.style.top = `${y1 * 100}%`;
-  rect.style.width = `${(x2 - x1) * 100}%`;
-  rect.style.height = `${(y2 - y1) * 100}%`;
+  rect.style.left = `${normalizedX1 * 100}%`;
+  rect.style.top = `${normalizedY1 * 100}%`;
+  rect.style.width = `${(normalizedX2 - normalizedX1) * 100}%`;
+  rect.style.height = `${(normalizedY2 - normalizedY1) * 100}%`;
 
   const label = document.createElement("span");
   label.className = `bbox-label ${labelClassName}`;

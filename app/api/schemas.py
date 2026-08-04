@@ -66,7 +66,7 @@ class UploadResponse(BaseModel):
     size_bytes: int = Field(examples=[83412])
     schema_version: str = Field(examples=["3.0.0"])
     image_id: str = Field(examples=["image-7"])
-    caption: str = Field(examples=["A person is riding a snowboard on a snowy slope."])
+    caption: str | None = Field(default=None, examples=["A person is riding a snowboard on a snowy slope."])
     annotation_count: int = Field(examples=[2])
     validation: ValidationSummary
     source: SourceSummary
