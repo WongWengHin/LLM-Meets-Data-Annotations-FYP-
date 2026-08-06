@@ -25,6 +25,7 @@ const jsonOutput = document.getElementById("jsonOutput");
 const jsonViewButtons = Array.from(document.querySelectorAll("[data-json-view]"));
 const downloadButton = document.getElementById("downloadButton");
 const uploadZone = document.querySelector(".upload-zone");
+const promptModeButtons = Array.from(document.querySelectorAll("[data-prompt-mode]"));
 const bboxFilterButtons = Array.from(document.querySelectorAll("[data-bbox-filter]"));
 const artifactFrontend = document.getElementById("artifactFrontend");
 const artifactPrediction = document.getElementById("artifactPrediction");
@@ -43,6 +44,7 @@ let previewObjectUrl = null;
 let activeBboxFilter = "person";
 let activeAnnotationId = null;
 let activeJsonView = "frontend";
+let activePromptMode = "object_detection";
 
 function renderResult(result) {
   const annotations = getAnnotations(result);
@@ -594,6 +596,13 @@ function setActiveBboxFilter(filter) {
   }
 }
 
+function setActivePromptMode(mode) {
+  activePromptMode = mode;
+  promptModeButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.promptMode === mode);
+  });
+}
+
 resetPreview();
 updateJsonViewButtons();
 renderValidation(null);
@@ -656,6 +665,7 @@ function handleSelectedFile(file) {
 async function uploadImage(file) {
   const formData = new FormData();
   formData.append("image", file);
+  formData.append("prompt_mode", activePromptMode);
 
   const response = await fetch("/upload", {
     method: "POST",
@@ -719,6 +729,12 @@ jsonViewButtons.forEach((button) => {
     activeJsonView = button.dataset.jsonView || "frontend";
     updateJsonViewButtons();
     renderJsonPanel(currentResult);
+  });
+});
+
+promptModeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setActivePromptMode(button.dataset.promptMode || "object_detection");
   });
 });
 

@@ -5,7 +5,7 @@ from __future__ import annotations
 import traceback
 from pathlib import Path
 
-from fastapi import APIRouter, File, Request, UploadFile
+from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import JSONResponse
 
 from app.agent.orchestrator import AnnotationAgent
@@ -45,6 +45,7 @@ async def upload_image(
         alias="uploaded_image",
         description="Legacy image file field name.",
     ),
+    prompt_mode: str | None = Form(default=None, alias="prompt_mode"),
 ) -> UploadResponse | JSONResponse:
     config = _get_config(request)
     try:
@@ -65,8 +66,9 @@ async def upload_image(
         print(f"Saved upload: {destination.name}")
         print(f"[upload] Stored file at {destination}")
         print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
+        selected_prompt_mode = _normalize_prompt_mode(prompt_mode)
         agent = AnnotationAgent(config)
-        response_payload = agent.annotate_image(destination)
+        response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
         return UploadResponse.model_validate(response_payload)
     except ValueError as exc:
         return _json_error_response(exc, status_code=400, log_traceback=False)
@@ -85,6 +87,13 @@ def _unique_destination(upload_dir: Path, filename: str) -> Path:
         index += 1
 
     return candidate
+
+
+def _normalize_prompt_mode(prompt_mode: str | None) -> str:
+    normalized_mode = (prompt_mode or "object_detection").strip().lower()
+    if normalized_mode in {"hoi", "human-object interaction", "human_object_interaction"}:
+        return "hoi"
+    return "object_detection"
 
 
 def _get_config(request: Request) -> AppConfig:

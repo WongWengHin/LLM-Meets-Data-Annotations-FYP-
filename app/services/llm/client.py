@@ -18,6 +18,7 @@ from app.services.prompts.image_annotation_prompts import get_annotation_prompts
 def request_image_annotation(
     image_path: Path,
     llm_config: LLMConfig,
+    prompt_mode: str | None = None,
 ) -> tuple[str, str]:
     if not llm_config.api_key:
         raise RuntimeError(
@@ -25,7 +26,7 @@ def request_image_annotation(
             "<PROVIDER>_API_KEY, or keep using the legacy ANNOTATION_API_KEY."
         )
 
-    active_prompt_mode, system_prompt, user_prompt = get_annotation_prompts(None)
+    active_prompt_mode, system_prompt, user_prompt = get_annotation_prompts(prompt_mode)
 
     image_bytes = image_path.read_bytes()
     image_base64 = base64.b64encode(image_bytes).decode("utf-8")

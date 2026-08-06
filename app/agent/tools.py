@@ -1,5 +1,3 @@
-"""*** 标注 agent 调用的确定性工具封装层。 ***"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -22,8 +20,8 @@ def run_preprocess_tool(image_path: Path, config: AppConfig) -> InferenceImageRe
     return prepare_inference_image(image_path, config.paths.inference_images_dir, config.image_preprocess)
 
 
-def run_llm_tool(inference_image_path: Path, config: AppConfig) -> tuple[str, str]:
-    return request_image_annotation(inference_image_path, config.llm)
+def run_llm_tool(inference_image_path: Path, config: AppConfig, prompt_mode: str | None = None) -> tuple[str, str]:
+    return request_image_annotation(inference_image_path, config.llm, prompt_mode=prompt_mode)
 
 
 def run_normalize_tool(raw_model_output: str, image_path: Path) -> dict:

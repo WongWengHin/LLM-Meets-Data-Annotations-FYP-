@@ -1,5 +1,3 @@
-"""*** 单编排 agent 的图像标注与导出工作流实现。 ***"""
-
 from __future__ import annotations
 
 from datetime import datetime, timezone
@@ -25,9 +23,10 @@ class AnnotationAgent:
     def __init__(self, config: AppConfig) -> None:
         self.config = config
 
-    def annotate_image(self, image_path: Path) -> dict:
+    def annotate_image(self, image_path: Path, prompt_mode: str = "object_detection") -> dict:
         state = create_initial_task_state(image_path)
         state.status = "running"
+        state.prompt_mode = prompt_mode
         state.artifacts = self._initial_artifact_map(build_artifact_paths(self.config, image_path.stem))
         append_trace_event(state, stage="created", status="success", details={"image": image_path.name})
         self._persist_state(state)
@@ -127,7 +126,7 @@ class AnnotationAgent:
 
     def _annotate(self, state: AnnotationTaskState, inference_image_path: Path) -> None:
         state.stage = "annotate"
-        prompt_mode, raw_model_output = run_llm_tool(inference_image_path, self.config)
+        prompt_mode, raw_model_output = run_llm_tool(inference_image_path, self.config, prompt_mode=state.prompt_mode)
         state.prompt_mode = prompt_mode
         state.raw_model_output = raw_model_output
         append_trace_event(
