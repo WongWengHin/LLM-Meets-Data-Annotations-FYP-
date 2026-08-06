@@ -31,6 +31,7 @@ class AppPaths:
     base_dir: Path
     frontend_dir: Path
     data_dir: Path
+    db_path: Path
     uploads_dir: Path
     inference_images_dir: Path
     raw_outputs_dir: Path
@@ -91,6 +92,7 @@ def build_app_paths(base_dir: Path) -> AppPaths:
         base_dir=base_dir,
         frontend_dir=base_dir / "frontend",
         data_dir=data_dir,
+        db_path=data_dir / "annotations.db",
         uploads_dir=data_dir / "uploads",
         inference_images_dir=data_dir / "inference_images",
         raw_outputs_dir=data_dir / "raw_outputs",

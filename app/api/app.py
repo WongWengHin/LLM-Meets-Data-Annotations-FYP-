@@ -7,10 +7,13 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core.config import AppConfig
+from app.core.database import init_database
 from app.api.routes import router
 
 
 def create_app(config: AppConfig) -> FastAPI:
+    init_database(config.paths.db_path)
+
     app = FastAPI(
         title="Large Language Meets Data Annotation",
         description=(

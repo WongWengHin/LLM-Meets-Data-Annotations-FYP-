@@ -12,6 +12,7 @@ from app.agent.orchestrator import AnnotationAgent
 from app.api.responses import format_exception_message, format_exception_status
 from app.api.schemas import ErrorResponse, HealthResponse, UploadResponse
 from app.core.config import AppConfig
+from app.core.database import save_annotation_result, save_image
 
 router = APIRouter()
 
@@ -69,6 +70,28 @@ async def upload_image(
         selected_prompt_mode = _normalize_prompt_mode(prompt_mode)
         agent = AnnotationAgent(config)
         response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
+
+        save_image(
+            config.paths.db_path,
+            image_id=destination.stem,
+            filename=destination.name,
+            file_data=file_bytes,
+            size_bytes=len(file_bytes),
+        )
+        agent_info = response_payload.get("agent", {})
+        save_annotation_result(
+            config.paths.db_path,
+            image_id=destination.stem,
+            task_id=agent_info.get("task_id", ""),
+            task_status=agent_info.get("task_status", ""),
+            strategy=agent_info.get("strategy"),
+            prompt_mode=selected_prompt_mode,
+            attempt_count=agent_info.get("attempt_count", 0),
+            review_required=agent_info.get("review_required", False),
+            review_reason=agent_info.get("review_reason"),
+            annotation_result=response_payload,
+        )
+
         return UploadResponse.model_validate(response_payload)
     except ValueError as exc:
         return _json_error_response(exc, status_code=400, log_traceback=False)
