@@ -23,7 +23,6 @@ const promptModeButtons = Array.from(document.querySelectorAll("[data-prompt-mod
 const bboxFilterButtons = Array.from(document.querySelectorAll("[data-bbox-filter]"));
 const artifactFrontend = document.getElementById("artifactFrontend");
 const artifactPrediction = document.getElementById("artifactPrediction");
-const artifactEvaluation = document.getElementById("artifactEvaluation");
 const artifactRaw = document.getElementById("artifactRaw");
 const artifactMaster = document.getElementById("artifactMaster");
 const artifactNormalized = document.getElementById("artifactNormalized");
@@ -37,7 +36,7 @@ let currentResult = null;
 let previewObjectUrl = null;
 let activeBboxFilter = "person";
 let activeAnnotationId = null;
-let activeJsonView = "frontend";
+let activeJsonView = "prediction";
 let activePromptMode = "object_detection";
 
 function renderResult(result) {
@@ -76,7 +75,7 @@ function setErrorState(message) {
   downloadButton.disabled = true;
   currentResult = null;
   activeAnnotationId = null;
-  activeJsonView = "frontend";
+  activeJsonView = "prediction";
   updateJsonViewButtons();
   renderArtifacts(null);
   hideBoundingBox();
@@ -167,30 +166,6 @@ function getPredictionJson(result) {
   };
 }
 
-function getEvaluationJson(result) {
-  if (!result) {
-    return { message: "Evaluation export not loaded yet.", artifact: "not loaded" };
-  }
-
-  return {
-    image_id: result.image_id || null,
-    bbox_export: getAnnotations(result).map((annotation) => ({
-      image_id: result.image_id || null,
-      annotation_id: annotation.annotation_id,
-      category: annotation.category,
-      bounding_box: annotation.bounding_box,
-      bbox: annotation.bbox ?? null,
-      score: annotation.score ?? null
-    })),
-    text_export: getAnnotations(result).map((annotation) => ({
-      image_id: result.image_id || null,
-      annotation_id: annotation.annotation_id,
-      category: annotation.category,
-      sentences: annotation.sentences
-    })),
-    artifact_path: result?.artifacts?.evaluation_file || "not loaded"
-  };
-}
 
 function renderSummary(result) {
   const annotations = getAnnotations(result);
@@ -322,8 +297,6 @@ function renderJsonPanel(result) {
   let payload = result;
   if (activeJsonView === "prediction") {
     payload = getPredictionJson(result);
-  } else if (activeJsonView === "evaluation") {
-    payload = getEvaluationJson(result);
   }
 
   jsonOutput.textContent = JSON.stringify(payload || { message: "No data yet." }, null, 2);
@@ -332,7 +305,6 @@ function renderJsonPanel(result) {
 function renderArtifacts(result) {
   artifactFrontend.textContent = result?.uploaded_image_url || "not loaded";
   artifactPrediction.textContent = result?.artifacts?.prediction_file || "not loaded";
-  artifactEvaluation.textContent = result?.artifacts?.evaluation_file || "not loaded";
   artifactRaw.textContent = result?.artifacts?.raw_output_file || "not loaded";
   artifactMaster.textContent = result?.artifacts?.master_annotation_file || "not loaded";
   artifactNormalized.textContent = result?.artifacts?.normalized_output_file || "not loaded";
@@ -572,7 +544,7 @@ function handleSelectedFile(file) {
   annotationList.innerHTML = `<div class="empty-state"><p>No annotation result yet.</p><span>Upload an image and run the pipeline to inspect instance-level output.</span></div>`;
   validationSummary.textContent = "No validation result";
   validationPanel.innerHTML = `<div class="empty-state empty-state-compact"><p>No validation result yet.</p></div>`;
-  activeJsonView = "frontend";
+  activeJsonView = "prediction";
   updateJsonViewButtons();
 
   const emptyPayload = {
