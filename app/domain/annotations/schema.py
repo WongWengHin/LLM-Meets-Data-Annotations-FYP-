@@ -23,7 +23,7 @@ def build_master_annotation(
     normalized_annotations = normalized_annotation.get("annotations", [])
     annotations = [
         {
-            "annotation_id": f"{image_id}_{index:03d}",
+            # "annotation_id": f"{image_id}_{index:03d}",
             **annotation,
         }
         for index, annotation in enumerate(normalized_annotations, start=1)

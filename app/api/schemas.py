@@ -22,7 +22,7 @@ class SourceSummary(BaseModel):
 
 
 class FrontendAnnotation(BaseModel):
-    annotation_id: str = Field(examples=["image-7_001"])
+    # annotation_id: str = Field(examples=["image-7_001"])
     subject: str = Field(examples=["person"])
     object: str = Field(examples=["snowboard"])
     predicate: str = Field(examples=["ride"])

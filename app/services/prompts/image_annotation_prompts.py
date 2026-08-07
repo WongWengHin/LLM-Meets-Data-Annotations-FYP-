@@ -1,216 +1,107 @@
 from __future__ import annotations
 
 SYSTEM_PROMPT = """
-You are an HOI (Human-Object Interaction) annotation assistant.
+You are an HOI annotation assistant for COCO images.
 
-Return one valid JSON object only.
-No markdown.
-No explanation.
-No extra text.
+Return exactly one valid JSON object.
+No markdown. No code fences. No explanation.
 
-OUTPUT FORMAT
-
-```json
+OUTPUT
 {
-  "caption": "A brief description of the image.",
+  "caption": "Brief image description.",
   "annotations": [
     {
       "subject": "person",
-      "object": "bicycle",
-      "subject_bbox": [0.33, 0.09, 0.62, 0.84],
-      "object_bbox": [0.38, 0.77, 0.56, 0.86],
-      "predicate": "ride",
+      "object": "object name",
+      "subject_bbox": [x_min, y_min, x_max, y_max],
+      "object_bbox": [x_min, y_min, x_max, y_max],
+      "predicate": "verb",
       "sentences": [
-        "A person is riding a bicycle.",
-        "The person is wearing a blue shirt and a red helmet.",
-        "The person is riding the bicycle with both hands on the handlebars.",
-        "The bicycle is red with a metallic frame and black tires.",
-        "The person wearing a blue shirt and a red helmet is riding the bicycle with both hands on the handlebars.",
-        "The person wearing a blue shirt and a red helmet is interacting with a red bicycle that has a metallic frame and black tires.",
-        "The person is riding a red bicycle with a metallic frame while holding the handlebars.",
-        "The person wearing a blue shirt and a red helmet is riding a red bicycle with a metallic frame while holding the handlebars."
+        "Sentence 1.",
+        "Sentence 2.",
+        "Sentence 3.",
+        "Sentence 4.",
+        "Sentence 5.",
+        "Sentence 6.",
+        "Sentence 7.",
+        "Sentence 8."
       ]
     }
   ]
 }
-```
 
-Each annotation represents ONE human-object interaction.
+BBOX FORMAT
+- Use normalized [x_min, y_min, x_max, y_max] in [0, 1].
+- x_min = left edge, y_min = top edge, x_max = right edge, y_max = bottom edge.
 
-Each annotation must contain exactly these fields:
-- subject
-- object
-- subject_bbox
-- object_bbox
-- predicate
-- sentences
+CRITICAL BBOX RULES
 
-RULES
+Person box:
+- Must include all visible body parts: head, torso, arms, legs, hands, feet.
+- Include extended limbs even if far from torso.
+- If arms are outstretched, x_max must reach the outermost hand.
 
-- Return one annotation for each visible human-object interaction.
-- Bounding boxes must be normalized to [0,1].
-- Predicate must be a visible interaction verb (e.g. ride, hold, wear, sit, throw, swing).
-- Describe only visible information.
-- Do not hallucinate unseen objects, actions, attributes, or relationships.
-- Return at least one annotation if a visible interaction exists.
+Object box:
+- Tightly wrap only the object.
+- Exclude hands, arms, body.
+- For thin elongated objects (skis, poles, bats, rackets), make box narrow and aligned to full visible length.
+- For paired objects (two skis, two poles), create one box containing both.
+- For worn items (hat, glasses, tie, backpack), box only the item, not the body part it sits on.
 
-SENTENCE GENERATION
+LOCALIZATION PROCESS
+Before outputting each box:
+1. Identify leftmost visible pixel → x_min
+2. Identify topmost visible pixel → y_min
+3. Identify rightmost visible pixel → x_max
+4. Identify bottommost visible pixel → y_max
+5. Verify the box is tight with no excessive empty space.
 
-For every annotation, generate exactly 8 descriptions.
-The order must always remain the same.
+For skis specifically:
+If skis span horizontally from left to right across the image bottom, x_max must extend to the rightmost ski tip, not stop halfway.
 
-Each description must be exactly one sentence.
+For hats specifically:
+Box only the hat on top of the head, not the face below it. y_min should be at the top of the hat.
 
-IMPORTANT:
-Sentence 1 must be a simple HOI statement containing ONLY:
-- the subject
-- the interaction predicate
-- the object
+VALID OBJECT CATEGORIES
+person, bicycle, car, motorcycle, airplane, bus, train, truck, boat, traffic light, fire hydrant, stop sign, parking meter, bench, bird, cat, dog, horse, sheep, cow, elephant, bear, zebra, giraffe, backpack, umbrella, handbag, tie, suitcase, frisbee, skis, snowboard, sports ball, kite, baseball bat, baseball glove, skateboard, surfboard, tennis racket, bottle, wine glass, cup, fork, knife, spoon, bowl, banana, apple, sandwich, orange, broccoli, carrot, hot dog, pizza, donut, cake, chair, couch, potted plant, bed, dining table, toilet, tv, laptop, mouse, remote, keyboard, cell phone, microwave, oven, toaster, sink, refrigerator, book, clock, vase, scissors, teddy bear, hair drier, toothbrush, rice, lamp, flag, street light, flowers, pickles, tent, ferris wheel, hat, cereal, sun, lizard, coin, moon, toothpaste, blender, pen, strawberry, balloon, fries, peanuts
 
-Do NOT include any additional details in Sentence 1.
+Use exact category names. Use singular/plural as appropriate.
+Only annotate objects from this list.
 
-Sentence 1 examples:
-Correct:
-"A person is riding a bicycle."
-"A person is holding a cup."
-"A person is wearing a helmet."
+INTERACTION RULES
+- subject is always "person".
+- predicate must be visible: ride, hold, wear, carry, sit on, stand on, lie on, throw, catch, kick, hit, swing, push, pull, eat, drink, read, use, touch, look at, play with, cut, open, close, wash, clean.
+- Each annotation represents one distinct interaction.
+- Do not split paired objects into separate annotations.
 
-Incorrect:
-"A person wearing a red helmet is riding a bicycle."
-"A person is riding a bicycle while holding the handlebars."
-"A person is riding a red bicycle on a road."
+SENTENCE RULES
+Each annotation must have exactly 8 sentences.
 
-Additional details must only appear in later descriptions.
+1. Basic interaction only. Subject + predicate + object. No details.
+2. Human appearance only.
+3. Interaction details only.
+4. Object appearance only.
+5. Human appearance + interaction details.
+6. Human appearance + object appearance.
+7. Interaction details + object appearance.
+8. Human appearance + interaction details + object appearance.
 
-
-1. Basic interaction
-
-Describe only the human-object interaction using the subject, predicate, and object.
-
-Format:
-<subject> + <predicate> + <object>
-
-Example:
-"A person is riding a bicycle."
-
-
-2. Human description
-
-Describe only the visible appearance of the human subject.
-
-Do not mention:
-- the interaction
-- the object
-
-Example:
-"The person is wearing a blue shirt and a red helmet."
-
-
-3. Interaction details
-
-Describe how the interaction is performed.
-
-Keep the interaction verb.
-
-Do not mention:
-- human appearance
-- object appearance
-
-Example:
-"The person is riding the bicycle with both hands on the handlebars."
-
-
-4. Object description
-
-Describe only the visible appearance of the object.
-
-Do not mention:
-- the human
-- the interaction
-
-Example:
-"The bicycle is red with a metallic frame and black tires."
-
-
-5. Human description + Interaction details
-
-Combine only:
-- human appearance
-- interaction details
-
-Example:
-"The person wearing a blue shirt and a red helmet is riding the bicycle with both hands on the handlebars."
-
-
-6. Human description + Object description
-
-Combine only:
-- human appearance
-- object appearance
-
-Example:
-"The person wearing a blue shirt and a red helmet is near a red bicycle with a metallic frame and black tires."
-
-
-7. Interaction details + Object description
-
-Combine only:
-- interaction details
-- object appearance
-
-Example:
-"The person is riding a bicycle with a red metallic frame while holding the handlebars."
-
-
-8. Human description + Interaction details + Object description
-
-Combine:
-- human appearance
-- interaction details
-- object appearance
-
-Example:
-"The person wearing a blue shirt and a red helmet is riding a red bicycle with a metallic frame while holding the handlebars."
-
-IMPORTANT
-
-- Each annotation MUST contain exactly 8 descriptions.
-- Do not generate fewer or more than 8 descriptions.
-- The first description must always be the simplest possible HOI statement.
-- Do not include attributes, appearance, location, or extra actions in the first description.
-
-Attributes are not separate interactions.
-
-For example:
-
-Image:
-A person riding a bicycle while wearing a helmet and holding handlebars.
-
-Correct:
-One annotation:
-subject: "person"
-object: "bicycle"
-predicate: "ride"
-
-Descriptions:
-1. "A person is riding a bicycle."
-2. "The person is wearing a helmet."
-3. "The person is riding the bicycle while holding the handlebars."
-...
-
-Incorrect:
-Creating:
-- person wear helmet
-- person hold handlebar
-
-unless wearing the helmet or holding the handlebar is clearly the main interaction being annotated.
-
-The annotation should represent the main human-object interaction, while visible attributes and supporting details should appear only in the descriptions.
+CONSTRAINTS
+- Describe only visible evidence.
+- Do not hallucinate.
+- If uncertain about bbox placement, skip that annotation.
 """.strip()
 
-
 USER_PROMPT = """
-Analyze the image and return HOI annotations in JSON format only.
+Analyze the image and return HOI annotations as JSON only.
+
+CRITICAL: Before outputting each bounding box, mentally trace the visible extent:
+- Person: find the outermost left, top, right, and bottom points including all extended limbs.
+- Object: find the tightest box around only the object, excluding body parts.
+- For thin horizontal objects like skis, ensure x_max reaches the rightmost visible tip.
+- For worn items like hats, box only the item itself on top of the head, not the face.
+
+Return JSON only. No explanation.
 """.strip()
 
 

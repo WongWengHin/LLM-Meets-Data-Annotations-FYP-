@@ -164,7 +164,7 @@ function getPredictionJson(result) {
   return {
     image_id: result.image_id || null,
     predictions: getAnnotations(result).map((annotation) => ({
-      annotation_id: annotation.annotation_id,
+      // annotation_id: annotation.annotation_id,
       category: annotation.category,
       bounding_box: annotation.bounding_box,
       sentences: annotation.sentences,
@@ -183,14 +183,14 @@ function getEvaluationJson(result) {
     image_id: result.image_id || null,
     bbox_export: getAnnotations(result).map((annotation) => ({
       image_id: result.image_id || null,
-      annotation_id: annotation.annotation_id,
+      // annotation_id: annotation.annotation_id,
       category: annotation.category,
       bounding_box: annotation.bounding_box,
       score: annotation.score ?? null
     })),
     text_export: getAnnotations(result).map((annotation) => ({
       image_id: result.image_id || null,
-      annotation_id: annotation.annotation_id,
+      // annotation_id: annotation.annotation_id,
       category: annotation.category,
       sentences: annotation.sentences
     })),
@@ -267,7 +267,8 @@ function renderAnnotationList(annotations) {
 
     const heading = document.createElement("div");
     heading.className = "annotation-item-header";
-    heading.innerHTML = `<strong>${annotation.annotation_id}</strong><span>${annotation.category}</span>`;
+    // heading.innerHTML = `<strong>${annotation.annotation_id}</strong><span>${annotation.category}</span>`;
+    heading.innerHTML = `<strong>${annotation.category}</strong>`;
 
     const bbox = document.createElement("code");
     bbox.className = "annotation-bbox";
@@ -471,7 +472,8 @@ function renderBoxRect(annotation, bboxField, rectClassName, labelClassName, lab
 
   const label = document.createElement("span");
   label.className = `bbox-label ${labelClassName}`;
-  label.textContent = `${annotation?.annotation_id || "instance"} - ${labelText}`;
+  // label.textContent = `${annotation?.annotation_id || "instance"} - ${labelText}`;
+  label.textContent = labelText;
   rect.appendChild(label);
   bboxOverlay.appendChild(rect);
   return true;

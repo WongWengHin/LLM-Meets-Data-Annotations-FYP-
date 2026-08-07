@@ -5,9 +5,7 @@ from __future__ import annotations
 import base64
 import json
 from pathlib import Path
-from socket import timeout as SocketTimeout
-from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+import requests
 
 from app.core.config import LLMConfig
 from app.core.errors import ExternalAPIError
@@ -61,51 +59,41 @@ def request_image_annotation(
         # Prefer direct answer content over reasoning-only output for local Qwen models.
         payload["think"] = False
 
-    request = Request(
-        url=f"{llm_config.base_url.rstrip('/')}/chat/completions",
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {llm_config.api_key}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
+    request_url = f"{llm_config.base_url.rstrip('/')}/chat/completions"
+
+    print(f"[llm] Sending request to {request_url}")
 
     try:
-        request_url = f"{llm_config.base_url.rstrip('/')}/chat/completions"
-        print(f"[llm] Sending request to {request_url}")
-        with urlopen(request, timeout=llm_config.timeout_seconds) as response:
-            response_payload = json.loads(response.read().decode("utf-8"))
-        print("[llm] Response received from LLM provider.")
-    except HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="replace")
-        print(
-            "[llm] Provider returned HTTP error: "
-            f"provider={llm_config.provider}, "
-            f"status={exc.code}, "
-            f"url={request.full_url}"
+        response = requests.post(
+            request_url,
+            json=payload,
+            headers={
+                "Authorization": f"Bearer {llm_config.api_key}",
+                "Content-Type": "application/json",
+            },
+            timeout=llm_config.timeout_seconds,
         )
-        print("[llm] Raw error body:")
-        print(_truncate_for_log(body))
-        raise ExternalAPIError(exc.code, body) from exc
-    except URLError as exc:
-        print(
-            "[llm] Provider connection failed: "
-            f"provider={llm_config.provider}, "
-            f"url={request.full_url}, "
-            f"reason={exc.reason}"
-        )
-        raise RuntimeError(f"Annotation API connection failed: {exc.reason}") from exc
-    except SocketTimeout as exc:
-        print(
-            "[llm] Provider request timed out: "
-            f"provider={llm_config.provider}, "
-            f"url={request.full_url}, "
-            f"timeout={llm_config.timeout_seconds}s"
-        )
+
+        print("Status Code:", response.status_code)
+        print("Response Headers:", response.headers)
+        print("Response Body:", response.text)
+
+        response.raise_for_status()
+
+        response_payload = response.json()
+
+    except requests.exceptions.HTTPError as exc:
+        print("[llm] HTTP Error:", response.status_code)
+        print(response.text)
+        raise ExternalAPIError(response.status_code, response.text) from exc
+
+    except requests.exceptions.Timeout as exc:
         raise RuntimeError(
-            f"Annotation API request timed out after {llm_config.timeout_seconds} seconds."
+            f"Request timed out after {llm_config.timeout_seconds} seconds."
         ) from exc
+
+    except requests.exceptions.RequestException as exc:
+        raise RuntimeError(f"Request failed: {exc}") from exc
 
     print("[llm] Raw provider payload:")
     print(json.dumps(response_payload, ensure_ascii=False, indent=2))

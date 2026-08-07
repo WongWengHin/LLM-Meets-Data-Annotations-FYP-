@@ -41,7 +41,7 @@ def export_prediction_file(master_annotation: dict) -> dict:
         "caption": master_annotation["caption"],
         "predictions": [
             {
-                "annotation_id": annotation["annotation_id"],
+                # "annotation_id": annotation["annotation_id"],
                 "image_id": image["image_id"],
                 "subject": annotation["subject"],
                 "object": annotation["object"],
@@ -83,7 +83,7 @@ def export_ground_truth_record(master_annotation: dict) -> dict:
         "caption": master_annotation["caption"],
         "annotations": [
             {
-                "id": annotation["annotation_id"],
+                # "id": annotation["annotation_id"],
                 "image_id": image["image_id"],
                 "subject": annotation["subject"],
                 "object": annotation["object"],
@@ -118,7 +118,7 @@ def export_evaluation_record(master_annotation: dict) -> dict:
         "bbox_export": [
             {
                 "image_id": master_annotation["image"]["image_id"],
-                "annotation_id": annotation["annotation_id"],
+                # "annotation_id": annotation["annotation_id"],
                 "subject": annotation["subject"],
                 "object": annotation["object"],
                 "predicate": annotation["predicate"],
@@ -134,7 +134,7 @@ def export_evaluation_record(master_annotation: dict) -> dict:
         "text_export": [
             {
                 "image_id": master_annotation["image"]["image_id"],
-                "annotation_id": annotation["annotation_id"],
+                # "annotation_id": annotation["annotation_id"],
                 "subject": annotation["subject"],
                 "object": annotation["object"],
                 "predicate": annotation["predicate"],
