@@ -583,11 +583,6 @@ h3 {
   gap: 12px;
 }
 
-.agent-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
 
 .annotation-item {
   display: grid;
@@ -808,8 +803,7 @@ h3 {
   }
 
   .artifact-panel,
-  .metric-row-secondary,
-  .agent-grid {
+  .metric-row-secondary {
     grid-template-columns: 1fr;
   }
 }

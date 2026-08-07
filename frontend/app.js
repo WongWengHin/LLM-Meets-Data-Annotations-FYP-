@@ -10,12 +10,6 @@ const activeBoundingBoxValue = document.getElementById("activeBoundingBoxValue")
 const personCountValue = document.getElementById("personCountValue");
 const objectCountValue = document.getElementById("objectCountValue");
 const warningCountValue = document.getElementById("warningCountValue");
-const agentHint = document.getElementById("agentHint");
-const agentStatusValue = document.getElementById("agentStatusValue");
-const agentStrategyValue = document.getElementById("agentStrategyValue");
-const agentAttemptValue = document.getElementById("agentAttemptValue");
-const agentReviewValue = document.getElementById("agentReviewValue");
-const agentReviewPanel = document.getElementById("agentReviewPanel");
 const sentenceList = document.getElementById("sentenceList");
 const annotationList = document.getElementById("annotationList");
 const annotationHint = document.getElementById("annotationHint");
@@ -54,7 +48,6 @@ function renderResult(result) {
   }
 
   renderSummary(result);
-  renderAgentSummary(result?.agent);
   renderAnnotationList(annotations);
   renderValidation(result?.validation);
   renderSentencePanel(getActiveAnnotation(annotations));
@@ -75,12 +68,6 @@ function setErrorState(message) {
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
-  agentHint.textContent = "No agent run yet";
-  agentStatusValue.textContent = "-";
-  agentStrategyValue.textContent = "-";
-  agentAttemptValue.textContent = "-";
-  agentReviewValue.textContent = "-";
-  agentReviewPanel.innerHTML = "<p>No review signal yet.</p>";
   annotationHint.textContent = "No annotation result";
   annotationList.innerHTML = `<div class="empty-state"><p>Annotation request failed.</p><span>${message}</span></div>`;
   validationSummary.textContent = "Error returned";
@@ -220,42 +207,6 @@ function renderSummary(result) {
   activeBoundingBoxValue.textContent = formatAnnotationBoxes(activeAnnotation || annotations[0] || null);
 }
 
-function formatAgentText(value) {
-  if (value === null || value === undefined || value === "") {
-    return "-";
-  }
-  return String(value);
-}
-
-function renderAgentSummary(agent) {
-  if (!agent) {
-    agentHint.textContent = "No agent run yet";
-    agentStatusValue.textContent = "-";
-    agentStrategyValue.textContent = "-";
-    agentAttemptValue.textContent = "-";
-    agentReviewValue.textContent = "-";
-    agentReviewPanel.innerHTML = "<p>No review signal yet.</p>";
-    return;
-  }
-
-  agentHint.textContent = agent.task_id || "Agent run recorded";
-  agentStatusValue.textContent = formatAgentText(agent.task_status);
-  agentStrategyValue.textContent = formatAgentText(agent.strategy);
-  agentAttemptValue.textContent = formatAgentText(agent.attempt_count);
-  agentReviewValue.textContent = agent.review_required ? "Yes" : "No";
-
-  if (agent.review_reason) {
-    agentReviewPanel.innerHTML = `<p>Review reason</p><span>${agent.review_reason}</span>`;
-    return;
-  }
-
-  if (agent.review_required) {
-    agentReviewPanel.innerHTML = "<p>Review required.</p><span>The agent marked this run for manual inspection.</span>";
-    return;
-  }
-
-  agentReviewPanel.innerHTML = "<p>No review required.</p><span>The agent completed the run without escalation.</span>";
-}
 
 function renderAnnotationList(annotations) {
   annotationList.innerHTML = "";
@@ -607,7 +558,6 @@ resetPreview();
 updateJsonViewButtons();
 renderValidation(null);
 renderArtifacts(null);
-renderAgentSummary(null);
 
 function handleSelectedFile(file) {
   currentResult = null;
@@ -617,7 +567,6 @@ function handleSelectedFile(file) {
   personCountValue.textContent = "-";
   objectCountValue.textContent = "-";
   warningCountValue.textContent = "-";
-  renderAgentSummary(null);
   sentenceList.innerHTML = "<li>No annotation selected yet.</li>";
   annotationHint.textContent = "No annotation result yet";
   annotationList.innerHTML = `<div class="empty-state"><p>No annotation result yet.</p><span>Upload an image and run the pipeline to inspect instance-level output.</span></div>`;
