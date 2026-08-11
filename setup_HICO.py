@@ -70,8 +70,8 @@ for i in range(num_images):
     # ONLY process your 100 manually annotated images
     # --------------------------------------------------------------
 
-    if filename not in manual_filenames:
-        continue
+    # if filename not in manual_filenames:
+    #     continue
 
     print(f"Processing {imported_count + 1}/100: {filename}")
 
@@ -115,7 +115,10 @@ for i in range(num_images):
     # -----------------------
 
     hois = sample_struct["hoi"][0]
-
+    
+    # Store all predicates for this image
+    predicates = []
+    
     for hoi in hois:
 
         invisible = int(hoi["invis"][0, 0])
@@ -124,6 +127,12 @@ for i in range(num_images):
             continue
 
         action_id = int(hoi["id"][0, 0])
+
+        # Get the action record
+        action = list_action[action_id - 1, 0]
+
+        # Extract the verb as a normal Python string
+        predicate = str(action["vname"][0])
 
         # -----------------------
         # Human boxes
@@ -175,18 +184,18 @@ for i in range(num_images):
                 annotation = sentence_lookup[filename]["annotations"][0]
                 sentences = annotation["sentences"]
 
-            extra_fields = {
-                "sentence_level_1": sentences[0],
-                "sentence_level_2": sentences[1],
-                "sentence_level_3": sentences[2],
-                "sentence_level_4": sentences[3],
-                "sentence_level_5": sentences[4],
-                "sentence_level_6": sentences[5],
-                "sentence_level_7": sentences[6],
-                "predicate": annotation["predicate"],
-                "subject": annotation["subject"],
-                "object": annotation["object"],
-            }
+                extra_fields = {
+                    "sentence_level_1": sentences[0],
+                    "sentence_level_2": sentences[1],
+                    "sentence_level_3": sentences[2],
+                    "sentence_level_4": sentences[3],
+                    "sentence_level_5": sentences[4],
+                    "sentence_level_6": sentences[5],
+                    "sentence_level_7": sentences[6],
+                    "predicate": annotation["predicate"],
+                    "subject": annotation["subject"],
+                    "object": annotation["object"],
+                }
 
             detections.append(
                 fo.Detection(
@@ -290,6 +299,7 @@ for i in range(num_images):
     # ------------------------------------------------------
     # Add detections
     # ------------------------------------------------------    
+    sample["predicates"] = predicates
     sample["ground_truth"] = fo.Detections(
         detections=detections
     )
