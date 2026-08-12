@@ -564,13 +564,695 @@ HICO_SENTENCES_100 = {
                 {
                     "subject": "person",
                     "object": "backpack",
-                    "subject_bbox": [0.266, 0.073, 0.530, 0.933],
-                    "object_bbox": [0.498, 0.321, 0.542, 0.427],
+                    "subject_bbox":[0.474,0.173,0.567,0.969],
+                    "object_bbox":[0.523,0.365,0.606,0.620],
                     "predicate": ["carry", "wear"],
                     
                     # The sentences
                     "sentences": [
-                        
+                        "A person is wearing a backpack.",
+                        "The person is wearing a blue shirt, light-colored shorts, and dark shoes.",
+                        "The person is wearing the backpack on their back while standing.",
+                        "The backpack is black and has a visible water bottle attached to it.",
+                        "The person wearing a blue shirt and light-colored shorts is wearing the backpack.",
+                        "The person is wearing a black backpack.",
+                        "The person is wearing a black backpack on their back.",
+                        "The person wearing a blue shirt and light-colored shorts is wearing a black backpack on their back."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000091.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "surfboard",
+                    "subject_bbox":[0.165,0.312,0.891,0.956],
+                    "object_bbox":[0.660,0.780,0.888,0.930],
+                    "predicate": ["lie_on", "ride"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is riding a surfboard.",
+                        "The person has short dark hair and is shirtless.",
+                        "The person is lying on the surfboard while moving through the water.",
+                        "The surfboard is long, narrow, and dark-colored with a light stripe.",
+                        "The shirtless person is lying on and riding the surfboard.",
+                        "The person is lying on a dark-colored surfboard.",
+                        "The person is riding a long, narrow surfboard through the water.",
+                        "The shirtless person is riding a long, narrow dark-colored surfboard through the water."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000092.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "cell_phone",
+                    "subject_bbox": [0.275, 0.000, 0.750, 0.994],
+                    "object_bbox": [0.365, 0.289, 0.443, 0.502],
+                    "predicate": ["carry", "hold", "talk_on"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding a cell phone.",
+                        "The person is wearing a white jacket, black hat, and glasses.",
+                        "The person is holding the cell phone against the side of their face.",
+                        "The cell phone is a small black handheld device.",
+                        "The person is holding and talking on the cell phone.",
+                        "The person is carrying a cell phone in their hand.",
+                        "The person is holding the cell phone while talking on it.",
+                        "The person wearing a white jacket and black hat is holding and talking on a small black cell phone."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000097.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "bottle",
+                    "subject_bbox": [0.147, 0.005, 0.597, 0.724],
+                    "object_bbox": [0.435, 0.355, 0.605, 0.707],
+                    "predicate": ["drink_with", "hold"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is drinking with a bottle.",
+                        "The person is a small child wearing a light-colored patterned garment.",
+                        "The child holds the bottle near the mouth while drinking from it.",
+                        "The bottle is cylindrical and has bands or labels around its body.",
+                        "The child is holding the bottle while drinking from it.",
+                        "The child is near a cylindrical bottle with bands around it.",
+                        "The child is drinking with and holding a cylindrical bottle.",
+                        "The small child wearing a light-colored patterned garment is holding a cylindrical bottle while drinking from it."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000098.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "horse",
+                    "subject_bbox": [0.117, 0.101, 0.305, 0.687],
+                    "object_bbox": [0.029, 0.140, 0.275, 0.792],
+                    "predicate": ["straddle"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is riding a horse.",
+                        "The person is wearing a helmet and dark clothing.",
+                        "The person is seated on the horse and holding the reins.",
+                        "The horse is brown and is equipped with a bridle and saddle.",
+                        "The person is riding the horse while seated in the saddle.",
+                        "The person is seated on a brown horse with a bridle and saddle.",
+                        "The person is riding a brown horse equipped with a bridle and saddle.",
+                        "The person wearing a helmet and dark clothing is riding a brown horse while holding the reins."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000101.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "boat",
+                    "subject_bbox": [0.611, 0.374, 0.649, 0.524],
+                    "object_bbox": [0.320, 0.237, 0.716, 0.806],
+                    "predicate": ["ride", "stand_on"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is driving a boat.",
+                        "The person is standing on the boat and wearing light-colored clothing.",
+                        "The person is operating the boat from the rear deck.",
+                        "The boat is a white motorboat with a dark hull and a covered cabin.",
+                        "The person is driving the boat while standing on its rear deck.",
+                        "The person is on a white motorboat with a dark hull.",
+                        "The person is driving a white motorboat across the water.",
+                        "The person wearing light-colored clothing is driving the white motorboat with a dark hull across the water."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000103.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "couch",
+                    "subject_bbox": [0.006, 0.402, 0.918, 0.970],
+                    "object_bbox": [0.006, 0.455, 0.997, 0.998],
+                    "predicate": ["lie_on"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is sitting on a chair.",
+                        "The person is wearing a blue jacket, shorts, and sneakers.",
+                        "The person is reclining on the chair with their legs raised.",
+                        "The chair is a large dark-colored cushioned lounge chair.",
+                        "The person is sitting and reclining on the chair.",
+                        "The person is resting on a large dark-colored chair.",
+                        "The person is reclining on a large dark-colored cushioned chair.",
+                        "The person wearing a blue jacket, shorts, and sneakers is reclining on a large dark-colored cushioned chair."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000104.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "book",
+                    "subject_bbox": [0.459, 0.278, 0.670, 0.559],
+                    "object_bbox": [0.542, 0.426, 0.625, 0.497],
+                    "predicate": ["open", "read"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is opening and reading a book.",
+                        "The person is wearing a white shirt and a red and white cap.",
+                        "The person is holding an open book while looking down at it.",
+                        "The book is open with visible pages.",
+                        "The person wearing a white shirt and a red and white cap is opening and reading the book.",
+                        "The person is interacting with an open book.",
+                        "The person is opening and reading an open book.",
+                        "The person wearing a white shirt and a red and white cap is opening and reading an open book."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000107.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "snowboard",
+                    "subject_bbox": [0.362, 0.177, 0.653, 0.788],
+                    "object_bbox": [0.437, 0.457, 0.654, 0.788],
+                    "predicate": ["grind", "hold", "stand_on", "wear"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is grinding on a snowboard.",
+                        "The person is shirtless and wearing dark pants and protective gear.",
+                        "The person is balancing on the snowboard while gripping it for support.",
+                        "The snowboard is long and dark-colored with bindings attached.",
+                        "The shirtless person wearing dark pants is grinding on the snowboard.",
+                        "The person is positioned on a dark snowboard with bindings.",
+                        "The person is grinding on and standing on the snowboard.",
+                        "The shirtless person wearing dark pants is grinding on and standing on the snowboard while holding it."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000110.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "bus",
+                    "subject_bbox": [0.416, 0.370, 0.516, 0.556],
+                    "object_bbox": [0.159, 0.219, 0.742, 0.994],
+                    "predicate": ["drive", "ride"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is driving and riding a bus.",
+                        "The person is seated inside the front of the bus and is partially visible through the windshield.",
+                        "The person is seated in the driver's area of the bus.",
+                        "The bus is a large yellow school bus with black trim and multiple windows.",
+                        "The person seated inside the bus is driving and riding the bus.",
+                        "The person is inside the yellow school bus.",
+                        "The person is driving and riding the yellow school bus.",
+                        "The person seated inside the front of the bus is driving and riding the yellow school bus."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000112.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "book",
+                    "subject_bbox": [0.129, 0.155, 0.414, 0.997],
+                    "object_bbox": [0.247, 0.596, 0.438, 0.759],
+                    "predicate": ["hold", "open", "read"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding, opening, and reading a book.",
+                        "The person is an older man wearing glasses, a denim jacket, and a burgundy shirt.",
+                        "The person is holding the open book with both hands and looking down at its pages.",
+                        "The book is open with multiple visible pages and a light-colored cover.",
+                        "The older man wearing glasses and a denim jacket is holding and reading the open book.",
+                        "The person is holding an open book with visible pages.",
+                        "The person is reading the open book while holding it in front of his body.",
+                        "The older man wearing glasses and a denim jacket is holding and reading the open book with both hands."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000116.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "frisbee",
+                    "subject_bbox": [0.466, 0.294, 0.846, 0.996],
+                    "object_bbox": [0.447, 0.499, 0.558, 0.65],
+                    "predicate": ["block", "hold", "throw"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is blocking, holding, and throwing a frisbee.",
+                        "The person is a man wearing a green cap, a purple shirt, and black pants.",
+                        "The person is crouching on the grass while reaching toward the frisbee.",
+                        "The frisbee is a white flying disc visible in front of the person.",
+                        "The man wearing a green cap and purple shirt is blocking, holding, and throwing the frisbee.",
+                        "The person is interacting with a white frisbee in front of him.",
+                        "The person is blocking and holding the white frisbee while throwing it.",
+                        "The man wearing a green cap and purple shirt is blocking, holding, and throwing the white frisbee while crouching on the grass."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000117.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "backpack",
+                    "subject_bbox": [0.364, 0.000, 0.800, 0.964],
+                    "object_bbox": [0.417, 0.353, 0.730, 0.786],
+                    "predicate": ["wear"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is wearing a backpack.",
+                        "The person is a man with short dark hair wearing a backpack.",
+                        "The person is wearing the backpack over his shoulders.",
+                        "The backpack has dark straps and a blue section visible over the person's shoulders.",
+                        "The man with short dark hair is wearing the backpack over his shoulders.",
+                        "The person is wearing a backpack with dark straps and a blue section.",
+                        "The person is wearing the backpack over his shoulders.",
+                        "The man with short dark hair is wearing the backpack with dark straps and a blue section over his shoulders."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000119.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "baseball_glove",
+                    "subject_bbox": [0.359, 0.270, 0.534, 1.000],
+                    "object_bbox": [0.521, 0.164, 0.597, 0.325],
+                    "predicate": ["hold", "wear"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding and wearing a baseball glove.",
+                        "The person is wearing a striped shirt and blue shorts.",
+                        "The person is extending one arm while holding the baseball glove.",
+                        "The baseball glove is brown and black with a visible webbed pocket.",
+                        "The person wearing a striped shirt is holding and wearing the baseball glove.",
+                        "The person is near and in contact with the brown and black baseball glove.",
+                        "The person is holding and wearing the brown and black baseball glove.",
+                        "The person wearing a striped shirt and blue shorts is holding and wearing the brown and black baseball glove."                        
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000121.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "cake",
+                    "subject_bbox": [0.241, 0.000, 0.658, 0.992],
+                    "object_bbox": [0.262, 0.781, 0.944, 1.000],
+                    "predicate": ["blow"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is blowing on a cake.",
+                        "The person has light brown hair and is wearing a blue shirt.",
+                        "The person is leaning toward the cake and blowing toward its candles.",
+                        "The cake is large, dark-colored, and topped with several colorful candles.",
+                        "The person wearing a blue shirt is blowing on the cake.",
+                        "The person is positioned directly behind the large cake.",
+                        "The person is blowing on the large cake with colorful candles.",
+                        "The person with light brown hair wearing a blue shirt is blowing on the large cake with colorful candles."              
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000122.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "train",
+                    "subject_bbox": [0.532, 0.219, 0.599, 0.352],
+                    "object_bbox": [0.151, 0.000, 0.887, 0.905],
+                    "predicate": ["drive", "ride", "sit_on"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is driving, riding, and sitting on a train.",
+                        "The person is visible inside the train cabin.",
+                        "The person is seated inside the locomotive cabin while operating the train.",
+                        "The train is a large red and green locomotive with a long body and metal wheels.",
+                        "The person inside the cabin is driving and riding the train.",
+                        "The person is inside and seated on the train.",
+                        "The person is driving and riding the large locomotive.",
+                        "The person inside the cabin is driving, riding, and sitting on the large red and green train."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000126.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "sports_ball",
+                    "subject_bbox": [0.389, 0.198, 0.674, 0.515],
+                    "object_bbox": [0.399, 0.250, 0.478, 0.447],
+                    "predicate": ["carry", "hold"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is carrying and holding a sports ball.",
+                        "The person has short dark hair and is wearing a black and red sports jersey.",
+                        "The person is carrying the sports ball while holding it up near his face with one hand.",
+                        "The sports ball is blue and yellow with a patterned design.",
+                        "The person wearing a black and red sports jersey is carrying and holding the sports ball near his face.",
+                        "The person is carrying and holding a blue and yellow sports ball.",
+                        "The person is carrying and holding the blue and yellow sports ball near his face.",
+                        "The person with short dark hair is carrying and holding a blue and yellow sports ball near his face."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000127.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "snowboard",
+                    "subject_bbox": [0.493, 0.226, 0.779, 0.905],
+                    "object_bbox": [0.359, 0.842, 0.844, 0.968],
+                    "predicate": ["ride", "stand_on", "wear"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is riding and standing on a snowboard.",
+                        "The person is wearing a blue and black jacket, black pants, gloves, a helmet, and goggles.",
+                        "The person is standing on the snowboard while riding across the snow.",
+                        "The snowboard is long and predominantly red with a dark binding area.",
+                        "The person wearing a blue and black jacket is riding and standing on the snowboard.",
+                        "The person is standing on a red snowboard.",
+                        "The person is riding and standing on the red snowboard.",
+                        "The person wearing a blue and black jacket is riding and standing on the red snowboard."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000129.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "umbrella",
+                    "subject_bbox": [0.578, 0.501, 0.623, 0.681],
+                    "object_bbox": [0.544, 0.414, 0.595, 0.521],
+                    "predicate": ["carry", "hold", "stand_under"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is carrying, holding, and standing under an umbrella.",
+                        "The person is wearing dark clothing and appears as a dark silhouette.",
+                        "The person is walking while carrying and holding the umbrella overhead.",
+                        "The umbrella is positioned above the person and appears dark in the low-light scene.",
+                        "The person is carrying and holding the umbrella while standing underneath it.",
+                        "The person is positioned beneath a dark umbrella.",
+                        "The person is carrying and holding the umbrella above them.",
+                        "The person in dark clothing is carrying and holding a dark umbrella while standing underneath it."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000131.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "skateboard",
+                    "subject_bbox": [0.323, 0.163, 0.601, 0.784],
+                    "object_bbox": [0.499, 0.535, 0.608, 0.816],
+                    "predicate": ["grind", "ride", "stand_on"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is grinding, riding, and standing on a skateboard.",
+                        "The person is wearing a red cap, a black shirt with red sleeves, and black pants.",
+                        "The person is balancing on the skateboard while grinding along the edge of the skatepark.",
+                        "The skateboard is a narrow dark board positioned beneath the person's feet.",
+                        "The person wearing a red cap is riding and grinding on the skateboard while standing on it.",
+                        "The person is standing on a dark skateboard.",
+                        "The person is riding and grinding on the skateboard along the edge of the ramp.",
+                        "The person wearing a red cap is riding, grinding, and standing on the skateboard in the skatepark."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000132.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "baseball_glove",
+                    "subject_bbox": [0.323, 0.163, 0.601, 0.784],
+                    "object_bbox": [0.499, 0.535, 0.608, 0.816],
+                    "predicate": ["hold", "wear"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding and wearing a baseball glove.",
+                        "The person is wearing a dark baseball uniform and a dark helmet.",
+                        "The person is holding the baseball glove with their hands while standing at home plate.",
+                        "The baseball glove is a dark-colored glove visible near the person's lower body.",
+                        "The person wearing a dark baseball uniform is holding and wearing the baseball glove.",
+                        "The person is near a dark-colored baseball glove.",
+                        "The person is holding and wearing the dark-colored baseball glove.",
+                        "The person wearing a dark baseball uniform is holding and wearing a dark-colored baseball glove."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000137.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "elephant",
+                    "subject_bbox": [0.323, 0.163, 0.601, 0.784],
+                    "object_bbox": [0.499, 0.535, 0.608, 0.816],
+                    "predicate": ["hold", "pet"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding and petting an elephant.",
+                        "The person is wearing a light-colored striped shirt and beige pants.",
+                        "The person is touching the elephant with one hand while standing beside it.",
+                        "The elephant is a large gray-brown animal standing in shallow water.",
+                        "The person wearing a striped shirt is holding and petting the elephant.",
+                        "The person is beside a large gray-brown elephant.",
+                        "The person is holding and petting the large elephant.",
+                        "The person wearing a striped shirt is holding and petting the large gray-brown elephant."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000141.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "hot_dog",
+                    "subject_bbox": [0.109, 0.079, 0.91, 0.999],
+                    "object_bbox": [0.448, 0.332, 0.833, 0.628],
+                    "predicate": ["carry", "eat", "hold"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is carrying, eating, and holding a hot dog.",
+                        "The person has short dark hair and is wearing a red and white shirt.",
+                        "The person is holding the hot dog with both hands while bringing it to their mouth.",
+                        "The hot dog is a long sandwich in a light-colored bun.",
+                        "The person wearing a red and white shirt is carrying, eating, and holding the hot dog.",
+                        "The person is holding a long hot dog with both hands.",
+                        "The person is carrying and eating the long hot dog.",
+                        "The person wearing a red and white shirt is carrying, eating, and holding the long hot dog."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000142.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "horse",
+                    "subject_bbox": [0.49, 0.0, 0.773, 0.545],
+                    "object_bbox": [0.226, 0.115, 0.856, 0.98],
+                    "predicate": ["ride", "run", "straddle"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is riding, running with, and straddling a horse.",
+                        "The person is wearing a dark blue shirt, white pants, and a white helmet.",
+                        "The person is seated on the horse while holding the reins as the horse runs across the field.",
+                        "The horse is a dark-colored horse with a black mane and tail.",
+                        "The person wearing a dark blue shirt and white pants is riding and straddling the running horse.",
+                        "The person is seated astride the dark-colored horse.",
+                        "The person is riding and straddling the horse as it runs.",
+                        "The person wearing a dark blue shirt, white pants, and white helmet is riding and straddling the dark-colored horse as it runs."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000144.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "bottle",
+                    "subject_bbox": [0.462, 0.043, 0.737, 0.948],
+                    "object_bbox": [0.409, 0.167, 0.542, 0.884],
+                    "predicate": ["hold"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding a bottle.",
+                        "The person is a baby wearing a light-colored patterned outfit.",
+                        "The baby is holding the bottle upright with one hand.",
+                        "The bottle is a tall green glass bottle with a white and blue label.",
+                        "The baby wearing a patterned outfit is holding the bottle.",
+                        "The baby is holding a tall green bottle.",
+                        "The baby is holding the green bottle upright.",
+                        "The baby wearing a light-colored patterned outfit is holding the tall green bottle upright."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000145.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "motorcycle",
+                    "subject_bbox": [0.53, 0.319, 0.847, 0.987],
+                    "object_bbox": [0.158, 0.108, 0.624, 0.988],
+                    "predicate": ["hold", "inspect"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding and inspecting a motorcycle.",
+                        "The person is wearing a dark motorcycle suit, gloves, a helmet, and white riding boots.",
+                        "The person is crouching beside the motorcycle while holding and inspecting it.",
+                        "The motorcycle is a large black, white, and green sport motorcycle.",
+                        "The person wearing motorcycle gear is holding and inspecting the motorcycle.",
+                        "The person is crouching beside a black, white, and green sport motorcycle.",
+                        "The person is holding and inspecting the black, white, and green motorcycle.",
+                        "The person wearing motorcycle gear is crouching beside and holding and inspecting the black, white, and green sport motorcycle."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000148.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "umbrella",
+                    "subject_bbox": [0.464, 0.601, 0.53, 0.874],
+                    "object_bbox": [0.449, 0.518, 0.56, 0.639],
+                    "predicate": ["hold", "stand_under"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding and standing under an umbrella.",
+                        "The person is wearing dark clothing and long pants.",
+                        "The person is standing in the rain while holding the umbrella above their head.",
+                        "The umbrella is a dark-colored umbrella held above the person.",
+                        "The person wearing dark clothing is holding and standing under the umbrella.",
+                        "The person is standing under a dark-colored umbrella.",
+                        "The person is holding the dark-colored umbrella while standing underneath it.",
+                        "The person wearing dark clothing is standing under and holding the dark-colored umbrella in the rain."
+                    ]
+                }
+            ]
+        },
+        {
+            # "id": 2149,
+            "file_name": "HICO_train2015_00000149.jpg",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "book",
+                    "subject_bbox": [0.469, 0.000, 0.819, 1.000],
+                    "object_bbox": [0.560, 0.391, 0.748, 0.609],
+                    "predicate": ["hold", "open", "read"],
+                    
+                    # The sentences
+                    "sentences": [
+                        "A person is holding, opening, and reading a book.",
+                        "The person is wearing a cap, a jacket, and dark pants.",
+                        "The person is holding the open book with both hands and reading it.",
+                        "The book is an open book with printed pages.",
+                        "The person wearing a cap and jacket is holding, opening, and reading the book.",
+                        "The person is holding an open book.",
+                        "The person is holding and reading the open book.",
+                        "The person wearing a cap and jacket is holding and reading the open book."
                     ]
                 }
             ]

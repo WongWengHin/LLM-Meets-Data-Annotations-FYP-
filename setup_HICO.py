@@ -325,7 +325,7 @@ for i in range(num_images):
     # Stop after 100 images
     # --------------------------------------------------------------
 
-    if imported_count >= 100:
+    if imported_count >= 150:
         break
 
     # dataset.add_sample(sample)

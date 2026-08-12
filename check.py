@@ -22,7 +22,7 @@ list_action = mat["list_action"]
 # Select an image to inspect
 # ==========================================================
 idx = 0
-target_filename = "HICO_train2015_00000082.jpg"
+target_filename = "HICO_train2015_00000149.jpg"
 # sample = bbox_train[0, idx]
 sample = None
 for i in range(bbox_train.shape[1]):
