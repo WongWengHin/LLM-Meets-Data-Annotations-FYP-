@@ -6,6 +6,7 @@ import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+import secrets
 from urllib.parse import urlparse
 
 
@@ -46,10 +47,21 @@ class AppPaths:
 
 
 @dataclass(frozen=True)
+class AuthConfig:
+    enabled: bool
+    require_login: bool
+    session_secret_key: str
+    google_client_id: str
+    google_client_secret: str
+    google_redirect_uri: str
+
+
+@dataclass(frozen=True)
 class AppConfig:
     llm: LLMConfig
     image_preprocess: ImagePreprocessConfig
     paths: AppPaths
+    auth: AuthConfig
     host: str
     port: int
 
@@ -287,10 +299,24 @@ def load_app_config(base_dir: Path) -> AppConfig:
     paths = build_app_paths(base_dir)
     llm = resolve_llm_config()
     image_preprocess = resolve_image_preprocess_config()
+    port = int(os.environ.get("PORT", "8000"))
+    google_client_id = os.environ.get("GOOGLE_CLIENT_ID", "").strip()
+    google_client_secret = os.environ.get("GOOGLE_CLIENT_SECRET", "").strip()
+    google_redirect_uri = os.environ.get("GOOGLE_REDIRECT_URI", "").strip() or f"http://127.0.0.1:{port}/auth/google/callback"
+    auth_enabled = bool(google_client_id and google_client_secret)
+    auth = AuthConfig(
+        enabled=auth_enabled,
+        require_login=parse_env_bool("REQUIRE_GOOGLE_LOGIN", auth_enabled),
+        session_secret_key=os.environ.get("SESSION_SECRET_KEY", "").strip() or secrets.token_urlsafe(32),
+        google_client_id=google_client_id,
+        google_client_secret=google_client_secret,
+        google_redirect_uri=google_redirect_uri,
+    )
     return AppConfig(
         llm=llm,
         image_preprocess=image_preprocess,
         paths=paths,
+        auth=auth,
         host="127.0.0.1",
-        port=int(os.environ.get("PORT", "8000")),
+        port=port,
     )

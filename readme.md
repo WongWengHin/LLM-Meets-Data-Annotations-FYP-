@@ -189,6 +189,14 @@ PORT=8000
 
 You may also configure other providers already listed in `.env_example`, such as OpenAI, Anthropic, MINMAX, or MIMO.
 
+For Google sign-in, add:
+
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI` like `http://127.0.0.1:8000/auth/google/callback`
+- `SESSION_SECRET_KEY`
+- `REQUIRE_GOOGLE_LOGIN=true` if you want to block uploads until login succeeds
+
 ### 4. Start the project
 
 ```powershell

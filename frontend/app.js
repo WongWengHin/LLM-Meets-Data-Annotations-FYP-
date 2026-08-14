@@ -1,4 +1,5 @@
 const analyzeButton = document.getElementById("analyzeButton");
+const authButton = document.getElementById("authButton");
 const imageInput = document.getElementById("imageInput");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
@@ -38,6 +39,12 @@ let activeBboxFilter = "person";
 let activeAnnotationId = null;
 let activeJsonView = "prediction";
 let activePromptMode = "object_detection";
+let authState = {
+  auth_enabled: false,
+  require_login: false,
+  authenticated: false,
+  user: null
+};
 
 function renderResult(result) {
   const annotations = getAnnotations(result);
@@ -79,6 +86,83 @@ function setErrorState(message) {
   updateJsonViewButtons();
   renderArtifacts(null);
   hideBoundingBox();
+}
+
+function updateAuthUi() {
+  if (!authState.auth_enabled) {
+    authButton.textContent = "Log in";
+    authButton.removeAttribute("href");
+    authButton.setAttribute("aria-disabled", "true");
+    authButton.setAttribute("aria-label", "Google login unavailable");
+    authButton.setAttribute("title", "Google login unavailable");
+    authButton.classList.add("is-disabled");
+    return;
+  }
+
+  if (authState.authenticated) {
+    authButton.textContent = "Log out";
+    authButton.href = "/auth/logout";
+    authButton.removeAttribute("aria-disabled");
+    authButton.setAttribute("aria-label", "Log out");
+    authButton.setAttribute("title", "Log out");
+    authButton.classList.remove("is-disabled");
+    return;
+  }
+
+  authButton.textContent = "Log in";
+  authButton.href = "/auth/google/login";
+  authButton.removeAttribute("aria-disabled");
+  authButton.setAttribute("aria-label", "Log in with Google");
+  authButton.setAttribute("title", "Log in with Google");
+  authButton.classList.remove("is-disabled");
+}
+
+function syncAnalyzeButtonState() {
+  if (!authState.auth_enabled) {
+    analyzeButton.disabled = false;
+    return;
+  }
+
+  analyzeButton.disabled = authState.require_login && !authState.authenticated;
+}
+
+async function refreshAuthState() {
+  try {
+    const response = await fetch("/auth/me", { credentials: "same-origin" });
+    if (!response.ok) {
+      throw new Error(`Auth status request failed with status ${response.status}`);
+    }
+
+    const payload = await response.json();
+    authState = {
+      auth_enabled: Boolean(payload.auth_enabled),
+      require_login: Boolean(payload.require_login),
+      authenticated: Boolean(payload.authenticated),
+      user: payload.user || null
+    };
+  } catch (error) {
+    authState = {
+      auth_enabled: false,
+      require_login: false,
+      authenticated: false,
+      user: null
+    };
+  }
+
+  updateAuthUi();
+  syncAnalyzeButtonState();
+}
+
+function getAuthErrorMessage() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("auth_error");
+}
+
+function clearAuthQueryParams() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete("auth_error");
+  url.searchParams.delete("auth");
+  window.history.replaceState({}, "", url.toString());
 }
 
 function resetPreview() {
@@ -530,6 +614,14 @@ resetPreview();
 updateJsonViewButtons();
 renderValidation(null);
 renderArtifacts(null);
+const authError = getAuthErrorMessage();
+if (authError) {
+  setErrorState(authError);
+}
+clearAuthQueryParams();
+updateAuthUi();
+syncAnalyzeButtonState();
+refreshAuthState();
 
 function handleSelectedFile(file) {
   currentResult = null;
@@ -546,6 +638,7 @@ function handleSelectedFile(file) {
   validationPanel.innerHTML = `<div class="empty-state empty-state-compact"><p>No validation result yet.</p></div>`;
   activeJsonView = "prediction";
   updateJsonViewButtons();
+  syncAnalyzeButtonState();
 
   const emptyPayload = {
     uploaded_image_url: null,
@@ -660,6 +753,11 @@ promptModeButtons.forEach((button) => {
 });
 
 analyzeButton.addEventListener("click", () => {
+  if (authState.auth_enabled && authState.require_login && !authState.authenticated) {
+    setStatus("Login Required");
+    return;
+  }
+
   if (!uploadedImageName || !uploadedFile) {
     setStatus("Upload First");
     return;
@@ -685,6 +783,7 @@ analyzeButton.addEventListener("click", () => {
     })
     .finally(() => {
       analyzeButton.disabled = false;
+      syncAnalyzeButtonState();
     });
 });
 

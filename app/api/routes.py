@@ -5,10 +5,11 @@ from __future__ import annotations
 import traceback
 from pathlib import Path
 
-from fastapi import APIRouter, File, Form, Request, UploadFile
+from fastapi import APIRouter, Depends, File, Form, Request, UploadFile
 from fastapi.responses import JSONResponse
 
 from app.agent.orchestrator import AnnotationAgent
+from app.api.auth_dependencies import require_authenticated_user
 from app.api.responses import format_exception_message, format_exception_status
 from app.api.schemas import ErrorResponse, HealthResponse, UploadResponse
 from app.core.config import AppConfig
@@ -40,6 +41,7 @@ async def health() -> HealthResponse:
 )
 async def upload_image(
     request: Request,
+    user: dict | None = Depends(require_authenticated_user),
     image: UploadFile | None = File(None, alias="image", description="Image file to annotate."),
     uploaded_image: UploadFile | None = File(
         None,
