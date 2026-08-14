@@ -2635,12 +2635,12 @@ ANNOTATIONS_100 = {
         },
         {
             "segmentation": [],
-            "area": 66535.19,
+            "area": 5079.57,
             "iscrowd": 0,
             "image_id": 157124,
-            "bbox": [2.86, 129.58, 377.31, 176.27],
-            "category_id": 81,  # Added Annotations: sink (IMPORTANT: same bbox detection with original)
-            "id": 990073,
+            "bbox": [342.53, 59.39, 109.45, 46.41],
+            "category_id": 81,  # Added Annotations: sink (IMPORTANT: same bbox detection with original) FIXED
+            "id": 990440,
             "data_annotation_sentences": ["A sink on a white cabinet"]
         },
 
@@ -3261,8 +3261,8 @@ ANNOTATIONS_100 = {
             "area": 18790.62,
             "iscrowd": 0,
             "image_id": 372349,
-            "bbox": [158.82, 248.26, 115.87, 318.85],
-            "category_id": 86,  # Added Annotations: vase (IMPORTANT: vase bbox detection is fuked up)
+            "bbox": [54.93, 127.98, 46.24, 57.43],
+            "category_id": 86,  # Added Annotations: vase (IMPORTANT: vase bbox detection is fuked up) FIXED
             "id": 990256,
             "data_annotation_sentences": ["A large metal vase on a rock beside the water"]
         },
@@ -3347,8 +3347,8 @@ ANNOTATIONS_100 = {
             "area": 101185.19,
             "iscrowd": 0,
             "image_id": 394559,
-            "bbox": [165.39, 175.56, 158.21, 339.41],
-            "category_id": 1,  # Added Annotation: person (IMPORTANT: same bbox as the original)
+            "bbox": [265.23, 69.77, 40.94, 147.03],
+            "category_id": 1,  # Added Annotation: person (IMPORTANT: same bbox as the original) FIXED
             "id": 990117,
             "data_annotation_sentences": ["A person standing behind the tennis court fence"]
         },
