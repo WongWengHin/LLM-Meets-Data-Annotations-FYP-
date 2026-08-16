@@ -1,5 +1,6 @@
 const analyzeButton = document.getElementById("analyzeButton");
 const authButton = document.getElementById("authButton");
+const resultsButton = document.getElementById("resultsButton");
 const imageInput = document.getElementById("imageInput");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
@@ -89,6 +90,11 @@ function setErrorState(message) {
 }
 
 function updateAuthUi() {
+  // Keep this navigation available after OAuth redirects and browser cache restores.
+  resultsButton.hidden = false;
+  resultsButton.removeAttribute("hidden");
+  resultsButton.style.removeProperty("display");
+
   if (!authState.auth_enabled) {
     authButton.textContent = "Log in";
     authButton.removeAttribute("href");
@@ -791,6 +797,12 @@ window.addEventListener("resize", () => {
   if (currentResult) {
     renderBoundingBox(currentResult);
   }
+});
+
+// Browsers may restore the pre-login page from their back/forward cache after
+// Google redirects back to this page. Reapply the auth UI in that case.
+window.addEventListener("pageshow", () => {
+  refreshAuthState();
 });
 
 downloadButton.addEventListener("click", () => {

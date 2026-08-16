@@ -2,18 +2,19 @@
 
 from __future__ import annotations
 
+import json
 import traceback
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, File, Form, Request, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import JSONResponse, Response
 
 from app.agent.orchestrator import AnnotationAgent
-from app.api.auth_dependencies import require_authenticated_user
+from app.api.auth_dependencies import require_authenticated_user, require_google_user
 from app.api.responses import format_exception_message, format_exception_status
 from app.api.schemas import ErrorResponse, HealthResponse, UploadResponse
 from app.core.config import AppConfig
-from app.core.database import save_annotation_result, save_image
+from app.core.user_database import get_user_image_by_id, get_user_results, save_user_annotation_result, save_user_image
 
 router = APIRouter()
 
@@ -73,16 +74,21 @@ async def upload_image(
         agent = AnnotationAgent(config)
         response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
 
-        save_image(
-            config.paths.db_path,
+        owner_id = _owner_id(user)
+        # Images are served through an ownership-checked route, never from a
+        # publicly browsable upload directory.
+        response_payload["uploaded_image_url"] = f"/api/results/{destination.stem}/image"
+        save_user_image(
+            config.paths.user_db_path,
             image_id=destination.stem,
+            owner_id=owner_id,
             filename=destination.name,
             file_data=file_bytes,
             size_bytes=len(file_bytes),
         )
         agent_info = response_payload.get("agent", {})
-        save_annotation_result(
-            config.paths.db_path,
+        save_user_annotation_result(
+            config.paths.user_db_path,
             image_id=destination.stem,
             task_id=agent_info.get("task_id", ""),
             task_status=agent_info.get("task_status", ""),
@@ -99,6 +105,40 @@ async def upload_image(
         return _json_error_response(exc, status_code=400, log_traceback=False)
     except Exception as exc:
         return _json_error_response(exc, log_traceback=True)
+
+
+@router.get("/api/results")
+async def list_results(
+    request: Request,
+    user: dict = Depends(require_google_user),
+) -> dict:
+    """List only the current Google user's uploaded images and latest results."""
+    config = _get_config(request)
+    owner_id = _owner_id(user)
+    results = get_user_results(config.paths.user_db_path, owner_id)
+    items = []
+    for result in results:
+        payload = json.loads(result.pop("annotation_result")) if result.get("annotation_result") else None
+        items.append({
+            **result,
+            "image_url": f"/api/results/{result['image_id']}/image",
+            "result": payload,
+        })
+    return {"items": items}
+
+
+@router.get("/api/results/{image_id}/image")
+async def get_result_image(
+    image_id: str,
+    request: Request,
+    user: dict = Depends(require_google_user),
+) -> Response:
+    config = _get_config(request)
+    image = get_user_image_by_id(config.paths.user_db_path, image_id, _owner_id(user))
+    if image is None:
+        # Do not disclose whether another user's image exists.
+        raise HTTPException(status_code=404, detail="Image not found.")
+    return Response(content=image["file_data"], media_type=_image_media_type(image["filename"]))
 
 
 def _unique_destination(upload_dir: Path, filename: str) -> Path:
@@ -119,6 +159,20 @@ def _normalize_prompt_mode(prompt_mode: str | None) -> str:
     if normalized_mode in {"hoi", "human-object interaction", "human_object_interaction"}:
         return "hoi"
     return "object_detection"
+
+
+def _owner_id(user: dict | None) -> str:
+    if not user:
+        return "anonymous"
+    google_sub = str(user.get("sub", "")).strip()
+    if not google_sub:
+        raise HTTPException(status_code=401, detail="Google login required.")
+    return f"google:{google_sub}"
+
+
+def _image_media_type(filename: str) -> str:
+    suffix = Path(filename).suffix.lower()
+    return {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".gif": "image/gif", ".webp": "image/webp"}.get(suffix, "application/octet-stream")
 
 
 def _get_config(request: Request) -> AppConfig:

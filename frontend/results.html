@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Annotation Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260816-results-grid">
+</head>
+<body>
+  <div class="page-shell results-page">
+    <header class="hero results-hero">
+      <nav class="topbar">
+        <a class="brand" href="/" aria-label="Back to annotation workspace">
+          <span class="brand-mark">LLM</span><span class="brand-text">FIT3163 MDS21</span>
+        </a>
+        <div class="topbar-actions">
+          <a class="topbar-link" href="/">Workspace</a>
+          <a id="resultsAuthButton" class="auth-link" href="/auth/google/login">Log in</a>
+        </div>
+      </nav>
+      <p class="eyebrow">Private workspace</p>
+      <h1>My annotation results</h1>
+      <p class="hero-text">Your uploaded images and model-generated annotation results, available only to your Google account.</p>
+    </header>
+    <main class="section results-section">
+      <p id="resultsStatus" class="results-status" role="status">Loading your results…</p>
+      <div id="resultsGrid" class="results-grid"></div>
+    </main>
+  </div>
+  <script src="results.js?v=2"></script>
+</body>
+</html>

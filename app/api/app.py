@@ -9,12 +9,14 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from app.core.config import AppConfig
 from app.core.database import init_database
+from app.core.user_database import init_user_database
 from app.api.routes import router
 from app.api.auth_routes import router as auth_router
 
 
 def create_app(config: AppConfig) -> FastAPI:
     init_database(config.paths.db_path)
+    init_user_database(config.paths.user_db_path)
 
     app = FastAPI(
         title="Large Language Meets Data Annotation",

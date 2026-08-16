@@ -55,10 +55,10 @@ def request_image_annotation(
     ],
     "stream": False,
     "temperature": 0,
-    "max_tokens": llm_config.max_tokens,
-    "reasoning": {
-        "effort": "none"
-    },
+    "max_completion_tokens": llm_config.max_tokens,
+    # "reasoning": {
+    #     "effort": "none"
+    # },
     }
 
     if llm_config.provider == "ollama":

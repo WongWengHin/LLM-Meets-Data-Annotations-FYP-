@@ -33,6 +33,7 @@ class AppPaths:
     frontend_dir: Path
     data_dir: Path
     db_path: Path
+    user_db_path: Path
     uploads_dir: Path
     inference_images_dir: Path
     raw_outputs_dir: Path
@@ -104,7 +105,10 @@ def build_app_paths(base_dir: Path) -> AppPaths:
         base_dir=base_dir,
         frontend_dir=base_dir / "frontend",
         data_dir=data_dir,
+        # The original developer database is unchanged; private Google-owned
+        # content is stored in its own database.
         db_path=data_dir / "annotations.db",
+        user_db_path=data_dir / "user_results.db",
         uploads_dir=data_dir / "uploads",
         inference_images_dir=data_dir / "inference_images",
         raw_outputs_dir=data_dir / "raw_outputs",

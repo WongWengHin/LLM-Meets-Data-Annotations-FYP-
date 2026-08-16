@@ -21,6 +21,7 @@ class GoogleAuthTests(unittest.TestCase):
             frontend_dir=base_dir / "frontend",
             data_dir=base_dir / "data",
             db_path=base_dir / "data" / "annotations.db",
+            user_db_path=base_dir / "data" / "user_results.db",
             uploads_dir=base_dir / "data" / "uploads",
             inference_images_dir=base_dir / "data" / "inference_images",
             raw_outputs_dir=base_dir / "data" / "raw_outputs",

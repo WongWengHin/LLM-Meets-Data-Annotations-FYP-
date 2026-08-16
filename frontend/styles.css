@@ -109,6 +109,11 @@ img {
   font-weight: 700;
 }
 
+/* This navigation link is intentionally available before and after login. */
+#resultsButton {
+  display: inline-flex !important;
+}
+
 .auth-panel {
   display: flex;
   align-items: center;
@@ -130,6 +135,57 @@ img {
 .auth-link:hover {
   color: var(--accent-strong);
 }
+
+.results-hero {
+  padding-bottom: 8px;
+}
+
+.results-section {
+  padding: 28px 0 72px;
+}
+
+.results-status {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.result-card {
+  overflow: hidden;
+  align-self: start;
+}
+
+.result-card > img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  background: var(--bg-deep);
+}
+
+.result-card-content {
+  padding: 18px;
+}
+
+.result-card-content > div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result-card h2 { font-size: 1rem; margin: 0; overflow-wrap: anywhere; }
+.result-card p { color: var(--muted); font-size: .85rem; }
+.result-state { color: var(--accent-strong); font-weight: 800; font-size: .78rem; text-transform: capitalize; }
+.result-card details { margin-top: 12px; }
+.result-card summary { cursor: pointer; color: var(--accent-strong); font-weight: 800; }
+.result-card pre { max-height: 260px; overflow: auto; white-space: pre-wrap; font-size: .72rem; }
 
 .auth-link-label {
   font-family: "Manrope", sans-serif;

@@ -24,6 +24,17 @@ def require_authenticated_user(request: Request) -> dict | None:
     return user
 
 
+def require_google_user(request: Request) -> dict:
+    """Require a verified session for endpoints containing private user data."""
+    user = get_current_user(request)
+    if user is None or not str(user.get("sub", "")).strip():
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Google login required.",
+        )
+    return user
+
+
 def _get_config(request: Request) -> AppConfig:
     config = getattr(request.app.state, "config", None)
     if not isinstance(config, AppConfig):
