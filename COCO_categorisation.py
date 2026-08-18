@@ -3623,7 +3623,8 @@ ANNOTATIONS_100 = {
             "image_id": 471991,
             "bbox": [237.86,240.73,18.89,19.49],
             "category_id": 62, # Original Annotation: chair
-            "id": 1587884
+            "id": 1587884,
+            "data_annotation_sentences": ["A chair on the left side of the room"]
         },
         {
             "segmentation": [],
@@ -3632,7 +3633,8 @@ ANNOTATIONS_100 = {
             "image_id": 471991,
             "bbox": [380.66, 241.18, 17.21, 16.99],
             "category_id": 62,  # Added Annotations: chair 
-            "id": 990451
+            "id": 990451,
+            "data_annotation_sentences": ["A chair on the right side of the room"]
         },
         ####################################################################################################
         {
