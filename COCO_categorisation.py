@@ -1803,7 +1803,7 @@ ANNOTATIONS_100 = {
             "segmentation": [[85.56,182.84,84.95,181.85,84.99,179.79,85.44,178.38,86.47,177.43,88.34,177.28,89.41,178.15,90.01,179.87,89.98,182.11,89.21,183.03,86.51,183.49,86.13,183.1]],
             "area": 25.70795000000002,
             "iscrowd": 0,
-            "image_id": 302536,
+            "image_id": 261535,
             "bbox": [84.95,177.28,5.06,6.21],
             "category_id": 37, # Original Annotation: sports ball
             "id": 1855133,
@@ -1994,7 +1994,7 @@ ANNOTATIONS_100 = {
             "image_id": 329080,
             "bbox": [347.50, 187.15, 12.01, 40.58],
             "category_id": 77,  # Added Annotations: cell phone
-            "id": 990250,
+            "id": 990251,
             "data_annotation_sentences": ["A black cell phone resting on a bedside table"]
         },
 
@@ -3783,7 +3783,7 @@ ANNOTATIONS_100 = {
             "image_id": 504389,
             "bbox": [122.08, 125.80, 4.95, 5.62],
             "category_id": 37,  # Added Annotations: sports ball
-            "id": 990259,
+            "id": 990258,
             "data_annotation_sentences": ["A white sports ball in mid-air"]
         },
 
@@ -4435,7 +4435,7 @@ ANNOTATIONS_100 = {
             "area": 4809.94,
             "iscrowd": 0,
             "image_id": 563267,
-            "bbox": [430.00, 339.35, 69.44, 45.64],
+            "bbox": [430.00, 339.35, 69.44, 35.65],
             "category_id": 27,  # Added Annotations: backpack
             "id": 990298,
             "data_annotation_sentences": ["A black backpack on a chair"]
@@ -4652,7 +4652,7 @@ ANNOTATIONS_100 = {
             "area": 5176.98,
             "iscrowd": 0,
             "image_id": 556193,
-            "bbox": [457.31, 212.67, 42.69, 120.44],
+            "bbox": [457.31, 212.67, 42.69, 120.00],
             "category_id": 62,  # Added Annotations: chair
             "id": 990282,
             "data_annotation_sentences": ["A wooden chair beside a person"]
@@ -4706,7 +4706,7 @@ ANNOTATIONS_100 = {
             "image_id": 554266,
             "bbox": [438.80, 117.40, 3.38, 11.75],
             "category_id": 44,  # Added Annotations: bottle
-            "id": 990287,
+            "id": 990289,
             "data_annotation_sentences": ["A bottle of water on a table"]
         },
         {
@@ -5345,7 +5345,7 @@ ANNOTATIONS_100 = {
             "image_id": 537812,
             "bbox": [283.30, 50.30, 16.35, 55.17],
             "category_id": 44,  # Added Annotations: bottle
-            "id": 990327,
+            "id": 990320,
             "data_annotation_sentences": ["A plastic bottle of cleaning liquid"]
         },
         {
