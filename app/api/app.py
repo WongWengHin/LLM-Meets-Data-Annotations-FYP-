@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.core.config import AppConfig
+from app.core.evaluation_database import init_evaluation_database
 from app.core.user_database import init_user_database
 from app.api.routes import router
 from app.api.auth_routes import router as auth_router
@@ -15,6 +16,7 @@ from app.api.auth_routes import router as auth_router
 
 def create_app(config: AppConfig) -> FastAPI:
     init_user_database(config.paths.user_db_path)
+    init_evaluation_database(config.paths.data_dir / "evaluation_results.db")
 
     app = FastAPI(
         title="Large Language Meets Data Annotation",

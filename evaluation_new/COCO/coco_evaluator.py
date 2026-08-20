@@ -6,13 +6,20 @@ from contextlib import closing
 import json
 import math
 import sqlite3
+import sys
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from app.core.evaluation_database import save_coco_evaluation
+
 DEFAULT_GT = Path(__file__).parent / "ground_truth" / "official_coco_gt.json"
 DEFAULT_PREDICTIONS = ROOT / "data" / "predictions"
-DEFAULT_DATABASE = ROOT / "data" / "annotations.db"
+DEFAULT_DATABASE = ROOT / "data" / "user_results.db"
+DEFAULT_EVALUATION_DATABASE = ROOT / "data" / "evaluation_results.db"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -112,6 +119,44 @@ def load_latest_database_run_for_image(
     except (TypeError, json.JSONDecodeError) as exc:
         raise ValueError(f"Run {row['id']} has invalid annotation_result JSON") from exc
     return annotations_in(payload), wanted_id, int(row["id"])
+
+
+def load_database_prompt_mode(path: Path, run_id: int) -> str | None:
+    """Return a run's prompt mode when the source database provides one."""
+    with closing(sqlite3.connect(path)) as connection:
+        tables = {
+            row[0]
+            for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"
+            )
+        }
+        table = "user_annotation_runs" if "user_annotation_runs" in tables else "annotation_runs"
+        columns = {
+            row[1] for row in connection.execute(f"PRAGMA table_info({table})")
+        }
+        if "prompt_mode" not in columns:
+            return None
+        row = connection.execute(
+            f"SELECT prompt_mode FROM {table} WHERE id = ?", (run_id,)
+        ).fetchone()
+    if row is None or row[0] is None:
+        return None
+    value = str(row[0]).strip()
+    return value or None
+
+
+def infer_prompt_mode(predictions: list[dict[str, Any]]) -> str:
+    """Infer a prompt mode from exported prediction generation metadata."""
+    modes = {
+        str(item.get("generation", {}).get("prompt_mode")).strip()
+        for item in predictions
+        if isinstance(item.get("generation"), dict)
+        and item["generation"].get("prompt_mode") is not None
+        and str(item["generation"]["prompt_mode"]).strip()
+    }
+    if len(modes) == 1:
+        return modes.pop()
+    return "mixed" if modes else "unknown"
 
 
 def canonical_image_id(image_id: Any) -> str:
@@ -224,14 +269,23 @@ def evaluate_image(predictions, truths, *, image_id, iou_threshold=0.5, iou_weig
     for p, g in assignments:
         same_class, overlap = class_name(predictions[p]) == class_name(truths[g]), ious[p][g]
         accepted = overlap >= iou_threshold and same_class
+        rejection_reasons = []
+        if overlap < iou_threshold:
+            rejection_reasons.append("low_iou")
+        if not same_class:
+            rejection_reasons.append("class_mismatch")
         tp += int(accepted); errors += int(overlap >= iou_threshold and not same_class)
         pairs.append({
             "prediction_index": p, "ground_truth_index": g,
             "prediction_annotation_id": predictions[p].get("annotation_id"),
             "ground_truth_annotation_id": truths[g].get("annotation_id", truths[g].get("id")),
             "predicted_class": predictions[p]["class"], "ground_truth_class": truths[g]["class"],
+            "predicted_bbox": predictions[p]["bbox"], "ground_truth_bbox": truths[g]["bbox"],
             "iou": overlap, "l2_distance": distances[p][g], "matching_cost": costs[p][g],
-            "class_correct": same_class, "result": "TP" if accepted else "rejected",
+            "class_correct": same_class,
+            "status": "TP" if accepted else "REJECTED",
+            "rejection_reason": ",".join(rejection_reasons) or None,
+            "result": "TP" if accepted else "rejected",
         })
     used_p, used_g = {p for p, _ in assignments}, {g for _, g in assignments}
     return {
@@ -254,9 +308,10 @@ def print_result(result):
     print("\nHungarian-selected pairs:")
     if not result["assigned_pairs"]: print("  (none)")
     for pair in result["assigned_pairs"]:
+        rejection = f" ({pair['rejection_reason']})" if pair["rejection_reason"] else ""
         print(f"  P{pair['prediction_index']} {pair['predicted_class']} -> GT{pair['ground_truth_index']} "
               f"{pair['ground_truth_class']} | cost={pair['matching_cost']:.4f} IoU={pair['iou']:.4f} "
-              f"L2={pair['l2_distance']:.4f} | {pair['result']}")
+              f"L2={pair['l2_distance']:.4f} | {pair['status']}{rejection}")
     if result["unassigned_prediction_indices"]: print(f"Unassigned predictions (FP): {result['unassigned_prediction_indices']}")
     if result["unassigned_ground_truth_indices"]: print(f"Unassigned ground truths (FN): {result['unassigned_ground_truth_indices']}")
 
@@ -271,6 +326,19 @@ def parser() -> argparse.ArgumentParser:
         help="Load the newest SQLite annotation run for this image ID",
     )
     result.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
+    result.add_argument(
+        "--evaluation-database", type=Path, default=DEFAULT_EVALUATION_DATABASE,
+        help="SQLite destination for evaluation results",
+    )
+    result.add_argument(
+        "--source-run-id", type=int,
+        help="Original user_results.db run ID when evaluating a prediction file",
+    )
+    result.add_argument(
+        "--prompt-mode",
+        help="Prompt mode override; otherwise inferred from the source run or prediction JSON",
+    )
+    result.add_argument("--no-save", action="store_true", help="Evaluate without writing to SQLite")
     result.add_argument("--ground-truth", type=Path, default=DEFAULT_GT)
     result.add_argument("--image-id", help="COCO ground-truth image ID; overrides prediction image ID")
     result.add_argument("--iou-threshold", type=float, default=0.5)
@@ -297,23 +365,41 @@ def main() -> int:
             )
         if not 0 <= args.iou_threshold <= 1: raise ValueError("IoU threshold must be in 0..1")
         if min(args.iou_weight, args.class_weight, args.l2_weight) < 0: raise ValueError("Cost weights cannot be negative")
-        selected_run_id = None
+        selected_run_id = args.source_run_id
+        source_prompt_mode = None
         if args.prediction is not None:
             predictions, inferred_id = load_prediction_file(args.prediction)
         elif args.run_id is not None:
             predictions, inferred_id = load_database_run(args.database, args.run_id)
             selected_run_id = args.run_id
+            source_prompt_mode = load_database_prompt_mode(args.database, selected_run_id)
         else:
             predictions, inferred_id, selected_run_id = load_latest_database_run_for_image(
                 args.database, args.database_image_id
             )
+            source_prompt_mode = load_database_prompt_mode(args.database, selected_run_id)
             print(f"Using newest annotation run for image {inferred_id}: run ID {selected_run_id}")
-        image_id = str(args.image_id) if args.image_id is not None else inferred_id
+        image_id = canonical_image_id(args.image_id) if args.image_id is not None else inferred_id
         if image_id is None: raise ValueError("Cannot infer image ID; pass --image-id")
+        image_id = canonical_image_id(image_id)
         truths = ground_truth_for_image(load_json(args.ground_truth), image_id)
         cli = evaluate_image(predictions, truths, image_id=image_id, iou_threshold=args.iou_threshold,
                              iou_weight=args.iou_weight, class_weight=args.class_weight, l2_weight=args.l2_weight)
         print_result(cli)
+        if not args.no_save:
+            evaluation_run_id = save_coco_evaluation(
+                args.evaluation_database,
+                source_run_id=selected_run_id,
+                image_id=image_id,
+                prompt_mode=args.prompt_mode or source_prompt_mode or infer_prompt_mode(predictions),
+                predictions=predictions,
+                ground_truths=truths,
+                result=cli,
+            )
+            print(
+                f"Saved evaluation run {evaluation_run_id} to "
+                f"{args.evaluation_database}"
+            )
         return 0
     except (OSError, sqlite3.Error, ValueError) as exc:
         arguments.exit(2, f"error: {exc}\n")
