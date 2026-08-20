@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260816-results-grid">
+  <link rel="stylesheet" href="styles.css?v=20260820-results-hero-v2">
 </head>
 <body>
   <div class="page-shell results-page">
@@ -21,12 +21,23 @@
           <a id="resultsAuthButton" class="auth-link" href="/auth/google/login">Log in</a>
         </div>
       </nav>
-      <p class="eyebrow">Private workspace</p>
-      <h1>My annotation results</h1>
-      <p class="hero-text">Your uploaded images and model-generated annotation results, available only to your Google account.</p>
+      <div class="results-hero-banner glass-card">
+        <div class="results-hero-copy">
+          <p class="eyebrow">Private workspace</p>
+          <h1>My annotation results</h1>
+          <p class="hero-text">
+            Your uploaded images and model-generated annotation results, available only to your Google account.
+          </p>
+          <div class="results-hero-stats" aria-label="Results visibility summary">
+            <span class="results-hero-chip">Private by Google session</span>
+            <span class="results-hero-chip">SQLite-backed history</span>
+            <span class="results-hero-chip">Saved annotation runs</span>
+          </div>
+        </div>
+      </div>
     </header>
     <main class="section results-section">
-      <p id="resultsStatus" class="results-status" role="status">Loading your results…</p>
+      <p id="resultsStatus" class="results-status" role="status">Loading your results...</p>
       <div id="resultsGrid" class="results-grid"></div>
     </main>
   </div>
