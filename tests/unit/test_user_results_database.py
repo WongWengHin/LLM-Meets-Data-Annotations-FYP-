@@ -15,7 +15,7 @@ from app.core.user_database import (
 
 class UserResultsDatabaseTests(unittest.TestCase):
     def test_results_are_isolated_by_google_user_id(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
             database_path = Path(directory) / "user_results.db"
             init_user_database(database_path)
             save_user_image(
