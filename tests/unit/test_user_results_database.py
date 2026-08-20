@@ -14,6 +14,22 @@ from app.core.user_database import (
 
 
 class UserResultsDatabaseTests(unittest.TestCase):
+    def test_numeric_image_ids_are_stored_without_leading_zeroes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            database_path = Path(directory) / "user_results.db"
+            init_user_database(database_path)
+            save_user_image(
+                database_path, image_id="000000076731", owner_id="user",
+                filename="000000076731.jpg", file_data=b"image", size_bytes=5,
+            )
+            save_user_annotation_result(
+                database_path, image_id="000000076731", task_id="task",
+                task_status="completed", annotation_result={"annotations": []},
+            )
+            result = get_user_results(database_path, "user")
+            self.assertEqual(result[0]["image_id"], "76731")
+            self.assertIsNotNone(get_user_image_by_id(database_path, "000000076731", "user"))
+
     def test_results_are_isolated_by_google_user_id(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             database_path = Path(directory) / "user_results.db"

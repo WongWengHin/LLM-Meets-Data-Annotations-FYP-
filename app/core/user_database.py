@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
+
+from app.core.image_ids import canonical_image_id
 
 
 def init_user_database(database_path: Path) -> None:
     database_path.parent.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(database_path) as conn:
+    with closing(sqlite3.connect(database_path)) as conn:
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("""
             CREATE TABLE IF NOT EXISTS user_images (
@@ -43,6 +46,7 @@ def init_user_database(database_path: Path) -> None:
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_user_images_owner_uploaded_at ON user_images(owner_id, uploaded_at DESC)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_user_annotation_runs_image_id ON user_annotation_runs(image_id)")
+        conn.commit()
 
 
 def _connection(database_path: Path) -> sqlite3.Connection:
@@ -55,13 +59,15 @@ def save_user_image(
     database_path: Path, *, image_id: str, owner_id: str, filename: str,
     file_data: bytes, size_bytes: int, width: int | None = None, height: int | None = None,
 ) -> None:
-    with _connection(database_path) as conn:
+    image_id = canonical_image_id(image_id)
+    with closing(_connection(database_path)) as conn:
         conn.execute(
             """INSERT OR REPLACE INTO user_images
             (image_id, owner_id, filename, file_data, size_bytes, width, height, uploaded_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
             (image_id, owner_id, filename, file_data, size_bytes, width, height, datetime.now(timezone.utc).isoformat()),
         )
+        conn.commit()
 
 
 def save_user_annotation_result(
@@ -69,7 +75,8 @@ def save_user_annotation_result(
     strategy: str | None = None, prompt_mode: str | None = None, attempt_count: int = 0,
     review_required: bool = False, review_reason: str | None = None, annotation_result: dict,
 ) -> None:
-    with _connection(database_path) as conn:
+    image_id = canonical_image_id(image_id)
+    with closing(_connection(database_path)) as conn:
         conn.execute(
             """INSERT INTO user_annotation_runs
             (image_id, task_id, task_status, strategy, prompt_mode, attempt_count,
@@ -79,10 +86,12 @@ def save_user_annotation_result(
              int(review_required), review_reason, json.dumps(annotation_result, ensure_ascii=False),
              datetime.now(timezone.utc).isoformat()),
         )
+        conn.commit()
 
 
 def get_user_image_by_id(database_path: Path, image_id: str, owner_id: str) -> dict | None:
-    with _connection(database_path) as conn:
+    image_id = canonical_image_id(image_id)
+    with closing(_connection(database_path)) as conn:
         row = conn.execute(
             "SELECT * FROM user_images WHERE image_id = ? AND owner_id = ?", (image_id, owner_id)
         ).fetchone()
@@ -90,7 +99,7 @@ def get_user_image_by_id(database_path: Path, image_id: str, owner_id: str) -> d
 
 
 def get_user_results(database_path: Path, owner_id: str) -> list[dict]:
-    with _connection(database_path) as conn:
+    with closing(_connection(database_path)) as conn:
         rows = conn.execute(
             """
             SELECT user_images.image_id, user_images.filename, user_images.size_bytes, user_images.uploaded_at,

@@ -1,0 +1,7496 @@
+{
+  "images": [
+    {
+      "image_id": "2149",
+      "file_name": "000000002149.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "6614",
+      "file_name": "000000006614.jpg",
+      "width": 500,
+      "height": 396,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "11615",
+      "file_name": "000000011615.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "3501",
+      "file_name": "000000003501.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "25593",
+      "file_name": "000000025593.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "31050",
+      "file_name": "000000031050.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "31749",
+      "file_name": "000000031749.jpg",
+      "width": 640,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "35770",
+      "file_name": "000000035770.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "36539",
+      "file_name": "000000036539.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "36861",
+      "file_name": "000000036861.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "49259",
+      "file_name": "000000049259.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "218249",
+      "file_name": "000000218249.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "239041",
+      "file_name": "000000239041.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "245651",
+      "file_name": "000000245651.jpg",
+      "width": 375,
+      "height": 500,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "261535",
+      "file_name": "000000261535.jpg",
+      "width": 433,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "265108",
+      "file_name": "000000265108.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "265518",
+      "file_name": "000000265518.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "279769",
+      "file_name": "000000279769.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "329080",
+      "file_name": "000000329080.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "331569",
+      "file_name": "000000331569.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "339870",
+      "file_name": "000000339870.jpg",
+      "width": 640,
+      "height": 424,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "340451",
+      "file_name": "000000340451.jpg",
+      "width": 640,
+      "height": 424,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "76731",
+      "file_name": "000000076731.jpg",
+      "width": 640,
+      "height": 406,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "80949",
+      "file_name": "000000080949.jpg",
+      "width": 640,
+      "height": 438,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "84170",
+      "file_name": "000000084170.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "85478",
+      "file_name": "000000085478.jpg",
+      "width": 640,
+      "height": 403,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "141821",
+      "file_name": "000000141821.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "144706",
+      "file_name": "000000144706.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "144784",
+      "file_name": "000000144784.jpg",
+      "width": 375,
+      "height": 500,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "144932",
+      "file_name": "000000144932.jpg",
+      "width": 640,
+      "height": 425,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "154705",
+      "file_name": "000000154705.jpg",
+      "width": 640,
+      "height": 464,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "157124",
+      "file_name": "000000157124.jpg",
+      "width": 640,
+      "height": 424,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "157601",
+      "file_name": "000000157601.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "157928",
+      "file_name": "000000157928.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "159282",
+      "file_name": "000000159282.jpg",
+      "width": 640,
+      "height": 426,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "159458",
+      "file_name": "000000159458.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "160666",
+      "file_name": "000000160666.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "165336",
+      "file_name": "000000165336.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "173383",
+      "file_name": "000000173383.jpg",
+      "width": 640,
+      "height": 425,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "178982",
+      "file_name": "000000178982.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "186632",
+      "file_name": "000000186632.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "214205",
+      "file_name": "000000214205.jpg",
+      "width": 640,
+      "height": 439,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "370999",
+      "file_name": "000000370999.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "372349",
+      "file_name": "000000372349.jpg",
+      "width": 640,
+      "height": 437,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "389804",
+      "file_name": "000000389804.jpg",
+      "width": 640,
+      "height": 425,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "391648",
+      "file_name": "000000391648.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "394559",
+      "file_name": "000000394559.jpg",
+      "width": 426,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "425227",
+      "file_name": "000000425227.jpg",
+      "width": 428,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "425702",
+      "file_name": "000000425702.jpg",
+      "width": 640,
+      "height": 316,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "426795",
+      "file_name": "000000426795.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "431140",
+      "file_name": "000000431140.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "447789",
+      "file_name": "000000447789.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "456865",
+      "file_name": "000000456865.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "457262",
+      "file_name": "000000457262.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "471991",
+      "file_name": "000000471991.jpg",
+      "width": 640,
+      "height": 424,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "482719",
+      "file_name": "000000482719.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "491613",
+      "file_name": "000000491613.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "504389",
+      "file_name": "000000504389.jpg",
+      "width": 500,
+      "height": 320,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "579970",
+      "file_name": "000000579970.jpg",
+      "width": 500,
+      "height": 336,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "578236",
+      "file_name": "000000578236.jpg",
+      "width": 429,
+      "height": 640,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "575815",
+      "file_name": "000000575815.jpg",
+      "width": 640,
+      "height": 451,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "571943",
+      "file_name": "000000571943.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "571804",
+      "file_name": "000000571804.jpg",
+      "width": 640,
+      "height": 426,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "569976",
+      "file_name": "000000569976.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "568981",
+      "file_name": "000000568981.jpg",
+      "width": 640,
+      "height": 426,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "567011",
+      "file_name": "000000567011.jpg",
+      "width": 640,
+      "height": 426,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "566758",
+      "file_name": "000000566758.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "563603",
+      "file_name": "000000563603.jpg",
+      "width": 459,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "563267",
+      "file_name": "000000563267.jpg",
+      "width": 500,
+      "height": 375,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "558558",
+      "file_name": "000000558558.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "557172",
+      "file_name": "000000557172.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "556873",
+      "file_name": "000000556873.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "556193",
+      "file_name": "000000556193.jpg",
+      "width": 500,
+      "height": 333,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "554266",
+      "file_name": "000000554266.jpg",
+      "width": 640,
+      "height": 253,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "552842",
+      "file_name": "000000552842.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "550426",
+      "file_name": "000000550426.jpg",
+      "width": 416,
+      "height": 640,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "550084",
+      "file_name": "000000550084.jpg",
+      "width": 500,
+      "height": 375,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "547144",
+      "file_name": "000000547144.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Easy"
+    },
+    {
+      "image_id": "544605",
+      "file_name": "000000544605.jpg",
+      "width": 500,
+      "height": 375,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "540932",
+      "file_name": "000000540932.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "234779",
+      "file_name": "000000234779.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "235784",
+      "file_name": "000000235784.jpg",
+      "width": 640,
+      "height": 459,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "235836",
+      "file_name": "000000235836.jpg",
+      "width": 427,
+      "height": 640,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "236412",
+      "file_name": "000000236412.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "537241",
+      "file_name": "000000537241.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "537812",
+      "file_name": "000000537812.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "521282",
+      "file_name": "000000521282.jpg",
+      "width": 424,
+      "height": 640,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "520324",
+      "file_name": "000000520324.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "512476",
+      "file_name": "000000512476.jpg",
+      "width": 640,
+      "height": 426,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "512194",
+      "file_name": "000000512194.jpg",
+      "width": 640,
+      "height": 476,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "511453",
+      "file_name": "000000511453.jpg",
+      "width": 612,
+      "height": 612,
+      "difficulty": "Medium"
+    },
+    {
+      "image_id": "511398",
+      "file_name": "000000511398.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "506004",
+      "file_name": "000000506004.jpg",
+      "width": 640,
+      "height": 439,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "500663",
+      "file_name": "000000500663.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "499109",
+      "file_name": "000000499109.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "491757",
+      "file_name": "000000491757.jpg",
+      "width": 640,
+      "height": 479,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "486573",
+      "file_name": "000000486573.jpg",
+      "width": 480,
+      "height": 640,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "478286",
+      "file_name": "000000478286.jpg",
+      "width": 640,
+      "height": 480,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "469174",
+      "file_name": "000000469174.jpg",
+      "width": 640,
+      "height": 460,
+      "difficulty": "Hard"
+    },
+    {
+      "image_id": "468245",
+      "file_name": "000000468245.jpg",
+      "width": 640,
+      "height": 427,
+      "difficulty": "Hard"
+    }
+  ],
+  "annotations": [
+    {
+      "annotation_id": "709513",
+      "image_id": "2149",
+      "class": "bowl",
+      "bbox": [
+        0.0,
+        0.16629976580796255,
+        0.9985312499999999,
+        0.9865105386416863
+      ],
+      "sentences": [
+        "A white bowl holding a bunch of green apples"
+      ]
+    },
+    {
+      "annotation_id": "1047376",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.150703125,
+        0.22117096018735363,
+        0.5306093749999999,
+        0.7623419203747073
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990003",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.532515625,
+        0.17014051522248244,
+        0.912421875,
+        0.753231850117096
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990004",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.0,
+        0.5565105386416862,
+        0.37990625,
+        0.9263700234192037
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990005",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.39153125,
+        0.8153161592505854,
+        0.7118593750000001,
+        0.935480093676815
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990006",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.699125,
+        0.7059484777517564,
+        1.0,
+        0.9154332552693208
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990007",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.38784375,
+        0.713255269320843,
+        0.6887187499999999,
+        0.9172599531615926
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "990008",
+      "image_id": "2149",
+      "class": "apple",
+      "bbox": [
+        0.12276562499999999,
+        0.17379391100702574,
+        0.37742187499999996,
+        0.5491100702576112
+      ],
+      "sentences": [
+        "A large green apple in a white bowl"
+      ]
+    },
+    {
+      "annotation_id": "1049971",
+      "image_id": "6614",
+      "class": "apple",
+      "bbox": [
+        0.03718,
+        0.10234848484848486,
+        0.9649,
+        0.6352020202020202
+      ],
+      "sentences": [
+        "A group of apples arranged behind a large orange"
+      ]
+    },
+    {
+      "annotation_id": "1054367",
+      "image_id": "6614",
+      "class": "orange",
+      "bbox": [
+        0.24597999999999998,
+        0.17176767676767676,
+        0.6131,
+        0.6329292929292929
+      ],
+      "sentences": [
+        "A large orange placed in a center of the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990330",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.24675999999999998,
+        0.8525505050505051,
+        0.41172000000000003,
+        0.9724242424242425
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990331",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.42598,
+        0.7902525252525252,
+        0.58572,
+        0.9558585858585859
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990332",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.4909,
+        0.8738636363636364,
+        0.5844,
+        0.8853535353535354
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990333",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.7441599999999999,
+        0.7853282828282828,
+        0.87014,
+        0.9197979797979798
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990334",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.58312,
+        0.7590909090909091,
+        0.76364,
+        0.9525757575757576
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990335",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.0247,
+        0.7361363636363636,
+        0.21039999999999998,
+        0.8740656565656566
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990336",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.21688,
+        0.7640151515151515,
+        0.4883,
+        0.8952020202020202
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990337",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.7935,
+        0.6836616161616162,
+        0.9675199999999999,
+        0.8558333333333334
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990338",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.027280000000000002,
+        0.6672474747474748,
+        0.24936000000000003,
+        0.7525252525252525
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "990339",
+      "image_id": "6614",
+      "class": "peanuts",
+      "bbox": [
+        0.57402,
+        0.5491919191919191,
+        0.8012999999999999,
+        0.6853030303030303
+      ],
+      "sentences": [
+        "A piece of peanut scattered around the fruit arrangement"
+      ]
+    },
+    {
+      "annotation_id": "1799592",
+      "image_id": "11615",
+      "class": "truck",
+      "bbox": [
+        0.6033541666666667,
+        0.258796875,
+        0.7404583333333333,
+        0.317640625
+      ],
+      "sentences": [
+        "A logo of a truck visible on the road sign"
+      ]
+    },
+    {
+      "annotation_id": "990010",
+      "image_id": "11615",
+      "class": "truck",
+      "bbox": [
+        0.21368749999999997,
+        0.8434062499999999,
+        0.4049166666666667,
+        0.9225625
+      ],
+      "sentences": [
+        "A logo of a truck visible on the road sign"
+      ]
+    },
+    {
+      "annotation_id": "1059398",
+      "image_id": "3501",
+      "class": "broccoli",
+      "bbox": [
+        0.20470588235294118,
+        0.11058823529411765,
+        0.4305882352941176,
+        0.3647058823529412
+      ],
+      "sentences": [
+        "A piece of green broccoli in a bowl"
+      ]
+    },
+    {
+      "annotation_id": "1060257",
+      "image_id": "3501",
+      "class": "broccoli",
+      "bbox": [
+        0.12235294117647058,
+        0.2847058823529412,
+        0.42117647058823526,
+        0.5905882352941176
+      ],
+      "sentences": [
+        "A piece of green broccoli in a bowl"
+      ]
+    },
+    {
+      "annotation_id": "1533127",
+      "image_id": "3501",
+      "class": "bowl",
+      "bbox": [
+        0.020228758169934642,
+        0.013480392156862746,
+        0.9865196078431373,
+        0.9528104575163399
+      ],
+      "sentences": [
+        "A small white bowl containing rice, broccoli and tomato stew"
+      ]
+    },
+    {
+      "annotation_id": "990327",
+      "image_id": "3501",
+      "class": "rice",
+      "bbox": [
+        0.228578431372549,
+        0.4363562091503268,
+        0.6532516339869281,
+        0.8272712418300654
+      ],
+      "sentences": [
+        "A serving of white rice in a bowl"
+      ]
+    },
+    {
+      "annotation_id": "1153302",
+      "image_id": "31050",
+      "class": "vase",
+      "bbox": [
+        0.371943793911007,
+        0.38790625,
+        0.6433021077283372,
+        0.886109375
+      ],
+      "sentences": [
+        "A tall decorative ceramic vase holding dried plants and branches"
+      ]
+    },
+    {
+      "annotation_id": "990012",
+      "image_id": "31050",
+      "class": "vase",
+      "bbox": [
+        0.0,
+        0.22559374999999998,
+        0.1467447306791569,
+        0.5021093750000001
+      ],
+      "sentences": [
+        "A dark brown ceramic vase partially visible on the highest pedestal"
+      ]
+    },
+    {
+      "annotation_id": "990013",
+      "image_id": "31050",
+      "class": "vase",
+      "bbox": [
+        0.8411241217798595,
+        0.8108437500000001,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A small dark brown ceramic vase partially visible beside the tall vase"
+      ]
+    },
+    {
+      "annotation_id": "2197091",
+      "image_id": "31749",
+      "class": "clock",
+      "bbox": [
+        0.1431875,
+        0.4024375,
+        0.42625,
+        0.725625
+      ],
+      "sentences": [
+        "A white clock overlaid on a doll's face"
+      ]
+    },
+    {
+      "annotation_id": "990015",
+      "image_id": "31749",
+      "class": "clock",
+      "bbox": [
+        0.569234375,
+        0.4024375,
+        0.8522968750000001,
+        0.725625
+      ],
+      "sentences": [
+        "A white clock overlaid on a doll's face"
+      ]
+    },
+    {
+      "annotation_id": "1094478",
+      "image_id": "35770",
+      "class": "toilet",
+      "bbox": [
+        0.30014583333333333,
+        0.7221875,
+        0.7543541666666668,
+        0.9999687500000001
+      ],
+      "sentences": [
+        "A black and white toilet with a cow pattern beside the sink"
+      ]
+    },
+    {
+      "annotation_id": "1136070",
+      "image_id": "35770",
+      "class": "sink",
+      "bbox": [
+        0.08108333333333334,
+        0.166671875,
+        1.0,
+        0.630625
+      ],
+      "sentences": [
+        "A white sink basin under a glass frame"
+      ]
+    },
+    {
+      "annotation_id": "1967721",
+      "image_id": "35770",
+      "class": "toilet",
+      "bbox": [
+        0.5269583333333333,
+        0.029890624999999997,
+        0.7253124999999999,
+        0.188015625
+      ],
+      "sentences": [
+        "A blue checkered toilet beside the sink"
+      ]
+    },
+    {
+      "annotation_id": "2196306",
+      "image_id": "35770",
+      "class": "sink",
+      "bbox": [
+        0.098875,
+        0.04065625,
+        0.6351249999999999,
+        0.473375
+      ],
+      "sentences": [
+        "A white sink basin under a glass frame"
+      ]
+    },
+    {
+      "annotation_id": "990020",
+      "image_id": "35770",
+      "class": "toilet",
+      "bbox": [
+        0.0,
+        0.59196875,
+        0.2637291666666667,
+        1.0
+      ],
+      "sentences": [
+        "A blue decorated toilet partially visible beside the sink"
+      ]
+    },
+    {
+      "annotation_id": "472315",
+      "image_id": "36539",
+      "class": "person",
+      "bbox": [
+        0.39318501170960185,
+        0.45728125000000003,
+        0.6183606557377048,
+        0.83171875
+      ],
+      "sentences": [
+        "A person wearing a black jacket snowboarding down a snowy slop"
+      ]
+    },
+    {
+      "annotation_id": "492474",
+      "image_id": "36539",
+      "class": "person",
+      "bbox": [
+        0.17447306791569087,
+        0.56021875,
+        0.27955503512880564,
+        0.716625
+      ],
+      "sentences": [
+        "A person wearing a pink jacket standing on a snowy slope "
+      ]
+    },
+    {
+      "annotation_id": "616108",
+      "image_id": "36539",
+      "class": "snowboard",
+      "bbox": [
+        0.3170725995316159,
+        0.805265625,
+        0.718056206088993,
+        0.8483281249999999
+      ],
+      "sentences": [
+        "A snowboard beneath a person on the snow"
+      ]
+    },
+    {
+      "annotation_id": "990202",
+      "image_id": "36539",
+      "class": "skis",
+      "bbox": [
+        0.5590163934426229,
+        0.692796875,
+        0.7291569086651054,
+        0.749546875
+      ],
+      "sentences": [
+        "A pair of skis lying on the snow beside the snowboarder"
+      ]
+    },
+    {
+      "annotation_id": "418766",
+      "image_id": "36861",
+      "class": "parking meter",
+      "bbox": [
+        0.34795833333333337,
+        0.058875,
+        0.5024375,
+        0.36926562500000004
+      ],
+      "sentences": [
+        "A black parking meter mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "418890",
+      "image_id": "36861",
+      "class": "parking meter",
+      "bbox": [
+        0.19420833333333334,
+        0.055046874999999995,
+        0.3535833333333333,
+        0.365828125
+      ],
+      "sentences": [
+        "A black parking meter mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "990023",
+      "image_id": "36861",
+      "class": "parking meter",
+      "bbox": [
+        0.1471875,
+        0.367546875,
+        0.17216666666666666,
+        0.41521875
+      ],
+      "sentences": [
+        "A black parking meter mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "990024",
+      "image_id": "36861",
+      "class": "parking meter",
+      "bbox": [
+        0.1726875,
+        0.367765625,
+        0.19635416666666666,
+        0.41526562499999997
+      ],
+      "sentences": [
+        "A black parking meter mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "456518",
+      "image_id": "49259",
+      "class": "person",
+      "bbox": [
+        0.3871194379391101,
+        0.08871875,
+        0.6690866510538642,
+        0.21200000000000002
+      ],
+      "sentences": [
+        "A person sunbathing beside the ocean"
+      ]
+    },
+    {
+      "annotation_id": "990204",
+      "image_id": "49259",
+      "class": "stop sign",
+      "bbox": [
+        0.13637002341920373,
+        0.64234375,
+        0.8115222482435598,
+        0.8900937500000001
+      ],
+      "sentences": [
+        "A closed sign laid on the ground"
+      ]
+    },
+    {
+      "annotation_id": "309664",
+      "image_id": "218249",
+      "class": "sandwich",
+      "bbox": [
+        0.31296875,
+        0.1663934426229508,
+        0.81659375,
+        0.5923887587822014
+      ],
+      "sentences": [
+        "A sandwich filled with a patty and vegetables on a tray"
+      ]
+    },
+    {
+      "annotation_id": "1961466",
+      "image_id": "218249",
+      "class": "dining table",
+      "bbox": [
+        0.0017343750000000002,
+        0.0051990632318501175,
+        1.0,
+        0.9870023419203748
+      ],
+      "sentences": [
+        "A white dining table with a tray a food on it"
+      ]
+    },
+    {
+      "annotation_id": "990350",
+      "image_id": "218249",
+      "class": "fries",
+      "bbox": [
+        0.0390625,
+        0.6510304449648712,
+        0.554671875,
+        0.999976580796253
+      ],
+      "sentences": [
+        "A box of large fries placed on a tray"
+      ]
+    },
+    {
+      "annotation_id": "30662",
+      "image_id": "239041",
+      "class": "tv",
+      "bbox": [
+        0.421296875,
+        0.4814519906323185,
+        0.559234375,
+        0.6297658079625293
+      ],
+      "sentences": [
+        "A television screen reflection partially visible in the mirror"
+      ]
+    },
+    {
+      "annotation_id": "1132819",
+      "image_id": "239041",
+      "class": "sink",
+      "bbox": [
+        0.0,
+        0.6898829039812646,
+        0.1364375,
+        0.9887587822014051
+      ],
+      "sentences": [
+        "A white sink partially visible under a mirror"
+      ]
+    },
+    {
+      "annotation_id": "1676042",
+      "image_id": "239041",
+      "class": "hair drier",
+      "bbox": [
+        0.09601562500000001,
+        0.4470257611241218,
+        0.169734375,
+        0.571264637002342
+      ],
+      "sentences": [
+        "A white hair dryer mounted on the wall"
+      ]
+    },
+    {
+      "annotation_id": "2094161",
+      "image_id": "239041",
+      "class": "bottle",
+      "bbox": [
+        0.04790625,
+        0.6563231850117096,
+        0.09365625,
+        0.8004449648711944
+      ],
+      "sentences": [
+        "A soap dispenser bottle on the white sink"
+      ]
+    },
+    {
+      "annotation_id": "990248",
+      "image_id": "239041",
+      "class": "bed",
+      "bbox": [
+        0.66896875,
+        0.30245901639344264,
+        0.74503125,
+        0.524496487119438
+      ],
+      "sentences": [
+        "A bed partially visible through the open doorway"
+      ]
+    },
+    {
+      "annotation_id": "1085770",
+      "image_id": "245651",
+      "class": "cake",
+      "bbox": [
+        0.006,
+        0.06966,
+        0.9677866666666667,
+        0.7438199999999999
+      ],
+      "sentences": [
+        "A cake decorated with stars on a dining table"
+      ]
+    },
+    {
+      "annotation_id": "990250",
+      "image_id": "245651",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.01796,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A black dining table resting a star decorated cake on it"
+      ]
+    },
+    {
+      "annotation_id": "473873",
+      "image_id": "261535",
+      "class": "person",
+      "bbox": [
+        0.45503464203233257,
+        0.17978125,
+        0.7639491916859121,
+        0.8561875000000001
+      ],
+      "sentences": [
+        "A person walking barefoot holding a tennis racket"
+      ]
+    },
+    {
+      "annotation_id": "658855",
+      "image_id": "261535",
+      "class": "tennis racket",
+      "bbox": [
+        0.7061431870669745,
+        0.523921875,
+        0.8682909930715935,
+        0.764640625
+      ],
+      "sentences": [
+        "A tennis racket held by a person"
+      ]
+    },
+    {
+      "annotation_id": "990045",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.0019630484988452657,
+        0.85290625,
+        0.05367205542725174,
+        0.882375
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "1854091",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.17648960739030023,
+        0.833546875,
+        0.22697459584295612,
+        0.866375
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "1854260",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.9129792147806004,
+        0.773828125,
+        0.9603926096997691,
+        0.8016406249999999
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "1855051",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.30235565819861426,
+        0.9036875,
+        0.34351039260969973,
+        0.931953125
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "1855133",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.19618937644341802,
+        0.277,
+        0.20787528868360278,
+        0.286703125
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "1855168",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.10688221709006929,
+        0.8676406249999999,
+        0.1664203233256351,
+        0.8982187500000001
+      ],
+      "sentences": [
+        "A yellow tennis ball held by a person"
+      ]
+    },
+    {
+      "annotation_id": "1855236",
+      "image_id": "261535",
+      "class": "sports ball",
+      "bbox": [
+        0.4790300230946882,
+        0.49853125,
+        0.49806004618937644,
+        0.518671875
+      ],
+      "sentences": [
+        "A yellow tennis ball on the ground"
+      ]
+    },
+    {
+      "annotation_id": "281850",
+      "image_id": "265108",
+      "class": "umbrella",
+      "bbox": [
+        0.46070257611241217,
+        0.66303125,
+        0.5148946135831381,
+        0.9560625
+      ],
+      "sentences": [
+        "A black and white patterned umbrella leaned on the wall"
+      ]
+    },
+    {
+      "annotation_id": "1185557",
+      "image_id": "265108",
+      "class": "suitcase",
+      "bbox": [
+        0.5860655737704918,
+        0.6045,
+        0.8251990632318501,
+        0.9528125
+      ],
+      "sentences": [
+        "A blue suitcase beside the umbrella"
+      ]
+    },
+    {
+      "annotation_id": "990356",
+      "image_id": "265108",
+      "class": "balloon",
+      "bbox": [
+        0.4038173302107729,
+        0.408671875,
+        0.6110304449648712,
+        0.56709375
+      ],
+      "sentences": [
+        "A red balloon floating on top of the umbrella"
+      ]
+    },
+    {
+      "annotation_id": "669880",
+      "image_id": "265518",
+      "class": "cup",
+      "bbox": [
+        0.09258169934640523,
+        0.07022875816993464,
+        0.3600326797385621,
+        0.31996732026143787
+      ],
+      "sentences": [
+        "A white cup filled with coffee on a smooth stone table"
+      ]
+    },
+    {
+      "annotation_id": "689541",
+      "image_id": "265518",
+      "class": "fork",
+      "bbox": [
+        0.1638888888888889,
+        0.6625490196078432,
+        0.6346732026143791,
+        0.9118627450980393
+      ],
+      "sentences": [
+        "A metal fork placed on a smooth stone table"
+      ]
+    },
+    {
+      "annotation_id": "1910442",
+      "image_id": "265518",
+      "class": "sandwich",
+      "bbox": [
+        0.4103921568627451,
+        0.3038888888888889,
+        0.7558496732026143,
+        0.6129901960784313
+      ],
+      "sentences": [
+        "A sandwich topped with eggs and vegetables on a plate"
+      ]
+    },
+    {
+      "annotation_id": "1914586",
+      "image_id": "265518",
+      "class": "broccoli",
+      "bbox": [
+        0.6177124183006536,
+        0.414624183006536,
+        0.6877777777777778,
+        0.4627614379084967
+      ],
+      "sentences": [
+        "A piece of broccoli on top of the sandwich"
+      ]
+    },
+    {
+      "annotation_id": "1916454",
+      "image_id": "265518",
+      "class": "broccoli",
+      "bbox": [
+        0.6017156862745098,
+        0.35321895424836597,
+        0.6529901960784313,
+        0.40683006535947713
+      ],
+      "sentences": [
+        "A piece of broccoli on top of the sandwich"
+      ]
+    },
+    {
+      "annotation_id": "990246",
+      "image_id": "265518",
+      "class": "bowl",
+      "bbox": [
+        0.27941176470588236,
+        0.18212418300653593,
+        0.8710457516339868,
+        0.7681045751633987
+      ],
+      "sentences": [
+        "A black and white patterned plate holding the sandwich"
+      ]
+    },
+    {
+      "annotation_id": "1042267",
+      "image_id": "279769",
+      "class": "banana",
+      "bbox": [
+        0.197953125,
+        0.15522916666666667,
+        0.68115625,
+        0.3515208333333334
+      ],
+      "sentences": [
+        "A yellow banana placed on a paper towel"
+      ]
+    },
+    {
+      "annotation_id": "1958202",
+      "image_id": "279769",
+      "class": "dining table",
+      "bbox": [
+        0.701546875,
+        0.18629166666666666,
+        1.0,
+        0.850375
+      ],
+      "sentences": [
+        "A wooden dining table with two bananas resting on it"
+      ]
+    },
+    {
+      "annotation_id": "990025",
+      "image_id": "279769",
+      "class": "banana",
+      "bbox": [
+        0.02190625,
+        0.4760625,
+        0.820734375,
+        0.8209583333333333
+      ],
+      "sentences": [
+        "A brightly lit yellow banana placed on a paper towel"
+      ]
+    },
+    {
+      "annotation_id": "318591",
+      "image_id": "329080",
+      "class": "bed",
+      "bbox": [
+        0.17359375,
+        0.49593750000000003,
+        0.964046875,
+        0.9835833333333334
+      ],
+      "sentences": [
+        "An unmade bed with white pillows and a gray-green blanket"
+      ]
+    },
+    {
+      "annotation_id": "318688",
+      "image_id": "329080",
+      "class": "bed",
+      "bbox": [
+        0.0,
+        0.382875,
+        0.5134218749999999,
+        0.7564791666666667
+      ],
+      "sentences": [
+        "A bed with a gray-green blanket and clothes scattered on top"
+      ]
+    },
+    {
+      "annotation_id": "1444448",
+      "image_id": "329080",
+      "class": "suitcase",
+      "bbox": [
+        0.000296875,
+        0.6329999999999999,
+        0.03225,
+        0.7246458333333333
+      ],
+      "sentences": [
+        "A black suitcase partially visible on the floor"
+      ]
+    },
+    {
+      "annotation_id": "990251",
+      "image_id": "329080",
+      "class": "cell phone",
+      "bbox": [
+        0.54296875,
+        0.38989583333333333,
+        0.561734375,
+        0.4744375
+      ],
+      "sentences": [
+        "A black cell phone resting on a bedside table"
+      ]
+    },
+    {
+      "annotation_id": "1879964",
+      "image_id": "331569",
+      "class": "cup",
+      "bbox": [
+        0.3896078431372549,
+        0.03117647058823529,
+        1.0,
+        0.9246732026143792
+      ],
+      "sentences": [
+        "A glass cup filled with strawberry milkshake on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "990358",
+      "image_id": "331569",
+      "class": "strawberry",
+      "bbox": [
+        0.1636437908496732,
+        0.4584477124183006,
+        0.38962418300653595,
+        0.714297385620915
+      ],
+      "sentences": [
+        "A red strawberry placed on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "990359",
+      "image_id": "331569",
+      "class": "strawberry",
+      "bbox": [
+        0.24805555555555556,
+        0.5662254901960784,
+        0.471437908496732,
+        0.8870098039215685
+      ],
+      "sentences": [
+        "A red strawberry placed on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "396014",
+      "image_id": "339870",
+      "class": "truck",
+      "bbox": [
+        0.19590625,
+        0.8445518867924527,
+        0.30637499999999995,
+        1.0
+      ],
+      "sentences": [
+        "A white box truck parked along the side of the road"
+      ]
+    },
+    {
+      "annotation_id": "1198939",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.6543593750000001,
+        0.6255424528301887,
+        0.696109375,
+        0.711061320754717
+      ],
+      "sentences": [
+        "A traffic light hanging above the intersection in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "1199040",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.8463593749999999,
+        0.7251179245283018,
+        0.8672968749999999,
+        0.8051415094339622
+      ],
+      "sentences": [
+        "A traffic light hanging above the intersection in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "1199696",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.7026875,
+        0.9338679245283018,
+        0.728265625,
+        0.9819575471698112
+      ],
+      "sentences": [
+        "A traffic signal mounted on a pole in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "1199755",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.5821562499999999,
+        0.6054716981132076,
+        0.63046875,
+        0.7164622641509435
+      ],
+      "sentences": [
+        "A traffic light hanging above the intersection in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "1805441",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.9498906249999999,
+        0.8145518867924528,
+        0.9645624999999999,
+        0.8527594339622642
+      ],
+      "sentences": [
+        "A traffic light hanging above the intersection in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "990034",
+      "image_id": "339870",
+      "class": "traffic light",
+      "bbox": [
+        0.6718437500000001,
+        0.9338679245283018,
+        0.6928125,
+        0.9813915094339621
+      ],
+      "sentences": [
+        "A traffic signal mounted on a pole in front of the church"
+      ]
+    },
+    {
+      "annotation_id": "572044",
+      "image_id": "340451",
+      "class": "bench",
+      "bbox": [
+        0.067,
+        0.3932547169811321,
+        0.890609375,
+        0.8717216981132075
+      ],
+      "sentences": [
+        "A large wooden park bench with a person sitting on it"
+      ]
+    },
+    {
+      "annotation_id": "2164049",
+      "image_id": "340451",
+      "class": "person",
+      "bbox": [
+        0.372015625,
+        0.10775943396226415,
+        0.617125,
+        0.9006603773584906
+      ],
+      "sentences": [
+        "A person wearing a yellow jacket waving sitting on the park bench"
+      ]
+    },
+    {
+      "annotation_id": "990037",
+      "image_id": "340451",
+      "class": "person",
+      "bbox": [
+        0.561,
+        0.4513915094339622,
+        0.670890625,
+        0.6615094339622642
+      ],
+      "sentences": [
+        "A person wearing a black jacket crouched behind the park bench"
+      ]
+    },
+    {
+      "annotation_id": "1100252",
+      "image_id": "76731",
+      "class": "laptop",
+      "bbox": [
+        0.07840625,
+        0.07640394088669951,
+        0.9408749999999999,
+        0.8539408866995074
+      ],
+      "sentences": [
+        "A blue laptop closed shut on a wooden table"
+      ]
+    },
+    {
+      "annotation_id": "990341",
+      "image_id": "76731",
+      "class": "pen",
+      "bbox": [
+        0.31571875,
+        0.39068965517241383,
+        0.749765625,
+        0.597167487684729
+      ],
+      "sentences": [
+        "An orange pen placed above the blue laptop"
+      ]
+    },
+    {
+      "annotation_id": "49104",
+      "image_id": "80949",
+      "class": "cat",
+      "bbox": [
+        0.041203125,
+        0.29678082191780825,
+        0.977265625,
+        0.834406392694064
+      ],
+      "sentences": [
+        "A fluffy white cat laying across the keyboard of a laptop"
+      ]
+    },
+    {
+      "annotation_id": "1098811",
+      "image_id": "80949",
+      "class": "laptop",
+      "bbox": [
+        0.006125,
+        0.0046803652968036525,
+        0.9997656249999999,
+        0.9331050228310502
+      ],
+      "sentences": [
+        "A silver laptop with its screen open"
+      ]
+    },
+    {
+      "annotation_id": "1484562",
+      "image_id": "80949",
+      "class": "bottle",
+      "bbox": [
+        0.858734375,
+        0.0,
+        0.994953125,
+        0.3923744292237443
+      ],
+      "sentences": [
+        "A dark glass bottle beside the laptop"
+      ]
+    },
+    {
+      "annotation_id": "2099631",
+      "image_id": "80949",
+      "class": "cup",
+      "bbox": [
+        0.8247187500000001,
+        0.0,
+        0.8946406250000001,
+        0.16662100456621007
+      ],
+      "sentences": [
+        "A white cup behind the laptop"
+      ]
+    },
+    {
+      "annotation_id": "990050",
+      "image_id": "80949",
+      "class": "bottle",
+      "bbox": [
+        0.00025,
+        0.06550228310502283,
+        0.039531250000000004,
+        0.45787671232876714
+      ],
+      "sentences": [
+        "A partially visible bottle beside the laptop"
+      ]
+    },
+    {
+      "annotation_id": "348329",
+      "image_id": "84170",
+      "class": "car",
+      "bbox": [
+        0.206703125,
+        0.544,
+        0.359765625,
+        0.702375
+      ],
+      "sentences": [
+        "A silver car driving on a rain-soaked road"
+      ]
+    },
+    {
+      "annotation_id": "350385",
+      "image_id": "84170",
+      "class": "car",
+      "bbox": [
+        0.129,
+        0.5484583333333333,
+        0.22156250000000002,
+        0.6329375
+      ],
+      "sentences": [
+        "A white car with its headlights on driving on a rain-soaked road"
+      ]
+    },
+    {
+      "annotation_id": "366175",
+      "image_id": "84170",
+      "class": "bus",
+      "bbox": [
+        0.316859375,
+        0.2494375,
+        0.6960625,
+        0.7595416666666667
+      ],
+      "sentences": [
+        "A city bus driving on a rain-soaked road"
+      ]
+    },
+    {
+      "annotation_id": "1355468",
+      "image_id": "84170",
+      "class": "car",
+      "bbox": [
+        0.34245312499999997,
+        0.5453749999999999,
+        0.35951562499999995,
+        0.581625
+      ],
+      "sentences": [
+        "A small yellow car partially visible behind the bus"
+      ]
+    },
+    {
+      "annotation_id": "1682257",
+      "image_id": "84170",
+      "class": "person",
+      "bbox": [
+        0.5260625,
+        0.474375,
+        0.555453125,
+        0.5535208333333334
+      ],
+      "sentences": [
+        "A person partially visible through the front windshield of the bus"
+      ]
+    },
+    {
+      "annotation_id": "1772957",
+      "image_id": "84170",
+      "class": "car",
+      "bbox": [
+        0.001140625,
+        0.5094375,
+        0.071625,
+        0.6012291666666667
+      ],
+      "sentences": [
+        "A partially visible white car behind the trees"
+      ]
+    },
+    {
+      "annotation_id": "2007085",
+      "image_id": "84170",
+      "class": "person",
+      "bbox": [
+        0.39831249999999996,
+        0.470375,
+        0.46025,
+        0.5425833333333333
+      ],
+      "sentences": [
+        "A person partially visible through the front windshield of the bus"
+      ]
+    },
+    {
+      "annotation_id": "990212",
+      "image_id": "84170",
+      "class": "stop sign",
+      "bbox": [
+        0.856828125,
+        0.15622916666666667,
+        0.9574999999999999,
+        0.29791666666666666
+      ],
+      "sentences": [
+        "A no-jaywalk sign mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "586735",
+      "image_id": "85478",
+      "class": "bear",
+      "bbox": [
+        0.4894375,
+        0.44980148883374693,
+        0.821828125,
+        0.744789081885856
+      ],
+      "sentences": [
+        "A polar bear in the water with its head above the surface"
+      ]
+    },
+    {
+      "annotation_id": "990052",
+      "image_id": "85478",
+      "class": "bear",
+      "bbox": [
+        0.043203124999999995,
+        0.2118610421836228,
+        0.341484375,
+        0.8024813895781637
+      ],
+      "sentences": [
+        "A polar bear rasing its paw above the surface of the water"
+      ]
+    },
+    {
+      "annotation_id": "81028",
+      "image_id": "141821",
+      "class": "bottle",
+      "bbox": [
+        0.804046875,
+        0.3232083333333333,
+        1.0,
+        0.9853541666666666
+      ],
+      "sentences": [
+        "A plastic bottle of water beside the pizza"
+      ]
+    },
+    {
+      "annotation_id": "189502",
+      "image_id": "141821",
+      "class": "person",
+      "bbox": [
+        0.07418749999999999,
+        0.0022916666666666667,
+        0.91290625,
+        0.23885416666666665
+      ],
+      "sentences": [
+        "A person wearing a white shirt beside the table "
+      ]
+    },
+    {
+      "annotation_id": "1074217",
+      "image_id": "141821",
+      "class": "pizza",
+      "bbox": [
+        0.12978125000000001,
+        0.22022916666666664,
+        0.8477499999999999,
+        0.9775208333333333
+      ],
+      "sentences": [
+        "A pizza topped with mushroom, cheese and meat on the table"
+      ]
+    },
+    {
+      "annotation_id": "1535985",
+      "image_id": "141821",
+      "class": "bowl",
+      "bbox": [
+        0.001234375,
+        0.596125,
+        0.149078125,
+        0.8048333333333333
+      ],
+      "sentences": [
+        "A small sauce cup placed beside the pizza"
+      ]
+    },
+    {
+      "annotation_id": "1733393",
+      "image_id": "141821",
+      "class": "person",
+      "bbox": [
+        0.00134375,
+        0.09393750000000001,
+        0.10493749999999999,
+        0.3325000000000001
+      ],
+      "sentences": [
+        "A partially visible person wearing a red shirt"
+      ]
+    },
+    {
+      "annotation_id": "990058",
+      "image_id": "141821",
+      "class": "bowl",
+      "bbox": [
+        0.052671875,
+        0.9305833333333333,
+        0.22653125,
+        0.9973333333333334
+      ],
+      "sentences": [
+        "A small sauce cup placed beside the pizza"
+      ]
+    },
+    {
+      "annotation_id": "348216",
+      "image_id": "144706",
+      "class": "car",
+      "bbox": [
+        0.61959375,
+        0.77275,
+        0.698625,
+        0.8268541666666667
+      ],
+      "sentences": [
+        "A gray car driving through the rainy intersection"
+      ]
+    },
+    {
+      "annotation_id": "405142",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.41965624999999995,
+        0.2516875,
+        0.47021875,
+        0.3842708333333333
+      ],
+      "sentences": [
+        "A green traffic light hanging above the intersection"
+      ]
+    },
+    {
+      "annotation_id": "1369864",
+      "image_id": "144706",
+      "class": "truck",
+      "bbox": [
+        0.773796875,
+        0.768125,
+        0.856640625,
+        0.8447291666666666
+      ],
+      "sentences": [
+        "A truck driving along the wet road"
+      ]
+    },
+    {
+      "annotation_id": "1776217",
+      "image_id": "144706",
+      "class": "car",
+      "bbox": [
+        0.778796875,
+        0.7706666666666667,
+        0.855828125,
+        0.8409375000000001
+      ],
+      "sentences": [
+        "A car driving on a wet road"
+      ]
+    },
+    {
+      "annotation_id": "1804334",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.744609375,
+        0.640625,
+        0.7817968750000001,
+        0.6798541666666666
+      ],
+      "sentences": [
+        "A red traffic signal mounted on the roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "1805792",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.260828125,
+        0.3246041666666667,
+        0.295578125,
+        0.4126875
+      ],
+      "sentences": [
+        "A traffic light hanging over the intersection"
+      ]
+    },
+    {
+      "annotation_id": "1806149",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.7456875000000001,
+        0.49185416666666665,
+        0.7834531250000001,
+        0.6088333333333333
+      ],
+      "sentences": [
+        "A green traffic light mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "990066",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.8495312500000001,
+        0.5892499999999999,
+        0.8981718750000001,
+        0.6513749999999999
+      ],
+      "sentences": [
+        "A traffic signal mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "990067",
+      "image_id": "144706",
+      "class": "traffic light",
+      "bbox": [
+        0.8887656249999999,
+        0.36722916666666666,
+        0.9379843749999999,
+        0.5260625
+      ],
+      "sentences": [
+        "A traffic light mounted on a roadside pole"
+      ]
+    },
+    {
+      "annotation_id": "439556",
+      "image_id": "144784",
+      "class": "person",
+      "bbox": [
+        0.65144,
+        0.68036,
+        1.0,
+        0.9817400000000001
+      ],
+      "sentences": [
+        "A person reaching for the blender's control switch"
+      ]
+    },
+    {
+      "annotation_id": "990343",
+      "image_id": "144784",
+      "class": "blender",
+      "bbox": [
+        0.04938666666666667,
+        0.0,
+        0.91704,
+        0.7689199999999999
+      ],
+      "sentences": [
+        "A blender with a glass jar filled with yellow liquid on a countertop "
+      ]
+    },
+    {
+      "annotation_id": "175615",
+      "image_id": "144932",
+      "class": "boat",
+      "bbox": [
+        0.7476406250000001,
+        0.43268235294117646,
+        0.86996875,
+        0.5485176470588234
+      ],
+      "sentences": [
+        "A small yellow boat towing another boat across the water"
+      ]
+    },
+    {
+      "annotation_id": "1243542",
+      "image_id": "144932",
+      "class": "person",
+      "bbox": [
+        0.784796875,
+        0.5183058823529412,
+        0.7910625,
+        0.5278588235294118
+      ],
+      "sentences": [
+        "A person standing on top of the boat"
+      ]
+    },
+    {
+      "annotation_id": "2009814",
+      "image_id": "144932",
+      "class": "person",
+      "bbox": [
+        0.82540625,
+        0.4698352941176471,
+        0.8338125,
+        0.49517647058823533
+      ],
+      "sentences": [
+        "A person standing inside the boat's cabin"
+      ]
+    },
+    {
+      "annotation_id": "990068",
+      "image_id": "144932",
+      "class": "boat",
+      "bbox": [
+        0.600390625,
+        0.49310588235294117,
+        0.6937656249999999,
+        0.5441647058823529
+      ],
+      "sentences": [
+        "A small boat carrying a portable toilet being towed"
+      ]
+    },
+    {
+      "annotation_id": "1100050",
+      "image_id": "154705",
+      "class": "laptop",
+      "bbox": [
+        0.33799999999999997,
+        0.4470689655172414,
+        0.46699999999999997,
+        0.5776939655172414
+      ],
+      "sentences": [
+        "A laptop with its screen turned off on a desk"
+      ]
+    },
+    {
+      "annotation_id": "1106461",
+      "image_id": "154705",
+      "class": "mouse",
+      "bbox": [
+        0.813125,
+        0.6718103448275863,
+        0.85709375,
+        0.7166163793103449
+      ],
+      "sentences": [
+        "A computer mouse resting on a mouse pad"
+      ]
+    },
+    {
+      "annotation_id": "1106532",
+      "image_id": "154705",
+      "class": "mouse",
+      "bbox": [
+        0.65459375,
+        0.6544827586206897,
+        0.683515625,
+        0.6932758620689655
+      ],
+      "sentences": [
+        "A black computer mouse resting on a mouse pad"
+      ]
+    },
+    {
+      "annotation_id": "1115810",
+      "image_id": "154705",
+      "class": "keyboard",
+      "bbox": [
+        0.502921875,
+        0.5934698275862069,
+        0.689078125,
+        0.6610344827586208
+      ],
+      "sentences": [
+        "A keyboard in front of a desktop monitor"
+      ]
+    },
+    {
+      "annotation_id": "1117417",
+      "image_id": "154705",
+      "class": "keyboard",
+      "bbox": [
+        0.313828125,
+        0.5896120689655172,
+        0.46953125,
+        0.6243749999999999
+      ],
+      "sentences": [
+        "A keyboard is positioned in front of a laptop"
+      ]
+    },
+    {
+      "annotation_id": "1649151",
+      "image_id": "154705",
+      "class": "book",
+      "bbox": [
+        0.217375,
+        0.4312068965517242,
+        0.324453125,
+        0.5445689655172414
+      ],
+      "sentences": [
+        "A stack of books beside a laptop on a desk"
+      ]
+    },
+    {
+      "annotation_id": "1654090",
+      "image_id": "154705",
+      "class": "book",
+      "bbox": [
+        0.309375,
+        0.43362068965517236,
+        0.364328125,
+        0.5217456896551723
+      ],
+      "sentences": [
+        "A book standing upright next to a laptop"
+      ]
+    },
+    {
+      "annotation_id": "1969415",
+      "image_id": "154705",
+      "class": "monitor",
+      "bbox": [
+        0.5214531250000001,
+        0.41989224137931036,
+        0.676234375,
+        0.5998706896551724
+      ],
+      "sentences": [
+        "A computer monitor displayed on the desk"
+      ]
+    },
+    {
+      "annotation_id": "990221",
+      "image_id": "154705",
+      "class": "cell phone",
+      "bbox": [
+        0.72496875,
+        0.5373922413793103,
+        0.7629218750000001,
+        0.6364224137931035
+      ],
+      "sentences": [
+        "A cell phone standing upright on the desk"
+      ]
+    },
+    {
+      "annotation_id": "1130735",
+      "image_id": "157124",
+      "class": "sink",
+      "bbox": [
+        0.00446875,
+        0.30561320754716986,
+        0.594015625,
+        0.7213443396226416
+      ],
+      "sentences": [
+        "A white sink on a white countertop"
+      ]
+    },
+    {
+      "annotation_id": "990440",
+      "image_id": "157124",
+      "class": "sink",
+      "bbox": [
+        0.535203125,
+        0.14007075471698113,
+        0.7062187499999999,
+        0.24952830188679245
+      ],
+      "sentences": [
+        "A sink on a white cabinet"
+      ]
+    },
+    {
+      "annotation_id": "760",
+      "image_id": "157601",
+      "class": "hot dog",
+      "bbox": [
+        0.18063725490196078,
+        0.30753267973856213,
+        0.4,
+        0.5462418300653595
+      ],
+      "sentences": [
+        "A hot dog with a bun is being eaten by a person"
+      ]
+    },
+    {
+      "annotation_id": "311173",
+      "image_id": "157601",
+      "class": "sandwich",
+      "bbox": [
+        0.18651960784313726,
+        0.3462091503267974,
+        0.4247222222222222,
+        0.5529575163398692
+      ],
+      "sentences": [
+        "A hot dog with a bun is being eaten by a person"
+      ]
+    },
+    {
+      "annotation_id": "670357",
+      "image_id": "157601",
+      "class": "cup",
+      "bbox": [
+        0.3146078431372549,
+        0.49887254901960787,
+        0.6494444444444444,
+        0.9550490196078432
+      ],
+      "sentences": [
+        "A disposable paper cup placed on a table"
+      ]
+    },
+    {
+      "annotation_id": "1722526",
+      "image_id": "157601",
+      "class": "person",
+      "bbox": [
+        0.0,
+        0.13851307189542483,
+        0.5405392156862745,
+        0.683562091503268
+      ],
+      "sentences": [
+        "A person sitting eating a hot dog sitting beside a window"
+      ]
+    },
+    {
+      "annotation_id": "1959350",
+      "image_id": "157601",
+      "class": "dining table",
+      "bbox": [
+        0.27532679738562094,
+        0.8129901960784314,
+        1.0,
+        0.9870098039215686
+      ],
+      "sentences": [
+        "A wooden dining table holding paper cups"
+      ]
+    },
+    {
+      "annotation_id": "990079",
+      "image_id": "157601",
+      "class": "cup",
+      "bbox": [
+        0.6091666666666666,
+        0.43692810457516335,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A disposable paper cup placed on a table"
+      ]
+    },
+    {
+      "annotation_id": "346467",
+      "image_id": "157928",
+      "class": "car",
+      "bbox": [
+        0.0,
+        0.20725000000000002,
+        0.1701875,
+        0.5153541666666667
+      ],
+      "sentences": [
+        "A dark-coloured car parked on a snowy parking area"
+      ]
+    },
+    {
+      "annotation_id": "354105",
+      "image_id": "157928",
+      "class": "car",
+      "bbox": [
+        0.28137500000000004,
+        0.21477083333333333,
+        0.47125000000000006,
+        0.42025
+      ],
+      "sentences": [
+        "A bright-coloured car parked on a snowy parking area"
+      ]
+    },
+    {
+      "annotation_id": "429874",
+      "image_id": "157928",
+      "class": "person",
+      "bbox": [
+        0.146953125,
+        0.051791666666666666,
+        0.33784375,
+        0.7635208333333333
+      ],
+      "sentences": [
+        "A hiker wearing a red jecket standing on the snow"
+      ]
+    },
+    {
+      "annotation_id": "480399",
+      "image_id": "157928",
+      "class": "person",
+      "bbox": [
+        0.40678125,
+        0.27239583333333334,
+        0.6791874999999999,
+        0.6309791666666666
+      ],
+      "sentences": [
+        "A hiker wearing yellow and gray jacket bending over to adjust equipment"
+      ]
+    },
+    {
+      "annotation_id": "612939",
+      "image_id": "157928",
+      "class": "skis",
+      "bbox": [
+        0.414625,
+        0.5412291666666668,
+        0.8095000000000001,
+        0.8648958333333334
+      ],
+      "sentences": [
+        "A pair of skis strapped onto a sled"
+      ]
+    },
+    {
+      "annotation_id": "1825570",
+      "image_id": "157928",
+      "class": "backpack",
+      "bbox": [
+        0.46526562499999996,
+        0.17554166666666668,
+        0.692421875,
+        0.35293750000000007
+      ],
+      "sentences": [
+        "A large blue hiking backpack worn by a hiker"
+      ]
+    },
+    {
+      "annotation_id": "1826017",
+      "image_id": "157928",
+      "class": "backpack",
+      "bbox": [
+        0.177359375,
+        0.03895833333333333,
+        0.313734375,
+        0.2675
+      ],
+      "sentences": [
+        "A gray hiking backpack worn by a hiker"
+      ]
+    },
+    {
+      "annotation_id": "2200868",
+      "image_id": "157928",
+      "class": "skis",
+      "bbox": [
+        0.4051875,
+        0.54025,
+        0.75,
+        0.9480416666666667
+      ],
+      "sentences": [
+        "A pair of skis strapped onto a sled"
+      ]
+    },
+    {
+      "annotation_id": "990087",
+      "image_id": "157928",
+      "class": "skis",
+      "bbox": [
+        0.0,
+        0.7471875,
+        0.180375,
+        1.0
+      ],
+      "sentences": [
+        "A pair of skis resting on the snow ground"
+      ]
+    },
+    {
+      "annotation_id": "1155436",
+      "image_id": "159282",
+      "class": "vase",
+      "bbox": [
+        0.35750000000000004,
+        0.4449530516431925,
+        0.474171875,
+        0.9752816901408451
+      ],
+      "sentences": [
+        "A glass vase filled with white stones and yellow flowers"
+      ]
+    },
+    {
+      "annotation_id": "1954402",
+      "image_id": "159282",
+      "class": "potted plant",
+      "bbox": [
+        0.10028125000000002,
+        0.005187793427230047,
+        0.79875,
+        0.9740375586854461
+      ],
+      "sentences": [
+        "A bunch of green stems arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990224",
+      "image_id": "159282",
+      "class": "chair",
+      "bbox": [
+        0.105125,
+        0.19161971830985913,
+        0.32271875,
+        0.44960093896713615
+      ],
+      "sentences": [
+        "A wooden chair is partially visible in the background"
+      ]
+    },
+    {
+      "annotation_id": "14031",
+      "image_id": "159458",
+      "class": "dog",
+      "bbox": [
+        0.34378125000000004,
+        0.45249999999999996,
+        0.48612500000000003,
+        0.5258958333333333
+      ],
+      "sentences": [
+        "A dog lying on a bed"
+      ]
+    },
+    {
+      "annotation_id": "316096",
+      "image_id": "159458",
+      "class": "bed",
+      "bbox": [
+        0.17528125,
+        0.33947916666666667,
+        0.8072968750000001,
+        0.9664375
+      ],
+      "sentences": [
+        "A large bed positioned in the middle of the room"
+      ]
+    },
+    {
+      "annotation_id": "1933967",
+      "image_id": "159458",
+      "class": "chair",
+      "bbox": [
+        0.8203906249999999,
+        0.514125,
+        1.0,
+        0.8935624999999999
+      ],
+      "sentences": [
+        "A wooden chair beside a bed"
+      ]
+    },
+    {
+      "annotation_id": "990228",
+      "image_id": "159458",
+      "class": "person",
+      "bbox": [
+        0.7068749999999999,
+        0.7689166666666666,
+        0.998828125,
+        0.9991249999999999
+      ],
+      "sentences": [
+        "A person sitting beside a bed"
+      ]
+    },
+    {
+      "annotation_id": "342306",
+      "image_id": "160666",
+      "class": "toothbrush",
+      "bbox": [
+        0.0,
+        0.5000416666666667,
+        0.891515625,
+        0.8573541666666666
+      ],
+      "sentences": [
+        "A toothbrush with blue toothpaste on its bristles"
+      ]
+    },
+    {
+      "annotation_id": "990345",
+      "image_id": "160666",
+      "class": "toothpaste",
+      "bbox": [
+        0.029078125,
+        0.162,
+        1.0,
+        0.6060208333333333
+      ],
+      "sentences": [
+        "A tube of toothpaste on a countertop"
+      ]
+    },
+    {
+      "annotation_id": "594861",
+      "image_id": "165336",
+      "class": "giraffe",
+      "bbox": [
+        0.318828125,
+        0.36091666666666666,
+        0.5612656250000001,
+        0.8568333333333332
+      ],
+      "sentences": [
+        "A giraffe standing on a grassy field"
+      ]
+    },
+    {
+      "annotation_id": "597893",
+      "image_id": "165336",
+      "class": "giraffe",
+      "bbox": [
+        0.48531250000000004,
+        0.2752291666666667,
+        0.7440468750000001,
+        0.8621458333333334
+      ],
+      "sentences": [
+        "A giraffe standing on a grassy field"
+      ]
+    },
+    {
+      "annotation_id": "990231",
+      "image_id": "165336",
+      "class": "cow",
+      "bbox": [
+        0.25009375,
+        0.6859375,
+        0.348671875,
+        0.812375
+      ],
+      "sentences": [
+        "A cow eating grass on a grassy field"
+      ]
+    },
+    {
+      "annotation_id": "698400",
+      "image_id": "173383",
+      "class": "knife",
+      "bbox": [
+        0.0581875,
+        0.7124470588235294,
+        0.376640625,
+        0.9277882352941177
+      ],
+      "sentences": [
+        "A cake knife placed on a table"
+      ]
+    },
+    {
+      "annotation_id": "1089951",
+      "image_id": "173383",
+      "class": "cake",
+      "bbox": [
+        0.220859375,
+        0.12583529411764705,
+        0.579,
+        0.6943764705882354
+      ],
+      "sentences": [
+        "A two-tier white cake decorated with blue ribbons and flowers"
+      ]
+    },
+    {
+      "annotation_id": "1501920",
+      "image_id": "173383",
+      "class": "cup",
+      "bbox": [
+        0.734515625,
+        0.477764705882353,
+        0.7889375,
+        0.5829411764705882
+      ],
+      "sentences": [
+        "A lit candle in a glass cup on a table"
+      ]
+    },
+    {
+      "annotation_id": "1618210",
+      "image_id": "173383",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.49014117647058825,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A dining table decorated with blue flower petals"
+      ]
+    },
+    {
+      "annotation_id": "990092",
+      "image_id": "173383",
+      "class": "knife",
+      "bbox": [
+        0.1735625,
+        0.6847529411764706,
+        0.521859375,
+        0.8049176470588235
+      ],
+      "sentences": [
+        "A cake knife placed on a table"
+      ]
+    },
+    {
+      "annotation_id": "149781",
+      "image_id": "178982",
+      "class": "motorcycle",
+      "bbox": [
+        0.503546875,
+        0.6619672131147541,
+        0.5765625,
+        0.8433489461358314
+      ],
+      "sentences": [
+        "A motorcycle waiting at the traffic light on the road"
+      ]
+    },
+    {
+      "annotation_id": "154787",
+      "image_id": "178982",
+      "class": "motorcycle",
+      "bbox": [
+        0.704125,
+        0.6615690866510539,
+        0.7975312499999999,
+        0.8323185011709602
+      ],
+      "sentences": [
+        "A motorcycle waiting at the traffic light on the road"
+      ]
+    },
+    {
+      "annotation_id": "191601",
+      "image_id": "178982",
+      "class": "person",
+      "bbox": [
+        0.716625,
+        0.581288056206089,
+        0.77890625,
+        0.7955269320843091
+      ],
+      "sentences": [
+        "A person riding a motorcycle at night"
+      ]
+    },
+    {
+      "annotation_id": "225868",
+      "image_id": "178982",
+      "class": "person",
+      "bbox": [
+        0.503109375,
+        0.5705386416861827,
+        0.5850937500000001,
+        0.8216393442622951
+      ],
+      "sentences": [
+        "A person riding a motorcycle at night"
+      ]
+    },
+    {
+      "annotation_id": "405654",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.7375,
+        0.14562060889929743,
+        0.77040625,
+        0.26447306791569086
+      ],
+      "sentences": [
+        "A traffic light hanging above the roadway"
+      ]
+    },
+    {
+      "annotation_id": "410216",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.782515625,
+        0.1310304449648712,
+        0.802859375,
+        0.22620608899297426
+      ],
+      "sentences": [
+        "A red traffic light hanging above the roadway"
+      ]
+    },
+    {
+      "annotation_id": "410995",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.8774062499999999,
+        0.4318501170960187,
+        0.9005312499999999,
+        0.4761826697892272
+      ],
+      "sentences": [
+        "A small traffic light mounted on a pole."
+      ]
+    },
+    {
+      "annotation_id": "2058760",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.78684375,
+        0.4524824355971897,
+        0.80259375,
+        0.5051522248243561
+      ],
+      "sentences": [
+        "A small traffic light mounted on a pole."
+      ]
+    },
+    {
+      "annotation_id": "2059110",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.8848437499999999,
+        0.4675175644028103,
+        0.91084375,
+        0.5061592505854801
+      ],
+      "sentences": [
+        "A red traffic signal mounted on a pole."
+      ]
+    },
+    {
+      "annotation_id": "990102",
+      "image_id": "178982",
+      "class": "traffic light",
+      "bbox": [
+        0.135046875,
+        0.4468149882903981,
+        0.155390625,
+        0.5085480093676814
+      ],
+      "sentences": [
+        "A red traffic light mounted on a pole"
+      ]
+    },
+    {
+      "annotation_id": "32126",
+      "image_id": "186632",
+      "class": "tv",
+      "bbox": [
+        0.006,
+        0.333140625,
+        0.3535625,
+        0.47921874999999997
+      ],
+      "sentences": [
+        "A wall mounted television displaying a news broadcast"
+      ]
+    },
+    {
+      "annotation_id": "85833",
+      "image_id": "186632",
+      "class": "bottle",
+      "bbox": [
+        0.8601875,
+        0.606890625,
+        0.917125,
+        0.686984375
+      ],
+      "sentences": [
+        "A soap bottle beside a sink"
+      ]
+    },
+    {
+      "annotation_id": "1136677",
+      "image_id": "186632",
+      "class": "sink",
+      "bbox": [
+        0.9579375,
+        0.6343125,
+        1.0,
+        0.6957812499999999
+      ],
+      "sentences": [
+        "A round glass sink on a countertop"
+      ]
+    },
+    {
+      "annotation_id": "1155898",
+      "image_id": "186632",
+      "class": "vase",
+      "bbox": [
+        0.5285208333333333,
+        0.5804375,
+        0.7123958333333333,
+        0.69096875
+      ],
+      "sentences": [
+        "A decorative vase filled with orange flowers on the countertop"
+      ]
+    },
+    {
+      "annotation_id": "1488187",
+      "image_id": "186632",
+      "class": "bottle",
+      "bbox": [
+        0.34625,
+        0.5646875,
+        0.38275,
+        0.6226093749999999
+      ],
+      "sentences": [
+        "A soap bottle beside a sink"
+      ]
+    },
+    {
+      "annotation_id": "1870151",
+      "image_id": "186632",
+      "class": "bottle",
+      "bbox": [
+        0.38868749999999996,
+        0.56403125,
+        0.4241875,
+        0.6270156250000001
+      ],
+      "sentences": [
+        "A soap bottle beside a sink"
+      ]
+    },
+    {
+      "annotation_id": "1871034",
+      "image_id": "186632",
+      "class": "bottle",
+      "bbox": [
+        0.34975,
+        0.622015625,
+        0.4009583333333333,
+        0.707953125
+      ],
+      "sentences": [
+        "A soap bottle beside a sink"
+      ]
+    },
+    {
+      "annotation_id": "990110",
+      "image_id": "186632",
+      "class": "sink",
+      "bbox": [
+        0.6359791666666667,
+        0.741765625,
+        1.0,
+        0.9157500000000001
+      ],
+      "sentences": [
+        "A round glass sink on a countertop"
+      ]
+    },
+    {
+      "annotation_id": "990111",
+      "image_id": "186632",
+      "class": "sink",
+      "bbox": [
+        0.1404166666666667,
+        0.60396875,
+        0.3476666666666667,
+        0.675546875
+      ],
+      "sentences": [
+        "A round glass sink on a countertop"
+      ]
+    },
+    {
+      "annotation_id": "990112",
+      "image_id": "186632",
+      "class": "sink",
+      "bbox": [
+        0.4512916666666667,
+        0.565109375,
+        0.5479166666666667,
+        0.6234375
+      ],
+      "sentences": [
+        "A round glass sink on a countertop"
+      ]
+    },
+    {
+      "annotation_id": "161545",
+      "image_id": "214205",
+      "class": "airplane",
+      "bbox": [
+        0.394125,
+        0.7088382687927107,
+        0.63184375,
+        0.819749430523918
+      ],
+      "sentences": [
+        "An airplane flying across the sky"
+      ]
+    },
+    {
+      "annotation_id": "990347",
+      "image_id": "214205",
+      "class": "moon",
+      "bbox": [
+        0.36062500000000003,
+        0.14325740318906607,
+        0.5481718750000001,
+        0.4260364464692483
+      ],
+      "sentences": [
+        "A large moon is visible above an airplane"
+      ]
+    },
+    {
+      "annotation_id": "85175",
+      "image_id": "372349",
+      "class": "bottle",
+      "bbox": [
+        0.25964062499999996,
+        0.6880778032036613,
+        0.33221875,
+        0.7395881006864988
+      ],
+      "sentences": [
+        "A green bottle lying on a rocky shore"
+      ]
+    },
+    {
+      "annotation_id": "496361",
+      "image_id": "372349",
+      "class": "person",
+      "bbox": [
+        0.382578125,
+        0.45537757437070936,
+        0.5647968750000001,
+        0.7667276887871853
+      ],
+      "sentences": [
+        "A shirtless person sitting on the edge of the water brushing his teeth"
+      ]
+    },
+    {
+      "annotation_id": "530738",
+      "image_id": "372349",
+      "class": "person",
+      "bbox": [
+        0.6751406249999999,
+        0.1011212814645309,
+        0.777953125,
+        0.47640732265446223
+      ],
+      "sentences": [
+        "A person wearing orange is standing in the shallow water"
+      ]
+    },
+    {
+      "annotation_id": "1533647",
+      "image_id": "372349",
+      "class": "bowl",
+      "bbox": [
+        0.44225000000000003,
+        0.7286498855835241,
+        0.48425,
+        0.758329519450801
+      ],
+      "sentences": [
+        "A small yellow bowl beside a person"
+      ]
+    },
+    {
+      "annotation_id": "1998001",
+      "image_id": "372349",
+      "class": "toothbrush",
+      "bbox": [
+        0.44879687500000004,
+        0.5355148741418765,
+        0.458015625,
+        0.554141876430206
+      ],
+      "sentences": [
+        "A white toothbrush held in a person's mouth"
+      ]
+    },
+    {
+      "annotation_id": "990256",
+      "image_id": "372349",
+      "class": "vase",
+      "bbox": [
+        0.085828125,
+        0.2928604118993135,
+        0.158078125,
+        0.424279176201373
+      ],
+      "sentences": [
+        "A large metal vase on a rock beside the water"
+      ]
+    },
+    {
+      "annotation_id": "1097281",
+      "image_id": "389804",
+      "class": "toilet",
+      "bbox": [
+        0.253546875,
+        0.31329411764705883,
+        0.432265625,
+        0.7876235294117647
+      ],
+      "sentences": [
+        "A white toilet with the lid closed"
+      ]
+    },
+    {
+      "annotation_id": "1646136",
+      "image_id": "389804",
+      "class": "sink",
+      "bbox": [
+        0.7970625,
+        0.5605882352941176,
+        1.0,
+        0.9579764705882352
+      ],
+      "sentences": [
+        "A dark rectangular sink on the countertop"
+      ]
+    },
+    {
+      "annotation_id": "990259",
+      "image_id": "389804",
+      "class": "bottle",
+      "bbox": [
+        0.86990625,
+        0.3709411764705883,
+        0.9399531250000001,
+        0.5113411764705882
+      ],
+      "sentences": [
+        "A small pump bottle on the countertop"
+      ]
+    },
+    {
+      "annotation_id": "336217",
+      "image_id": "391648",
+      "class": "clock",
+      "bbox": [
+        0.6120625000000001,
+        0.48706250000000006,
+        0.7428333333333333,
+        0.5823750000000001
+      ],
+      "sentences": [
+        "A large clock mounted on a tower"
+      ]
+    },
+    {
+      "annotation_id": "990114",
+      "image_id": "391648",
+      "class": "clock",
+      "bbox": [
+        0.7721874999999999,
+        0.5035000000000001,
+        0.7955833333333333,
+        0.6077656250000001
+      ],
+      "sentences": [
+        "A large clock mounted on a tower"
+      ]
+    },
+    {
+      "annotation_id": "451024",
+      "image_id": "394559",
+      "class": "person",
+      "bbox": [
+        0.38823943661971827,
+        0.2743125,
+        0.75962441314554,
+        0.804640625
+      ],
+      "sentences": [
+        "A person holding a tennis racket on one hand"
+      ]
+    },
+    {
+      "annotation_id": "656579",
+      "image_id": "394559",
+      "class": "tennis racket",
+      "bbox": [
+        0.3984741784037559,
+        0.172078125,
+        0.5289906103286385,
+        0.396921875
+      ],
+      "sentences": [
+        "A tennis racket being held by a person"
+      ]
+    },
+    {
+      "annotation_id": "990117",
+      "image_id": "394559",
+      "class": "person",
+      "bbox": [
+        0.622605633802817,
+        0.10901562499999999,
+        0.7187089201877934,
+        0.33875
+      ],
+      "sentences": [
+        "A person standing behind the tennis court fence"
+      ]
+    },
+    {
+      "annotation_id": "990118",
+      "image_id": "394559",
+      "class": "person",
+      "bbox": [
+        0.7118779342723004,
+        0.136671875,
+        0.8119953051643192,
+        0.34490625
+      ],
+      "sentences": [
+        "A person walking behind the tennis court fence"
+      ]
+    },
+    {
+      "annotation_id": "990119",
+      "image_id": "394559",
+      "class": "person",
+      "bbox": [
+        0.8957511737089201,
+        0.14364062500000002,
+        0.9958685446009389,
+        0.34328125
+      ],
+      "sentences": [
+        "A person standing behind the tennis court fence"
+      ]
+    },
+    {
+      "annotation_id": "435333",
+      "image_id": "425227",
+      "class": "person",
+      "bbox": [
+        0.6942056074766355,
+        0.77225,
+        0.7229439252336449,
+        0.82259375
+      ],
+      "sentences": [
+        "A person walking across a beach carrying a surfboard"
+      ]
+    },
+    {
+      "annotation_id": "556423",
+      "image_id": "425227",
+      "class": "person",
+      "bbox": [
+        0.7240654205607476,
+        0.773625,
+        0.756892523364486,
+        0.8214218750000001
+      ],
+      "sentences": [
+        "A person flying a kite on a beach"
+      ]
+    },
+    {
+      "annotation_id": "621595",
+      "image_id": "425227",
+      "class": "kite",
+      "bbox": [
+        0.4991588785046729,
+        0.551703125,
+        0.518714953271028,
+        0.57103125
+      ],
+      "sentences": [
+        "A small kite flying above the ocean"
+      ]
+    },
+    {
+      "annotation_id": "1463023",
+      "image_id": "425227",
+      "class": "kite",
+      "bbox": [
+        0.16306074766355141,
+        0.103359375,
+        0.2335981308411215,
+        0.191953125
+      ],
+      "sentences": [
+        "A large kite flying in the sky over a beach"
+      ]
+    },
+    {
+      "annotation_id": "1479046",
+      "image_id": "425227",
+      "class": "surfboard",
+      "bbox": [
+        0.6702803738317757,
+        0.79503125,
+        0.7247196261682243,
+        0.8060937499999999
+      ],
+      "sentences": [
+        "A surfboard being carried by a person walking on a beach"
+      ]
+    },
+    {
+      "annotation_id": "990125",
+      "image_id": "425227",
+      "class": "kite",
+      "bbox": [
+        0.8681308411214953,
+        0.8901718750000001,
+        1.0,
+        0.9440937500000001
+      ],
+      "sentences": [
+        "A green kite lying on a beach"
+      ]
+    },
+    {
+      "annotation_id": "473482",
+      "image_id": "425702",
+      "class": "person",
+      "bbox": [
+        0.46046875,
+        0.35056962025316457,
+        0.537015625,
+        0.7595569620253165
+      ],
+      "sentences": [
+        "A person walking across a beach carrying a surfboard"
+      ]
+    },
+    {
+      "annotation_id": "652048",
+      "image_id": "425702",
+      "class": "surfboard",
+      "bbox": [
+        0.36996875,
+        0.42512658227848105,
+        0.6020156249999999,
+        0.5926582278481013
+      ],
+      "sentences": [
+        "A colourful surfboard carried by a person"
+      ]
+    },
+    {
+      "annotation_id": "990128",
+      "image_id": "425702",
+      "class": "person",
+      "bbox": [
+        0.43521875000000004,
+        0.32126582278481014,
+        0.44379687500000004,
+        0.3811392405063291
+      ],
+      "sentences": [
+        "A person walking across a beach"
+      ]
+    },
+    {
+      "annotation_id": "990129",
+      "image_id": "425702",
+      "class": "person",
+      "bbox": [
+        0.44321875000000005,
+        0.3186708860759494,
+        0.450265625,
+        0.3785443037974684
+      ],
+      "sentences": [
+        "A person walking across a beach"
+      ]
+    },
+    {
+      "annotation_id": "384292",
+      "image_id": "426795",
+      "class": "chair",
+      "bbox": [
+        0.589890625,
+        0.6375208333333333,
+        0.9050625,
+        0.9835833333333334
+      ],
+      "sentences": [
+        "A wooden chair positioned beside a table"
+      ]
+    },
+    {
+      "annotation_id": "478135",
+      "image_id": "426795",
+      "class": "person",
+      "bbox": [
+        0.08953124999999999,
+        0.04054166666666667,
+        0.734796875,
+        0.9864791666666667
+      ],
+      "sentences": [
+        "An elderly person taking a bite from a large cake"
+      ]
+    },
+    {
+      "annotation_id": "990253",
+      "image_id": "426795",
+      "class": "cake",
+      "bbox": [
+        0.383984375,
+        0.448625,
+        0.69734375,
+        0.7294375
+      ],
+      "sentences": [
+        "A large baked cake being bitten by a person"
+      ]
+    },
+    {
+      "annotation_id": "1093281",
+      "image_id": "431140",
+      "class": "toilet",
+      "bbox": [
+        0.0016875000000000002,
+        0.3071875,
+        0.41798437499999996,
+        0.9858333333333333
+      ],
+      "sentences": [
+        "A reflection of a white toilet"
+      ]
+    },
+    {
+      "annotation_id": "1130266",
+      "image_id": "431140",
+      "class": "sink",
+      "bbox": [
+        0.42471875,
+        0.3617916666666667,
+        1.0,
+        0.9887708333333334
+      ],
+      "sentences": [
+        "A white bathroom sink mounted on a wall"
+      ]
+    },
+    {
+      "annotation_id": "990132",
+      "image_id": "431140",
+      "class": "toilet",
+      "bbox": [
+        0.0016875000000000002,
+        0.3071875,
+        0.41798437499999996,
+        0.9858333333333333
+      ],
+      "sentences": [
+        "A white toilet beside a sink"
+      ]
+    },
+    {
+      "annotation_id": "158523",
+      "image_id": "456865",
+      "class": "airplane",
+      "bbox": [
+        0.1373125,
+        0.37508196721311476,
+        0.910484375,
+        0.7173770491803279
+      ],
+      "sentences": [
+        "A large airplane on an airport runway"
+      ]
+    },
+    {
+      "annotation_id": "990134",
+      "image_id": "456865",
+      "class": "airplane",
+      "bbox": [
+        0.03290625,
+        0.6020843091334894,
+        0.101578125,
+        0.6377049180327867
+      ],
+      "sentences": [
+        "An airplane on an airport runway"
+      ]
+    },
+    {
+      "annotation_id": "990135",
+      "image_id": "456865",
+      "class": "airplane",
+      "bbox": [
+        0.38156249999999997,
+        0.4242622950819672,
+        0.4096875,
+        0.44049180327868853
+      ],
+      "sentences": [
+        "An airplane flying in the sky"
+      ]
+    },
+    {
+      "annotation_id": "1043897",
+      "image_id": "457262",
+      "class": "banana",
+      "bbox": [
+        0.04470588235294118,
+        0.2,
+        0.7152941176470589,
+        0.45882352941176474
+      ],
+      "sentences": [
+        "A yellow banana on a dining table"
+      ]
+    },
+    {
+      "annotation_id": "1044963",
+      "image_id": "457262",
+      "class": "banana",
+      "bbox": [
+        0.10588235294117647,
+        0.24705882352941175,
+        0.7482352941176471,
+        0.6305882352941176
+      ],
+      "sentences": [
+        "A yellow banana on a dining table"
+      ]
+    },
+    {
+      "annotation_id": "1614062",
+      "image_id": "457262",
+      "class": "dining table",
+      "bbox": [
+        0.0067483660130718956,
+        0.011241830065359478,
+        0.9932516339869281,
+        0.9685457516339869
+      ],
+      "sentences": [
+        "A wooden dining table with fruits above it"
+      ]
+    },
+    {
+      "annotation_id": "990364",
+      "image_id": "457262",
+      "class": "coin",
+      "bbox": [
+        0.4673202614379085,
+        0.6503267973856209,
+        0.7450980392156863,
+        0.9264705882352942
+      ],
+      "sentences": [
+        "A 50 cent coin next to a banana"
+      ]
+    },
+    {
+      "annotation_id": "1587884",
+      "image_id": "471991",
+      "class": "chair",
+      "bbox": [
+        0.37165625,
+        0.5677594339622641,
+        0.401171875,
+        0.6137264150943396
+      ],
+      "sentences": [
+        "A chair on the left side of the room"
+      ]
+    },
+    {
+      "annotation_id": "990451",
+      "image_id": "471991",
+      "class": "chair",
+      "bbox": [
+        0.59478125,
+        0.5688207547169811,
+        0.621671875,
+        0.6088915094339623
+      ],
+      "sentences": [
+        "A chair on the right side of the room"
+      ]
+    },
+    {
+      "annotation_id": "712577",
+      "image_id": "482719",
+      "class": "bowl",
+      "bbox": [
+        0.0033750000000000004,
+        0.04045833333333334,
+        1.0,
+        0.9865208333333334
+      ],
+      "sentences": [
+        "A glass bowl filled with fruits"
+      ]
+    },
+    {
+      "annotation_id": "1042592",
+      "image_id": "482719",
+      "class": "banana",
+      "bbox": [
+        0.293265625,
+        0.21139583333333334,
+        0.9842656250000001,
+        0.9484583333333333
+      ],
+      "sentences": [
+        "A yellow banana in a glass bowl"
+      ]
+    },
+    {
+      "annotation_id": "1907185",
+      "image_id": "482719",
+      "class": "apple",
+      "bbox": [
+        0.303890625,
+        0.470125,
+        0.5474062500000001,
+        0.7610416666666666
+      ],
+      "sentences": [
+        "A purple apple in a glass bowl"
+      ]
+    },
+    {
+      "annotation_id": "1931494",
+      "image_id": "482719",
+      "class": "chair",
+      "bbox": [
+        0.388046875,
+        0.0,
+        0.7800625,
+        0.28808333333333336
+      ],
+      "sentences": [
+        "A wooden chair behind a dining table"
+      ]
+    },
+    {
+      "annotation_id": "1934291",
+      "image_id": "482719",
+      "class": "chair",
+      "bbox": [
+        0.18462499999999998,
+        0.0,
+        0.395671875,
+        0.11414583333333334
+      ],
+      "sentences": [
+        "A wooden chair against a wall"
+      ]
+    },
+    {
+      "annotation_id": "1978318",
+      "image_id": "482719",
+      "class": "microwave",
+      "bbox": [
+        0.822578125,
+        0.01825,
+        0.998234375,
+        0.2383125
+      ],
+      "sentences": [
+        "A microwave on a kitchen counter"
+      ]
+    },
+    {
+      "annotation_id": "990142",
+      "image_id": "482719",
+      "class": "apple",
+      "bbox": [
+        0.487515625,
+        0.6923541666666666,
+        0.7170624999999999,
+        0.9340416666666667
+      ],
+      "sentences": [
+        "A purple apple in a glass bowl"
+      ]
+    },
+    {
+      "annotation_id": "990143",
+      "image_id": "482719",
+      "class": "apple",
+      "bbox": [
+        0.711078125,
+        0.8613333333333333,
+        0.940625,
+        0.9805833333333334
+      ],
+      "sentences": [
+        "A purple apple in a glass bowl"
+      ]
+    },
+    {
+      "annotation_id": "990144",
+      "image_id": "482719",
+      "class": "apple",
+      "bbox": [
+        0.17315624999999998,
+        0.6497708333333333,
+        0.48553125,
+        0.9779374999999999
+      ],
+      "sentences": [
+        "A purple apple in a glass bowl"
+      ]
+    },
+    {
+      "annotation_id": "589586",
+      "image_id": "491613",
+      "class": "zebra",
+      "bbox": [
+        0.08520833333333333,
+        0.048390625,
+        0.5516458333333333,
+        0.40525
+      ],
+      "sentences": [
+        "A zebra standing next to a body of water"
+      ]
+    },
+    {
+      "annotation_id": "990146",
+      "image_id": "491613",
+      "class": "zebra",
+      "bbox": [
+        0.1105,
+        0.668421875,
+        0.5668333333333333,
+        0.98609375
+      ],
+      "sentences": [
+        "A reflection of a zebra standing next to a body of water"
+      ]
+    },
+    {
+      "annotation_id": "421435",
+      "image_id": "504389",
+      "class": "person",
+      "bbox": [
+        0.79886,
+        0.22949999999999998,
+        0.93312,
+        0.74803125
+      ],
+      "sentences": [
+        "A person holding a tennis racket"
+      ]
+    },
+    {
+      "annotation_id": "434569",
+      "image_id": "504389",
+      "class": "person",
+      "bbox": [
+        0.08464,
+        0.28653125,
+        0.20782,
+        0.63690625
+      ],
+      "sentences": [
+        "A person swinging a tennis racket at a sports ball"
+      ]
+    },
+    {
+      "annotation_id": "657201",
+      "image_id": "504389",
+      "class": "tennis racket",
+      "bbox": [
+        0.73586,
+        0.42006249999999995,
+        0.8530800000000001,
+        0.48043749999999996
+      ],
+      "sentences": [
+        "A tennis racket held by a person"
+      ]
+    },
+    {
+      "annotation_id": "658460",
+      "image_id": "504389",
+      "class": "tennis racket",
+      "bbox": [
+        0.20018,
+        0.38540625,
+        0.26992,
+        0.4339375
+      ],
+      "sentences": [
+        "A tennis racket held by a person"
+      ]
+    },
+    {
+      "annotation_id": "990258",
+      "image_id": "504389",
+      "class": "sports ball",
+      "bbox": [
+        0.24416,
+        0.393125,
+        0.25406,
+        0.4106875
+      ],
+      "sentences": [
+        "A white sports ball in mid-air"
+      ]
+    },
+    {
+      "annotation_id": "23117",
+      "image_id": "579970",
+      "class": "potted plant",
+      "bbox": [
+        0.22206,
+        0.6861904761904762,
+        0.28196,
+        0.8719940476190476
+      ],
+      "sentences": [
+        "A potted plant beside a round table"
+      ]
+    },
+    {
+      "annotation_id": "33132",
+      "image_id": "579970",
+      "class": "tv",
+      "bbox": [
+        0.7412799999999999,
+        0.3131547619047619,
+        0.8144399999999999,
+        0.4638690476190477
+      ],
+      "sentences": [
+        "A flat-screen television on top of a black table"
+      ]
+    },
+    {
+      "annotation_id": "105820",
+      "image_id": "579970",
+      "class": "chair",
+      "bbox": [
+        0.5290199999999999,
+        0.4435119047619048,
+        0.6366,
+        0.6129464285714287
+      ],
+      "sentences": [
+        "An armchair against a window"
+      ]
+    },
+    {
+      "annotation_id": "112627",
+      "image_id": "579970",
+      "class": "couch",
+      "bbox": [
+        0.34106000000000003,
+        0.5139880952380952,
+        0.51736,
+        0.7655952380952381
+      ],
+      "sentences": [
+        "A large couch against a wall"
+      ]
+    },
+    {
+      "annotation_id": "1655022",
+      "image_id": "579970",
+      "class": "book",
+      "bbox": [
+        0.5998,
+        0.5771130952380952,
+        0.63224,
+        0.5901785714285713
+      ],
+      "sentences": [
+        "A book resting on a small table"
+      ]
+    },
+    {
+      "annotation_id": "1950728",
+      "image_id": "579970",
+      "class": "couch",
+      "bbox": [
+        0.36957999999999996,
+        0.46291666666666664,
+        0.50988,
+        0.5777083333333333
+      ],
+      "sentences": [
+        "A large couch against a wall"
+      ]
+    },
+    {
+      "annotation_id": "1951174",
+      "image_id": "579970",
+      "class": "couch",
+      "bbox": [
+        0.34132,
+        0.4523511904761905,
+        0.5153,
+        0.6523809523809524
+      ],
+      "sentences": [
+        "A large couch against a wall"
+      ]
+    },
+    {
+      "annotation_id": "2123181",
+      "image_id": "579970",
+      "class": "chair",
+      "bbox": [
+        0.34036,
+        0.44675595238095245,
+        0.5166600000000001,
+        0.8052083333333334
+      ],
+      "sentences": [
+        "An armchair against a window"
+      ]
+    },
+    {
+      "annotation_id": "990155",
+      "image_id": "579970",
+      "class": "chair",
+      "bbox": [
+        0.0849,
+        0.4361011904761905,
+        0.15156,
+        0.5817857142857144
+      ],
+      "sentences": [
+        "An armchair against a window"
+      ]
+    },
+    {
+      "annotation_id": "41056",
+      "image_id": "578236",
+      "class": "bird",
+      "bbox": [
+        0.6460839160839161,
+        0.24685937500000002,
+        0.8445221445221446,
+        0.316
+      ],
+      "sentences": [
+        "A black and white pigeon resting on a concrete step"
+      ]
+    },
+    {
+      "annotation_id": "1814066",
+      "image_id": "578236",
+      "class": "bird",
+      "bbox": [
+        0.37974358974358974,
+        0.24156249999999999,
+        0.5037296037296037,
+        0.30129687499999996
+      ],
+      "sentences": [
+        "A white pigeon resting on a concrete step"
+      ]
+    },
+    {
+      "annotation_id": "2065843",
+      "image_id": "578236",
+      "class": "bird",
+      "bbox": [
+        0.0904895104895105,
+        0.610484375,
+        0.1920745920745921,
+        0.6759062499999999
+      ],
+      "sentences": [
+        "A black and white pigeon resting on a concrete step"
+      ]
+    },
+    {
+      "annotation_id": "990438",
+      "image_id": "578236",
+      "class": "lizard",
+      "bbox": [
+        0.4072261072261072,
+        0.34954687500000003,
+        0.9165967365967367,
+        0.743234375
+      ],
+      "sentences": [
+        "A large green lizard resting on a concrete step"
+      ]
+    },
+    {
+      "annotation_id": "1073038",
+      "image_id": "575815",
+      "class": "pizza",
+      "bbox": [
+        0.15518749999999998,
+        0.10560975609756099,
+        0.80603125,
+        0.8561862527716186
+      ],
+      "sentences": [
+        "A pepperoni pizza on a wooden board"
+      ]
+    },
+    {
+      "annotation_id": "990315",
+      "image_id": "575815",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A white dining table under a pizza"
+      ]
+    },
+    {
+      "annotation_id": "404183",
+      "image_id": "571943",
+      "class": "traffic light",
+      "bbox": [
+        0.06271875,
+        0.23875,
+        0.338046875,
+        0.6982083333333333
+      ],
+      "sentences": [
+        "A yellow traffic light mounted on a white pole"
+      ]
+    },
+    {
+      "annotation_id": "990157",
+      "image_id": "571943",
+      "class": "traffic light",
+      "bbox": [
+        0.021796875,
+        0.65925,
+        0.19432812500000002,
+        0.9829791666666666
+      ],
+      "sentences": [
+        "A black traffic light mounted on a white pole"
+      ]
+    },
+    {
+      "annotation_id": "1093502",
+      "image_id": "571804",
+      "class": "toilet",
+      "bbox": [
+        0.42576562500000004,
+        0.4425586854460094,
+        0.5621875000000001,
+        0.7353521126760563
+      ],
+      "sentences": [
+        "A white ceramic toilet with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1533723",
+      "image_id": "571804",
+      "class": "bowl",
+      "bbox": [
+        0.7147187500000001,
+        0.6279812206572769,
+        0.8723750000000001,
+        0.8003755868544601
+      ],
+      "sentences": [
+        "A white ceramic bowl with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1533836",
+      "image_id": "571804",
+      "class": "bowl",
+      "bbox": [
+        0.5503125,
+        0.6195070422535212,
+        0.701609375,
+        0.7818544600938968
+      ],
+      "sentences": [
+        "A white ceramic bowl with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1537430",
+      "image_id": "571804",
+      "class": "bowl",
+      "bbox": [
+        0.2265,
+        0.46525821596244127,
+        0.3279375,
+        0.6069014084507042
+      ],
+      "sentences": [
+        "A white ceramic bowl with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1644980",
+      "image_id": "571804",
+      "class": "sink",
+      "bbox": [
+        0.238671875,
+        0.2349530516431925,
+        0.45387500000000003,
+        0.4102112676056338
+      ],
+      "sentences": [
+        "A white ceramic sink with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1645496",
+      "image_id": "571804",
+      "class": "sink",
+      "bbox": [
+        0.5586875,
+        0.2775821596244131,
+        0.8803906250000001,
+        0.5044131455399061
+      ],
+      "sentences": [
+        "A white ceramic sink with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1646356",
+      "image_id": "571804",
+      "class": "sink",
+      "bbox": [
+        0.028859375,
+        0.3473708920187793,
+        0.15615625,
+        0.5102112676056338
+      ],
+      "sentences": [
+        "A white ceramic sink with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "1992895",
+      "image_id": "571804",
+      "class": "vase",
+      "bbox": [
+        0.156046875,
+        0.5096948356807511,
+        0.237828125,
+        0.6706572769953051
+      ],
+      "sentences": [
+        "A white ceramic vase with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "2107519",
+      "image_id": "571804",
+      "class": "bowl",
+      "bbox": [
+        0.2355,
+        0.6844366197183098,
+        0.312640625,
+        0.7785915492957747
+      ],
+      "sentences": [
+        "A white ceramic bowl with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "990313",
+      "image_id": "571804",
+      "class": "cup",
+      "bbox": [
+        0.33995312499999997,
+        0.5244131455399061,
+        0.38878124999999997,
+        0.6471830985915493
+      ],
+      "sentences": [
+        "A white ceramic cup with flower decorations"
+      ]
+    },
+    {
+      "annotation_id": "433720",
+      "image_id": "569976",
+      "class": "person",
+      "bbox": [
+        0.26787500000000003,
+        0.0016875000000000002,
+        0.7103125000000001,
+        0.64278125
+      ],
+      "sentences": [
+        "A person wearing a black shirt"
+      ]
+    },
+    {
+      "annotation_id": "437179",
+      "image_id": "569976",
+      "class": "person",
+      "bbox": [
+        0.041937499999999996,
+        0.52584375,
+        0.497375,
+        0.9797812499999999
+      ],
+      "sentences": [
+        "A young kid sitting in a salon chair"
+      ]
+    },
+    {
+      "annotation_id": "1188281",
+      "image_id": "569976",
+      "class": "hair drier",
+      "bbox": [
+        0.40537500000000004,
+        0.327546875,
+        0.7068541666666667,
+        0.6853906249999999
+      ],
+      "sentences": [
+        "A black hair dryer drying a kid's hair"
+      ]
+    },
+    {
+      "annotation_id": "1239516",
+      "image_id": "569976",
+      "class": "person",
+      "bbox": [
+        0.3925,
+        0.415359375,
+        0.6951249999999999,
+        0.703
+      ],
+      "sentences": [
+        "A person wearing a white shirt"
+      ]
+    },
+    {
+      "annotation_id": "1580748",
+      "image_id": "569976",
+      "class": "chair",
+      "bbox": [
+        0.3514375,
+        0.74025,
+        0.5784583333333333,
+        0.7999375
+      ],
+      "sentences": [
+        "A large gray salon chiar"
+      ]
+    },
+    {
+      "annotation_id": "1582191",
+      "image_id": "569976",
+      "class": "chair",
+      "bbox": [
+        0.0,
+        0.8151875000000001,
+        0.5497708333333333,
+        1.0
+      ],
+      "sentences": [
+        "A large gray salon chiar"
+      ]
+    },
+    {
+      "annotation_id": "2123111",
+      "image_id": "569976",
+      "class": "chair",
+      "bbox": [
+        0.43535416666666665,
+        0.769046875,
+        0.6939583333333333,
+        1.0
+      ],
+      "sentences": [
+        "A large gray salon chiar"
+      ]
+    },
+    {
+      "annotation_id": "990303",
+      "image_id": "569976",
+      "class": "bottle",
+      "bbox": [
+        0.8282083333333333,
+        0.838265625,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A green bottle against a wall"
+      ]
+    },
+    {
+      "annotation_id": "499140",
+      "image_id": "568981",
+      "class": "person",
+      "bbox": [
+        0.0268125,
+        0.36551643192488265,
+        0.390234375,
+        0.8860328638497653
+      ],
+      "sentences": [
+        "A person kneeling behing a concrete ramp holding a camera"
+      ]
+    },
+    {
+      "annotation_id": "640800",
+      "image_id": "568981",
+      "class": "skateboard",
+      "bbox": [
+        0.9126562500000001,
+        0.5155399061032864,
+        0.9999687500000001,
+        0.5761502347417841
+      ],
+      "sentences": [
+        "A skateboard under a person"
+      ]
+    },
+    {
+      "annotation_id": "1163956",
+      "image_id": "568981",
+      "class": "backpack",
+      "bbox": [
+        0.16775,
+        0.7388967136150234,
+        0.279796875,
+        0.8673708920187794
+      ],
+      "sentences": [
+        "A gray backpack on a grassy ground"
+      ]
+    },
+    {
+      "annotation_id": "1711495",
+      "image_id": "568981",
+      "class": "person",
+      "bbox": [
+        0.88796875,
+        0.01556338028169014,
+        0.9997187499999999,
+        0.5405399061032864
+      ],
+      "sentences": [
+        "A young kid wearing a blue shirt"
+      ]
+    },
+    {
+      "annotation_id": "990295",
+      "image_id": "568981",
+      "class": "umbrella",
+      "bbox": [
+        0.696765625,
+        0.0,
+        0.78596875,
+        0.04241784037558686
+      ],
+      "sentences": [
+        "A black umbrella on the floor"
+      ]
+    },
+    {
+      "annotation_id": "650711",
+      "image_id": "567011",
+      "class": "surfboard",
+      "bbox": [
+        0.514140625,
+        0.6490845070422535,
+        0.711140625,
+        0.6849061032863849
+      ],
+      "sentences": [
+        "A white surfboard floating on the water"
+      ]
+    },
+    {
+      "annotation_id": "2162589",
+      "image_id": "567011",
+      "class": "person",
+      "bbox": [
+        0.623921875,
+        0.4427699530516432,
+        0.745203125,
+        0.6353521126760564
+      ],
+      "sentences": [
+        "A person wearing black surfing on a surfboard"
+      ]
+    },
+    {
+      "annotation_id": "990290",
+      "image_id": "567011",
+      "class": "boat",
+      "bbox": [
+        0.699171875,
+        0.32647887323943664,
+        0.7791250000000001,
+        0.3503990610328639
+      ],
+      "sentences": [
+        "An orange boat floating on the water"
+      ]
+    },
+    {
+      "annotation_id": "132867",
+      "image_id": "566758",
+      "class": "car",
+      "bbox": [
+        0.8419062500000001,
+        0.36941666666666667,
+        0.9893281250000001,
+        0.47331249999999997
+      ],
+      "sentences": [
+        "A black car beside a white building"
+      ]
+    },
+    {
+      "annotation_id": "163434",
+      "image_id": "566758",
+      "class": "bus",
+      "bbox": [
+        0.048984375000000004,
+        0.22185416666666666,
+        0.8243281250000001,
+        0.7331041666666667
+      ],
+      "sentences": [
+        "A yellow bus labeled 'Gomez Bus Line'"
+      ]
+    },
+    {
+      "annotation_id": "990287",
+      "image_id": "566758",
+      "class": "person",
+      "bbox": [
+        0.5718125,
+        0.3685833333333333,
+        0.6258593749999999,
+        0.41883333333333334
+      ],
+      "sentences": [
+        "A person inside a yellow bus"
+      ]
+    },
+    {
+      "annotation_id": "594908",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.26235294117647057,
+        0.3426875,
+        0.507755991285403,
+        0.622375
+      ],
+      "sentences": [
+        "A giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "595321",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.39104575163398697,
+        0.330890625,
+        0.5751851851851851,
+        0.59475
+      ],
+      "sentences": [
+        "A giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "596077",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.5120479302832244,
+        0.326921875,
+        0.7162962962962962,
+        0.595390625
+      ],
+      "sentences": [
+        "A giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "1823638",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.5383660130718955,
+        0.369640625,
+        0.6545751633986929,
+        0.45631249999999995
+      ],
+      "sentences": [
+        "A giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "990163",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.5602614379084968,
+        0.80159375,
+        0.7545533769063182,
+        0.982671875
+      ],
+      "sentences": [
+        "A reflection of a giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "990164",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.17596949891067537,
+        0.8281562499999999,
+        0.5676906318082788,
+        0.995328125
+      ],
+      "sentences": [
+        "A reflection of a giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "990165",
+      "image_id": "563603",
+      "class": "giraffe",
+      "bbox": [
+        0.17596949891067537,
+        0.8281562499999999,
+        0.5676906318082788,
+        0.995328125
+      ],
+      "sentences": [
+        "A reflection of a giraffe standing under a tree"
+      ]
+    },
+    {
+      "annotation_id": "30473",
+      "image_id": "563267",
+      "class": "tv",
+      "bbox": [
+        0.93792,
+        0.25,
+        0.99888,
+        0.48928000000000005
+      ],
+      "sentences": [
+        "A television displaying a bright green screen"
+      ]
+    },
+    {
+      "annotation_id": "90084",
+      "image_id": "563267",
+      "class": "bottle",
+      "bbox": [
+        0.79622,
+        0.56448,
+        0.82518,
+        0.7137066666666666
+      ],
+      "sentences": [
+        "A glass bottle on a table"
+      ]
+    },
+    {
+      "annotation_id": "93359",
+      "image_id": "563267",
+      "class": "bottle",
+      "bbox": [
+        0.83392,
+        0.5366666666666666,
+        0.8563999999999999,
+        0.6129866666666667
+      ],
+      "sentences": [
+        "A glass bottle on a table"
+      ]
+    },
+    {
+      "annotation_id": "94593",
+      "image_id": "563267",
+      "class": "bottle",
+      "bbox": [
+        0.8702000000000001,
+        0.5627466666666666,
+        0.8995,
+        0.7116
+      ],
+      "sentences": [
+        "A glass bottle on a table"
+      ]
+    },
+    {
+      "annotation_id": "194360",
+      "image_id": "563267",
+      "class": "person",
+      "bbox": [
+        0.47972000000000004,
+        0.09122666666666666,
+        0.7804000000000001,
+        0.9875999999999999
+      ],
+      "sentences": [
+        "A person wearing a black and green shirt"
+      ]
+    },
+    {
+      "annotation_id": "214254",
+      "image_id": "563267",
+      "class": "person",
+      "bbox": [
+        0.44832,
+        0.2580533333333333,
+        0.5764,
+        0.6648000000000001
+      ],
+      "sentences": [
+        "A person wearing a white shirt"
+      ]
+    },
+    {
+      "annotation_id": "1111302",
+      "image_id": "563267",
+      "class": "remote",
+      "bbox": [
+        0.49272000000000005,
+        0.7910666666666666,
+        0.5209400000000001,
+        0.8475199999999999
+      ],
+      "sentences": [
+        "A white remote held by a person"
+      ]
+    },
+    {
+      "annotation_id": "1961548",
+      "image_id": "563267",
+      "class": "dining table",
+      "bbox": [
+        0.35998,
+        0.59608,
+        1.0,
+        0.9342133333333333
+      ],
+      "sentences": [
+        "A wooden dining table on the right side of the room"
+      ]
+    },
+    {
+      "annotation_id": "2216079",
+      "image_id": "563267",
+      "class": "cup",
+      "bbox": [
+        0.9057799999999999,
+        0.66392,
+        0.9346599999999999,
+        0.7050666666666666
+      ],
+      "sentences": [
+        "A gray cup on a table"
+      ]
+    },
+    {
+      "annotation_id": "990298",
+      "image_id": "563267",
+      "class": "backpack",
+      "bbox": [
+        0.86,
+        0.9049333333333334,
+        0.99888,
+        1.0
+      ],
+      "sentences": [
+        "A black backpack on a chair"
+      ]
+    },
+    {
+      "annotation_id": "356583",
+      "image_id": "558558",
+      "class": "car",
+      "bbox": [
+        0.805015625,
+        0.6037291666666668,
+        0.9814375,
+        0.6840833333333334
+      ],
+      "sentences": [
+        "A white car on a road"
+      ]
+    },
+    {
+      "annotation_id": "404193",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.40221875,
+        0.3878125,
+        0.43948437500000004,
+        0.44654166666666667
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "2172711",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.8984687499999999,
+        0.22447916666666667,
+        0.9641718749999999,
+        0.28204166666666663
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "2172891",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.9812031250000001,
+        0.149375,
+        1.0,
+        0.29022916666666665
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "2172989",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.311515625,
+        0.37766666666666665,
+        0.34828125,
+        0.4376666666666667
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "990171",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.516984375,
+        0.39047916666666665,
+        0.55425,
+        0.4581666666666667
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "990172",
+      "image_id": "558558",
+      "class": "traffic light",
+      "bbox": [
+        0.632453125,
+        0.515875,
+        0.66971875,
+        0.5835625
+      ],
+      "sentences": [
+        "A traffic light displaying red"
+      ]
+    },
+    {
+      "annotation_id": "89757",
+      "image_id": "557172",
+      "class": "bottle",
+      "bbox": [
+        0.771125,
+        0.6475000000000001,
+        0.785953125,
+        0.7052916666666668
+      ],
+      "sentences": [
+        "A bottle of liquid placed on a bathroom countertop"
+      ]
+    },
+    {
+      "annotation_id": "1096096",
+      "image_id": "557172",
+      "class": "toilet",
+      "bbox": [
+        0.946390625,
+        0.7731458333333333,
+        1.0,
+        0.9311458333333335
+      ],
+      "sentences": [
+        "A toilet in a corner of a bathroom"
+      ]
+    },
+    {
+      "annotation_id": "1131895",
+      "image_id": "557172",
+      "class": "sink",
+      "bbox": [
+        0.40449999999999997,
+        0.741125,
+        0.7684218749999999,
+        1.0
+      ],
+      "sentences": [
+        "A sink mounted on a bathroom countertop"
+      ]
+    },
+    {
+      "annotation_id": "1486066",
+      "image_id": "557172",
+      "class": "bottle",
+      "bbox": [
+        0.6606875,
+        0.6099791666666667,
+        0.687828125,
+        0.6515625
+      ],
+      "sentences": [
+        "A bottle of liquid placed on a bathroom countertop"
+      ]
+    },
+    {
+      "annotation_id": "990177",
+      "image_id": "557172",
+      "class": "sink",
+      "bbox": [
+        0.29471875000000003,
+        0.6426458333333334,
+        0.519921875,
+        0.763125
+      ],
+      "sentences": [
+        "A sink mounted on a bathroom countertop"
+      ]
+    },
+    {
+      "annotation_id": "1084811",
+      "image_id": "556873",
+      "class": "cake",
+      "bbox": [
+        0.23292740046838406,
+        0.522515625,
+        0.5704918032786884,
+        0.765765625
+      ],
+      "sentences": [
+        "A white cake decorated with a green ribbon"
+      ]
+    },
+    {
+      "annotation_id": "990284",
+      "image_id": "556873",
+      "class": "chair",
+      "bbox": [
+        0.0,
+        0.27446875,
+        0.2677049180327869,
+        0.470234375
+      ],
+      "sentences": [
+        "A white chair under a shed"
+      ]
+    },
+    {
+      "annotation_id": "30594",
+      "image_id": "556193",
+      "class": "tv",
+      "bbox": [
+        0.46142,
+        0.4878978978978979,
+        0.58238,
+        0.8107507507507508
+      ],
+      "sentences": [
+        "A television displaying a game menu"
+      ]
+    },
+    {
+      "annotation_id": "499851",
+      "image_id": "556193",
+      "class": "person",
+      "bbox": [
+        0.543,
+        0.10810810810810811,
+        0.84,
+        1.0
+      ],
+      "sentences": [
+        "A person with blue clothing"
+      ]
+    },
+    {
+      "annotation_id": "1211267",
+      "image_id": "556193",
+      "class": "person",
+      "bbox": [
+        0.14816,
+        0.1797897897897898,
+        0.54776,
+        0.9797897897897897
+      ],
+      "sentences": [
+        "A person wuth black clothing"
+      ]
+    },
+    {
+      "annotation_id": "1631941",
+      "image_id": "556193",
+      "class": "remote",
+      "bbox": [
+        0.51978,
+        0.5336036036036036,
+        0.5459599999999999,
+        0.5627627627627628
+      ],
+      "sentences": [
+        "A white remote control held by a person"
+      ]
+    },
+    {
+      "annotation_id": "1632425",
+      "image_id": "556193",
+      "class": "remote",
+      "bbox": [
+        0.6062000000000001,
+        0.9185885885885885,
+        0.6298400000000001,
+        0.9992792792792793
+      ],
+      "sentences": [
+        "A white remote control held by a person"
+      ]
+    },
+    {
+      "annotation_id": "1632767",
+      "image_id": "556193",
+      "class": "remote",
+      "bbox": [
+        0.5121,
+        0.5066366366366366,
+        0.5348,
+        0.5331531531531533
+      ],
+      "sentences": [
+        "A white remote control held by a person"
+      ]
+    },
+    {
+      "annotation_id": "990282",
+      "image_id": "556193",
+      "class": "chair",
+      "bbox": [
+        0.91462,
+        0.6386486486486486,
+        1.0,
+        0.9990090090090089
+      ],
+      "sentences": [
+        "A wooden chair beside a person"
+      ]
+    },
+    {
+      "annotation_id": "319795",
+      "image_id": "554266",
+      "class": "bed",
+      "bbox": [
+        0.42698437499999997,
+        0.5890909090909091,
+        0.8418906249999999,
+        0.922806324110672
+      ],
+      "sentences": [
+        "A bed with patterned blankets with two person on it"
+      ]
+    },
+    {
+      "annotation_id": "463317",
+      "image_id": "554266",
+      "class": "person",
+      "bbox": [
+        0.4295625,
+        0.5165612648221344,
+        0.6374062500000001,
+        0.9254940711462449
+      ],
+      "sentences": [
+        "A person wearing blue pajamas laying on a bed"
+      ]
+    },
+    {
+      "annotation_id": "1744398",
+      "image_id": "554266",
+      "class": "person",
+      "bbox": [
+        0.589046875,
+        0.5173122529644268,
+        0.9813281249999999,
+        0.9235573122529644
+      ],
+      "sentences": [
+        "A person wearing white pajamas laying on a bed"
+      ]
+    },
+    {
+      "annotation_id": "2129968",
+      "image_id": "554266",
+      "class": "bed",
+      "bbox": [
+        0.118484375,
+        0.8477865612648222,
+        0.22370312500000003,
+        0.9873122529644269
+      ],
+      "sentences": [
+        "A bed with patterned blankets with two person on it"
+      ]
+    },
+    {
+      "annotation_id": "990289",
+      "image_id": "554266",
+      "class": "bottle",
+      "bbox": [
+        0.685625,
+        0.4640316205533597,
+        0.69090625,
+        0.5104743083003953
+      ],
+      "sentences": [
+        "A bottle of water on a table"
+      ]
+    },
+    {
+      "annotation_id": "990288",
+      "image_id": "554266",
+      "class": "bottle",
+      "bbox": [
+        0.680125,
+        0.4617391304347826,
+        0.68540625,
+        0.5081818181818182
+      ],
+      "sentences": [
+        "A bottle of water on a table"
+      ]
+    },
+    {
+      "annotation_id": "442886",
+      "image_id": "552842",
+      "class": "person",
+      "bbox": [
+        0.5277499999999999,
+        0.47655737704918033,
+        0.74515625,
+        0.7327400468384074
+      ],
+      "sentences": [
+        "A baseball player wearing a white jersey throwing a baseball on a field"
+      ]
+    },
+    {
+      "annotation_id": "632799",
+      "image_id": "552842",
+      "class": "baseball glove",
+      "bbox": [
+        0.56953125,
+        0.5775175644028103,
+        0.604875,
+        0.6256908665105386
+      ],
+      "sentences": [
+        "A red baseball glove on a person's hand"
+      ]
+    },
+    {
+      "annotation_id": "990278",
+      "image_id": "552842",
+      "class": "sports ball",
+      "bbox": [
+        0.21546875000000001,
+        0.4159484777517565,
+        0.271640625,
+        0.449672131147541
+      ],
+      "sentences": [
+        "A white baseball thrown in the air"
+      ]
+    },
+    {
+      "annotation_id": "1152992",
+      "image_id": "550426",
+      "class": "vase",
+      "bbox": [
+        0.34649038461538456,
+        0.5045,
+        0.755360576923077,
+        0.9774843749999998
+      ],
+      "sentences": [
+        "A glass vase filled with water and flowers beside a window"
+      ]
+    },
+    {
+      "annotation_id": "990179",
+      "image_id": "550426",
+      "class": "vase",
+      "bbox": [
+        0.6436538461538461,
+        0.486796875,
+        1.0,
+        0.9307031250000002
+      ],
+      "sentences": [
+        "A decorative ceramic vase beside a window"
+      ]
+    },
+    {
+      "annotation_id": "990180",
+      "image_id": "550426",
+      "class": "vase",
+      "bbox": [
+        0.40052884615384615,
+        0.735859375,
+        0.45346153846153847,
+        0.8675
+      ],
+      "sentences": [
+        "A decorative ceramic vase beside a window"
+      ]
+    },
+    {
+      "annotation_id": "398584",
+      "image_id": "550084",
+      "class": "truck",
+      "bbox": [
+        0.5427000000000001,
+        0.5726666666666667,
+        1.0,
+        0.9501866666666666
+      ],
+      "sentences": [
+        "An orange excavator parked beside a gas station"
+      ]
+    },
+    {
+      "annotation_id": "1369608",
+      "image_id": "550084",
+      "class": "truck",
+      "bbox": [
+        0.17008,
+        0.7504533333333334,
+        0.37604000000000004,
+        0.8092266666666668
+      ],
+      "sentences": [
+        "A white truck parked in a gas station"
+      ]
+    },
+    {
+      "annotation_id": "2052213",
+      "image_id": "550084",
+      "class": "truck",
+      "bbox": [
+        0.0,
+        0.6857066666666666,
+        0.17532,
+        0.8934933333333334
+      ],
+      "sentences": [
+        "A truck parked near a gas station"
+      ]
+    },
+    {
+      "annotation_id": "990184",
+      "image_id": "550084",
+      "class": "truck",
+      "bbox": [
+        0.44,
+        0.78816,
+        0.54246,
+        0.9014666666666667
+      ],
+      "sentences": [
+        "A yellow truck parked in a gas station"
+      ]
+    },
+    {
+      "annotation_id": "28780",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.24215625,
+        0.3264583333333333,
+        0.47253124999999996,
+        0.5955208333333334
+      ],
+      "sentences": [
+        "An old television monitor on a desk"
+      ]
+    },
+    {
+      "annotation_id": "36013",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.67290625,
+        0.2925833333333333,
+        0.863484375,
+        0.5359375
+      ],
+      "sentences": [
+        "An old television monitor on a desk"
+      ]
+    },
+    {
+      "annotation_id": "1100798",
+      "image_id": "547144",
+      "class": "laptop",
+      "bbox": [
+        0.042140625,
+        0.4674166666666667,
+        0.23932812500000003,
+        0.7483125000000002
+      ],
+      "sentences": [
+        "A black laptop sits on a corner of a desk"
+      ]
+    },
+    {
+      "annotation_id": "1107344",
+      "image_id": "547144",
+      "class": "mouse",
+      "bbox": [
+        0.499625,
+        0.6064375,
+        0.55084375,
+        0.6551458333333333
+      ],
+      "sentences": [
+        "A mouse beside a keyboard"
+      ]
+    },
+    {
+      "annotation_id": "1107427",
+      "image_id": "547144",
+      "class": "mouse",
+      "bbox": [
+        0.91634375,
+        0.5469166666666666,
+        0.9637656250000001,
+        0.5826875
+      ],
+      "sentences": [
+        "A mouse beside a keyboard"
+      ]
+    },
+    {
+      "annotation_id": "1116611",
+      "image_id": "547144",
+      "class": "keyboard",
+      "bbox": [
+        0.24660937500000002,
+        0.5797916666666667,
+        0.51865625,
+        0.7241875
+      ],
+      "sentences": [
+        "A keyboard in front of a monitor"
+      ]
+    },
+    {
+      "annotation_id": "1118168",
+      "image_id": "547144",
+      "class": "keyboard",
+      "bbox": [
+        0.709734375,
+        0.5281875,
+        0.927859375,
+        0.6310833333333333
+      ],
+      "sentences": [
+        "A keyboard in front of a monitor"
+      ]
+    },
+    {
+      "annotation_id": "1975046",
+      "image_id": "547144",
+      "class": "keyboard",
+      "bbox": [
+        0.9086562499999999,
+        0.802125,
+        0.9616406249999999,
+        0.871875
+      ],
+      "sentences": [
+        "A keyboard stored in a box"
+      ]
+    },
+    {
+      "annotation_id": "990193",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.46470312500000005,
+        0.7256666666666667,
+        0.668140625,
+        0.9148958333333332
+      ],
+      "sentences": [
+        "An old monitor underneath the desk"
+      ]
+    },
+    {
+      "annotation_id": "990194",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.6603125000000001,
+        0.76425,
+        0.8557656250000001,
+        0.9987083333333333
+      ],
+      "sentences": [
+        "An old monitor underneath the desk"
+      ]
+    },
+    {
+      "annotation_id": "990195",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.49165625,
+        0.8613541666666666,
+        0.6741250000000001,
+        1.0
+      ],
+      "sentences": [
+        "An old monitor underneath the desk"
+      ]
+    },
+    {
+      "annotation_id": "990196",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.30503125,
+        0.8613541666666666,
+        0.4875,
+        1.0
+      ],
+      "sentences": [
+        "An old monitor underneath the desk"
+      ]
+    },
+    {
+      "annotation_id": "990197",
+      "image_id": "547144",
+      "class": "tv",
+      "bbox": [
+        0.904359375,
+        0.6417916666666666,
+        1.0,
+        0.8230208333333333
+      ],
+      "sentences": [
+        "An old monitor underneath the desk"
+      ]
+    },
+    {
+      "annotation_id": "990198",
+      "image_id": "25593",
+      "class": "bicycle",
+      "bbox": [
+        0.419734375,
+        0.216625,
+        0.6295,
+        0.3497708333333333
+      ],
+      "sentences": [
+        "A bicycle icon is visible on the sign"
+      ]
+    },
+    {
+      "annotation_id": "1198695",
+      "image_id": "544605",
+      "class": "traffic light",
+      "bbox": [
+        0.55786,
+        0.8199733333333333,
+        0.6421399999999999,
+        0.93232
+      ],
+      "sentences": [
+        "A traffic light displays a red hand signal"
+      ]
+    },
+    {
+      "annotation_id": "990275",
+      "image_id": "544605",
+      "class": "stop sign",
+      "bbox": [
+        0.44414,
+        0.6481066666666666,
+        0.57256,
+        0.8826933333333333
+      ],
+      "sentences": [
+        "A stop sign reads 'Except Deliveries This Block'"
+      ]
+    },
+    {
+      "annotation_id": "650366",
+      "image_id": "540932",
+      "class": "surfboard",
+      "bbox": [
+        0.31471875,
+        0.5137708333333334,
+        0.37396874999999996,
+        0.5398125
+      ],
+      "sentences": [
+        "A surfboard in the water"
+      ]
+    },
+    {
+      "annotation_id": "652789",
+      "image_id": "540932",
+      "class": "surfboard",
+      "bbox": [
+        0.292546875,
+        0.48654166666666665,
+        0.3179375,
+        0.5655416666666666
+      ],
+      "sentences": [
+        "A white surfboard in the water"
+      ]
+    },
+    {
+      "annotation_id": "1236897",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.340296875,
+        0.601625,
+        0.3755,
+        0.6947291666666666
+      ],
+      "sentences": [
+        "A person walking on the beach"
+      ]
+    },
+    {
+      "annotation_id": "1243697",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.368609375,
+        0.6037916666666666,
+        0.3936875,
+        0.6995833333333333
+      ],
+      "sentences": [
+        "A person walking on the beach"
+      ]
+    },
+    {
+      "annotation_id": "1272568",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.028046875,
+        0.6292291666666666,
+        0.0520625,
+        0.7199166666666665
+      ],
+      "sentences": [
+        "A person walking on the beach"
+      ]
+    },
+    {
+      "annotation_id": "1275865",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.32678124999999997,
+        0.4834375,
+        0.35459375,
+        0.5251458333333334
+      ],
+      "sentences": [
+        "A person on a surfboard in the water"
+      ]
+    },
+    {
+      "annotation_id": "1277821",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.274171875,
+        0.5454791666666666,
+        0.31053125000000004,
+        0.5854999999999999
+      ],
+      "sentences": [
+        "A person on a small boat in the water"
+      ]
+    },
+    {
+      "annotation_id": "1282960",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.122140625,
+        0.2622291666666667,
+        0.141625,
+        0.2922708333333333
+      ],
+      "sentences": [
+        "A person on a surfboard in the water"
+      ]
+    },
+    {
+      "annotation_id": "1741790",
+      "image_id": "540932",
+      "class": "person",
+      "bbox": [
+        0.627578125,
+        0.4146458333333333,
+        0.660015625,
+        0.43962500000000004
+      ],
+      "sentences": [
+        "A person floating on a surfboard in the water"
+      ]
+    },
+    {
+      "annotation_id": "1862646",
+      "image_id": "540932",
+      "class": "surfboard",
+      "bbox": [
+        0.10321875,
+        0.2725,
+        0.156421875,
+        0.30433333333333334
+      ],
+      "sentences": [
+        "A surfboard with a surfer on it in the water"
+      ]
+    },
+    {
+      "annotation_id": "1863266",
+      "image_id": "540932",
+      "class": "surfboard",
+      "bbox": [
+        0.628515625,
+        0.429625,
+        0.6789531249999999,
+        0.43670833333333337
+      ],
+      "sentences": [
+        "A surfboard with a surfer on it in the water"
+      ]
+    },
+    {
+      "annotation_id": "990273",
+      "image_id": "540932",
+      "class": "boat",
+      "bbox": [
+        0.191875,
+        0.5792083333333333,
+        0.377671875,
+        0.6029166666666667
+      ],
+      "sentences": [
+        "A small boat with a person floating on it"
+      ]
+    },
+    {
+      "annotation_id": "308232",
+      "image_id": "234779",
+      "class": "sandwich",
+      "bbox": [
+        0.37165625,
+        0.3178922716627635,
+        0.9119687500000001,
+        0.8995550351288056
+      ],
+      "sentences": [
+        "A sandwich filled with saucy meat on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "312757",
+      "image_id": "234779",
+      "class": "sandwich",
+      "bbox": [
+        0.136125,
+        0.1995550351288056,
+        0.44429687500000004,
+        0.5403512880562061
+      ],
+      "sentences": [
+        "A sandwich filled with saucy meat on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "990234",
+      "image_id": "234779",
+      "class": "dining table",
+      "bbox": [
+        0.018640625,
+        0.32046838407494144,
+        0.9847187499999999,
+        0.9865807962529274
+      ],
+      "sentences": [
+        "A wooden dining table with two plates of sandwiches above it"
+      ]
+    },
+    {
+      "annotation_id": "1169642",
+      "image_id": "235784",
+      "class": "backpack",
+      "bbox": [
+        0.334625,
+        0.4056209150326798,
+        0.396296875,
+        0.650239651416122
+      ],
+      "sentences": [
+        "A large brown backpack worn by a person in the snow"
+      ]
+    },
+    {
+      "annotation_id": "1710455",
+      "image_id": "235784",
+      "class": "person",
+      "bbox": [
+        0.37698437500000004,
+        0.32176470588235295,
+        0.5405468750000001,
+        0.895686274509804
+      ],
+      "sentences": [
+        "A person wearing winter clothing standing on a snowy landscape"
+      ]
+    },
+    {
+      "annotation_id": "990353",
+      "image_id": "235784",
+      "class": "sun",
+      "bbox": [
+        0.67265625,
+        0.0,
+        0.969265625,
+        0.3471459694989107
+      ],
+      "sentences": [
+        "A bright yellow sun in the sky"
+      ]
+    },
+    {
+      "annotation_id": "301419",
+      "image_id": "235836",
+      "class": "sports ball",
+      "bbox": [
+        0.31519906323185015,
+        0.6444375,
+        0.3927166276346604,
+        0.694453125
+      ],
+      "sentences": [
+        "A blue and red baseball"
+      ]
+    },
+    {
+      "annotation_id": "448645",
+      "image_id": "235836",
+      "class": "person",
+      "bbox": [
+        0.5156908665105386,
+        0.440828125,
+        0.8807494145199063,
+        0.949453125
+      ],
+      "sentences": [
+        "A young kid swinging a baseball bat"
+      ]
+    },
+    {
+      "annotation_id": "1937869",
+      "image_id": "235836",
+      "class": "chair",
+      "bbox": [
+        0.15920374707259954,
+        0.35303125,
+        0.514192037470726,
+        0.61934375
+      ],
+      "sentences": [
+        "A gray chair on a grassy lawn"
+      ]
+    },
+    {
+      "annotation_id": "1940319",
+      "image_id": "235836",
+      "class": "chair",
+      "bbox": [
+        0.6623887587822014,
+        0.359921875,
+        0.9993911007025761,
+        0.6425
+      ],
+      "sentences": [
+        "A gray chair on a grassy lawn"
+      ]
+    },
+    {
+      "annotation_id": "1943819",
+      "image_id": "235836",
+      "class": "chair",
+      "bbox": [
+        0.0,
+        0.42596875,
+        0.16185011709601874,
+        0.5951562499999999
+      ],
+      "sentences": [
+        "A small yellow chair on a grassy lawn"
+      ]
+    },
+    {
+      "annotation_id": "990240",
+      "image_id": "235836",
+      "class": "baseball bat",
+      "bbox": [
+        0.4413817330210773,
+        0.644140625,
+        0.5766276346604216,
+        0.694875
+      ],
+      "sentences": [
+        "A small yellow baseball bat"
+      ]
+    },
+    {
+      "annotation_id": "1070791",
+      "image_id": "236412",
+      "class": "pizza",
+      "bbox": [
+        0.14646874999999998,
+        0.1129375,
+        0.905296875,
+        0.8917708333333333
+      ],
+      "sentences": [
+        "A cheese pizza on a white ceramic plate"
+      ]
+    },
+    {
+      "annotation_id": "1895290",
+      "image_id": "236412",
+      "class": "spoon",
+      "bbox": [
+        0.862390625,
+        0.12566666666666668,
+        0.9561093749999999,
+        0.21052083333333332
+      ],
+      "sentences": [
+        "A metal spoon on a red table cloth"
+      ]
+    },
+    {
+      "annotation_id": "990243",
+      "image_id": "236412",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A white dining table with pizza and crackers above it"
+      ]
+    },
+    {
+      "annotation_id": "990254",
+      "image_id": "447789",
+      "class": "stop sign",
+      "bbox": [
+        0.359375,
+        0.775175644028103,
+        0.6859375,
+        1.0
+      ],
+      "sentences": [
+        "A red stop sign under a street sign"
+      ]
+    },
+    {
+      "annotation_id": "1080403",
+      "image_id": "537241",
+      "class": "donut",
+      "bbox": [
+        0.203453125,
+        0.0582903981264637,
+        0.8526875,
+        0.9215222482435598
+      ],
+      "sentences": [
+        "A donut topped with white icing on a plastic bag"
+      ]
+    },
+    {
+      "annotation_id": "990261",
+      "image_id": "537241",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.03847775175644028,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A wooden dining table with a donut on it"
+      ]
+    },
+    {
+      "annotation_id": "1093961",
+      "image_id": "537812",
+      "class": "toilet",
+      "bbox": [
+        0.06414062499999999,
+        0.17066666666666666,
+        0.38060937499999997,
+        1.0
+      ],
+      "sentences": [
+        "A toilet in a bathroom"
+      ]
+    },
+    {
+      "annotation_id": "1588513",
+      "image_id": "537812",
+      "class": "chair",
+      "bbox": [
+        0.46090625,
+        0.5372916666666666,
+        0.66175,
+        0.8995416666666666
+      ],
+      "sentences": [
+        "A plastic chair with a bucket above it"
+      ]
+    },
+    {
+      "annotation_id": "990326",
+      "image_id": "537812",
+      "class": "bottle",
+      "bbox": [
+        0.41685937500000003,
+        0.11258333333333333,
+        0.431234375,
+        0.2484583333333333
+      ],
+      "sentences": [
+        "A plastic bottle of cleaning liquid"
+      ]
+    },
+    {
+      "annotation_id": "990320",
+      "image_id": "537812",
+      "class": "bottle",
+      "bbox": [
+        0.44265625000000003,
+        0.10479166666666666,
+        0.46820312500000005,
+        0.21972916666666667
+      ],
+      "sentences": [
+        "A plastic bottle of cleaning liquid"
+      ]
+    },
+    {
+      "annotation_id": "990328",
+      "image_id": "537812",
+      "class": "bottle",
+      "bbox": [
+        0.46846875,
+        0.11827083333333334,
+        0.48203125,
+        0.20093750000000002
+      ],
+      "sentences": [
+        "A plastic bottle of cleaning liquid"
+      ]
+    },
+    {
+      "annotation_id": "990329",
+      "image_id": "537812",
+      "class": "bottle",
+      "bbox": [
+        0.431484375,
+        0.12891666666666668,
+        0.455171875,
+        0.24597916666666667
+      ],
+      "sentences": [
+        "A plastic bottle of cleaning liquid"
+      ]
+    },
+    {
+      "annotation_id": "1152444",
+      "image_id": "521282",
+      "class": "vase",
+      "bbox": [
+        0.16245283018867923,
+        0.46637500000000004,
+        0.6734905660377358,
+        0.9820625
+      ],
+      "sentences": [
+        "A glass vase holding a bouquet of flowers"
+      ]
+    },
+    {
+      "annotation_id": "990418",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.009528301886792453,
+        0.2,
+        0.11966981132075472,
+        0.326125
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990419",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.07207547169811321,
+        0.30090625000000004,
+        0.16455188679245283,
+        0.430640625
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990420",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.08431603773584906,
+        0.13964062500000002,
+        0.2869339622641509,
+        0.298203125
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990421",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.2814858490566038,
+        0.11981250000000002,
+        0.4718632075471698,
+        0.259453125
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990422",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.12375,
+        0.30090625000000004,
+        0.3059669811320755,
+        0.472078125
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990423",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.37804245283018867,
+        0.3198125,
+        0.6540801886792452,
+        0.49368750000000006
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990424",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.26108490566037734,
+        0.28828125,
+        0.4256367924528302,
+        0.4675625
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990425",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.3236320754716981,
+        0.24684374999999997,
+        0.5031367924528302,
+        0.349546875
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990426",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.47049528301886795,
+        0.26396875,
+        0.6622405660377358,
+        0.36846875
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990427",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.6404952830188679,
+        0.249546875,
+        0.7873584905660377,
+        0.4414375
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990428",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.6840094339622641,
+        0.428828125,
+        0.8159198113207546,
+        0.49909374999999995
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990429",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.46099056603773586,
+        0.103609375,
+        0.6146462264150944,
+        0.21262499999999998
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990430",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.4623584905660377,
+        0.20990625000000002,
+        0.6173820754716981,
+        0.278375
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990431",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.5575471698113208,
+        0.18648437499999998,
+        0.7520047169811321,
+        0.306296875
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990432",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.5820047169811321,
+        0.11351562500000001,
+        0.6867216981132076,
+        0.1891875
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990433",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.6840094339622641,
+        0.12703124999999998,
+        0.8213443396226415,
+        0.22703125000000002
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990434",
+      "image_id": "521282",
+      "class": "flowers",
+      "bbox": [
+        0.745188679245283,
+        0.21981250000000002,
+        0.8825235849056604,
+        0.43153125000000003
+      ],
+      "sentences": [
+        "A white and yellow flower in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "161971",
+      "image_id": "520324",
+      "class": "airplane",
+      "bbox": [
+        0.29953124999999997,
+        0.5087291666666667,
+        1.0,
+        0.7419375
+      ],
+      "sentences": [
+        "A small airplane on an airfield"
+      ]
+    },
+    {
+      "annotation_id": "1363378",
+      "image_id": "520324",
+      "class": "airplane",
+      "bbox": [
+        0.323203125,
+        0.45418749999999997,
+        0.5508124999999999,
+        0.5747291666666666
+      ],
+      "sentences": [
+        "A small airplane on an airfield"
+      ]
+    },
+    {
+      "annotation_id": "1723559",
+      "image_id": "520324",
+      "class": "person",
+      "bbox": [
+        0.26954687499999996,
+        0.5510208333333334,
+        0.28548437499999996,
+        0.5719583333333333
+      ],
+      "sentences": [
+        "A person driving a truck"
+      ]
+    },
+    {
+      "annotation_id": "990323",
+      "image_id": "520324",
+      "class": "truck",
+      "bbox": [
+        0.216828125,
+        0.5693541666666667,
+        0.37479687500000003,
+        0.6857916666666667
+      ],
+      "sentences": [
+        "A truck attached to a fuel trailer"
+      ]
+    },
+    {
+      "annotation_id": "80561",
+      "image_id": "512476",
+      "class": "bottle",
+      "bbox": [
+        0.12701562500000002,
+        0.3694366197183098,
+        0.2089375,
+        0.6914319248826291
+      ],
+      "sentences": [
+        "A bottle of dishwashing soap by a sink"
+      ]
+    },
+    {
+      "annotation_id": "114721",
+      "image_id": "512476",
+      "class": "couch",
+      "bbox": [
+        0.755265625,
+        0.42997652582159623,
+        0.9975625000000001,
+        0.9148356807511737
+      ],
+      "sentences": [
+        "A couch with a blue cushion"
+      ]
+    },
+    {
+      "annotation_id": "705384",
+      "image_id": "512476",
+      "class": "spoon",
+      "bbox": [
+        0.620234375,
+        0.6807042253521127,
+        0.658640625,
+        0.7490610328638498
+      ],
+      "sentences": [
+        "A spoon in a bowl of cereal"
+      ]
+    },
+    {
+      "annotation_id": "711577",
+      "image_id": "512476",
+      "class": "bowl",
+      "bbox": [
+        0.49406249999999996,
+        0.6994131455399061,
+        0.6639999999999999,
+        0.8373239436619718
+      ],
+      "sentences": [
+        "A bowl of cereal by the sink"
+      ]
+    },
+    {
+      "annotation_id": "1132853",
+      "image_id": "512476",
+      "class": "sink",
+      "bbox": [
+        0.08975,
+        0.6898826291079811,
+        0.5295156249999999,
+        0.9528169014084507
+      ],
+      "sentences": [
+        "A small sink in a kitchen"
+      ]
+    },
+    {
+      "annotation_id": "1133133",
+      "image_id": "512476",
+      "class": "sink",
+      "bbox": [
+        0.214859375,
+        0.5998826291079813,
+        0.623546875,
+        0.7533802816901408
+      ],
+      "sentences": [
+        "A small sink in a kitchen"
+      ]
+    },
+    {
+      "annotation_id": "990416",
+      "image_id": "512476",
+      "class": "cereal",
+      "bbox": [
+        0.614109375,
+        0.3226995305164319,
+        0.743875,
+        0.7042018779342724
+      ],
+      "sentences": [
+        "A box of cereal on the countertop"
+      ]
+    },
+    {
+      "annotation_id": "1157219",
+      "image_id": "512194",
+      "class": "vase",
+      "bbox": [
+        0.48134375,
+        0.615735294117647,
+        0.834,
+        0.9842647058823529
+      ],
+      "sentences": [
+        "A white ceramic vase filled with flowers"
+      ]
+    },
+    {
+      "annotation_id": "990396",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.21812499999999999,
+        0.5060084033613446,
+        0.279640625,
+        0.6443697478991597
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990397",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.29978125,
+        0.15409663865546216,
+        0.40715625000000005,
+        0.24283613445378152
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990398",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.31990625,
+        0.24733193277310925,
+        0.3915,
+        0.32252100840336134
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990399",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.52215625,
+        0.03665966386554622,
+        0.55321875,
+        0.07350840336134452
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990400",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.699609375,
+        0.014285714285714285,
+        0.7876562500000001,
+        0.060819327731092436
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990401",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.610703125,
+        0.04560924369747899,
+        0.6878437500000001,
+        0.10739495798319329
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990402",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.559828125,
+        0.04707983193277311,
+        0.647359375,
+        0.12430672268907564
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990403",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.7064375,
+        0.09857142857142857,
+        0.805453125,
+        0.1669747899159664
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990404",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.77428125,
+        0.20228991596638657,
+        0.9444218750000001,
+        0.38764705882352946
+      ],
+      "sentences": [
+        "A yellow flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990405",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.529734375,
+        0.13460084033613445,
+        0.596484375,
+        0.2074159663865546
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990406",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.56365625,
+        0.14859243697478994,
+        0.6304062500000001,
+        0.21626050420168066
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990407",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.598125,
+        0.10077731092436974,
+        0.74090625,
+        0.290546218487395
+      ],
+      "sentences": [
+        "A yellow flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990408",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.39121875,
+        0.3046428571428571,
+        0.485421875,
+        0.3729621848739496
+      ],
+      "sentences": [
+        "A yellow and orange flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990409",
+      "image_id": "512194",
+      "class": "flowers",
+      "bbox": [
+        0.34782812500000004,
+        0.26838235294117646,
+        0.514359375,
+        0.47861344537815126
+      ],
+      "sentences": [
+        "A pink flower in a vase on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "91721",
+      "image_id": "511453",
+      "class": "bottle",
+      "bbox": [
+        0.26450980392156864,
+        0.004836601307189542,
+        0.45807189542483656,
+        0.31450980392156863
+      ],
+      "sentences": [
+        "A bottle of non-alcoholic beverage"
+      ]
+    },
+    {
+      "annotation_id": "93252",
+      "image_id": "511453",
+      "class": "bottle",
+      "bbox": [
+        0.0,
+        0.0002124183006535948,
+        0.1456045751633987,
+        0.28285947712418297
+      ],
+      "sentences": [
+        "A plastic bottle of water"
+      ]
+    },
+    {
+      "annotation_id": "1074083",
+      "image_id": "511453",
+      "class": "pizza",
+      "bbox": [
+        0.0,
+        0.28988562091503267,
+        1.0,
+        0.9865196078431373
+      ],
+      "sentences": [
+        "A pizza topped with fries on a white plate"
+      ]
+    },
+    {
+      "annotation_id": "990319",
+      "image_id": "511453",
+      "class": "dining table",
+      "bbox": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "sentences": [
+        "A wooden dining table"
+      ]
+    },
+    {
+      "annotation_id": "13482",
+      "image_id": "511398",
+      "class": "dog",
+      "bbox": [
+        0.018796874999999998,
+        0.10894613583138174,
+        0.82290625,
+        0.941943793911007
+      ],
+      "sentences": [
+        "A short fur dog laying on sand"
+      ]
+    },
+    {
+      "annotation_id": "990394",
+      "image_id": "511398",
+      "class": "hat",
+      "bbox": [
+        0.805328125,
+        0.29185011709601877,
+        1.0,
+        0.7891569086651055
+      ],
+      "sentences": [
+        "A sun hat rests on a beach mat"
+      ]
+    },
+    {
+      "annotation_id": "178087",
+      "image_id": "506004",
+      "class": "boat",
+      "bbox": [
+        0.164515625,
+        0.8795444191343964,
+        0.233875,
+        0.9396583143507973
+      ],
+      "sentences": [
+        "A white boat docked along the river"
+      ]
+    },
+    {
+      "annotation_id": "179238",
+      "image_id": "506004",
+      "class": "boat",
+      "bbox": [
+        0.04503125,
+        0.8647152619589977,
+        0.154296875,
+        0.9233940774487471
+      ],
+      "sentences": [
+        "A white boat docked along the river"
+      ]
+    },
+    {
+      "annotation_id": "340084",
+      "image_id": "506004",
+      "class": "clock",
+      "bbox": [
+        0.8502812499999999,
+        0.6962186788154897,
+        0.86509375,
+        0.7169931662870159
+      ],
+      "sentences": [
+        "A clock tower rises above the skyline"
+      ]
+    },
+    {
+      "annotation_id": "1666493",
+      "image_id": "506004",
+      "class": "clock",
+      "bbox": [
+        0.83990625,
+        0.6971981776765376,
+        0.844359375,
+        0.7173576309794989
+      ],
+      "sentences": [
+        "A clock tower rises above the skyline"
+      ]
+    },
+    {
+      "annotation_id": "990392",
+      "image_id": "506004",
+      "class": "ferris wheel",
+      "bbox": [
+        0.0,
+        0.06444191343963554,
+        0.22360937500000003,
+        0.8376993166287016
+      ],
+      "sentences": [
+        "A large ferris wheel beside a river"
+      ]
+    },
+    {
+      "annotation_id": "72296",
+      "image_id": "500663",
+      "class": "cow",
+      "bbox": [
+        0.450609375,
+        0.7371041666666667,
+        0.510265625,
+        0.7871041666666667
+      ],
+      "sentences": [
+        "A black cow grazing on the grassy pasture"
+      ]
+    },
+    {
+      "annotation_id": "72459",
+      "image_id": "500663",
+      "class": "cow",
+      "bbox": [
+        0.621765625,
+        0.7102916666666667,
+        0.65196875,
+        0.7336875
+      ],
+      "sentences": [
+        "A black cow grazing on the grassy pasture"
+      ]
+    },
+    {
+      "annotation_id": "2069511",
+      "image_id": "500663",
+      "class": "cow",
+      "bbox": [
+        0.690734375,
+        0.6744375,
+        0.704875,
+        0.68725
+      ],
+      "sentences": [
+        "A black cow grazing on the grassy pasture"
+      ]
+    },
+    {
+      "annotation_id": "990387",
+      "image_id": "500663",
+      "class": "tent",
+      "bbox": [
+        0.8423125,
+        0.6692291666666667,
+        0.8759062500000001,
+        0.7025416666666667
+      ],
+      "sentences": [
+        "A small white tent on the field"
+      ]
+    },
+    {
+      "annotation_id": "308339",
+      "image_id": "499109",
+      "class": "sandwich",
+      "bbox": [
+        0.041749999999999995,
+        0.14115625,
+        0.8053750000000001,
+        0.6557031249999999
+      ],
+      "sentences": [
+        "A sandwich filled with vegetables"
+      ]
+    },
+    {
+      "annotation_id": "990381",
+      "image_id": "499109",
+      "class": "pickles",
+      "bbox": [
+        0.49008333333333337,
+        0.5774843749999999,
+        0.9465416666666667,
+        0.857671875
+      ],
+      "sentences": [
+        "A green pickle on a plate"
+      ]
+    },
+    {
+      "annotation_id": "990382",
+      "image_id": "499109",
+      "class": "pickles",
+      "bbox": [
+        0.3002916666666666,
+        0.530625,
+        0.532125,
+        0.873875
+      ],
+      "sentences": [
+        "A green pickle on a plate"
+      ]
+    },
+    {
+      "annotation_id": "990383",
+      "image_id": "499109",
+      "class": "pickles",
+      "bbox": [
+        0.4672708333333333,
+        0.53603125,
+        0.7675624999999999,
+        0.754953125
+      ],
+      "sentences": [
+        "A green pickle on a plate"
+      ]
+    },
+    {
+      "annotation_id": "47948",
+      "image_id": "491757",
+      "class": "cat",
+      "bbox": [
+        0.494109375,
+        0.3229227557411274,
+        0.8657656250000001,
+        0.7627557411273487
+      ],
+      "sentences": [
+        "A tan cat resting on a pink bed comforter"
+      ]
+    },
+    {
+      "annotation_id": "319322",
+      "image_id": "491757",
+      "class": "bed",
+      "bbox": [
+        0.0016875000000000002,
+        0.017974947807933194,
+        1.0,
+        0.9887682672233821
+      ],
+      "sentences": [
+        "A large bed with a pink comforter against a wall"
+      ]
+    },
+    {
+      "annotation_id": "990379",
+      "image_id": "491757",
+      "class": "lamp",
+      "bbox": [
+        0.36028125,
+        0.043131524008350734,
+        0.4883125,
+        0.2700208768267223
+      ],
+      "sentences": [
+        "A table lamp next to a bed in a corner of a wall"
+      ]
+    },
+    {
+      "annotation_id": "1153295",
+      "image_id": "486573",
+      "class": "vase",
+      "bbox": [
+        0.5516249999999999,
+        0.631640625,
+        0.8082499999999999,
+        0.92809375
+      ],
+      "sentences": [
+        "A glass vase filled with water holding white flowers on a windowsill"
+      ]
+    },
+    {
+      "annotation_id": "990372",
+      "image_id": "486573",
+      "class": "flowers",
+      "bbox": [
+        0.37554166666666666,
+        0.512640625,
+        0.4948958333333333,
+        0.608921875
+      ],
+      "sentences": [
+        "A white flower arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990373",
+      "image_id": "486573",
+      "class": "flowers",
+      "bbox": [
+        0.4969166666666667,
+        0.547171875,
+        0.648375,
+        0.6423125
+      ],
+      "sentences": [
+        "A white flower arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990374",
+      "image_id": "486573",
+      "class": "flowers",
+      "bbox": [
+        0.46029166666666665,
+        0.6189218750000001,
+        0.5915208333333334,
+        0.7042187500000001
+      ],
+      "sentences": [
+        "A white flower arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990375",
+      "image_id": "486573",
+      "class": "flowers",
+      "bbox": [
+        0.4723125,
+        0.6935625,
+        0.5335416666666667,
+        0.738671875
+      ],
+      "sentences": [
+        "A white flower arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "990376",
+      "image_id": "486573",
+      "class": "flowers",
+      "bbox": [
+        0.6393541666666667,
+        0.5079687500000001,
+        0.8167708333333332,
+        0.63684375
+      ],
+      "sentences": [
+        "A white flower arranged in a glass vase"
+      ]
+    },
+    {
+      "annotation_id": "171944",
+      "image_id": "478286",
+      "class": "train",
+      "bbox": [
+        0.241015625,
+        0.4134791666666667,
+        1.0,
+        0.6651666666666666
+      ],
+      "sentences": [
+        "A train traveling on an elevated railway bridge"
+      ]
+    },
+    {
+      "annotation_id": "990370",
+      "image_id": "478286",
+      "class": "street light",
+      "bbox": [
+        0.31634375000000003,
+        0.17320833333333333,
+        0.44114062500000006,
+        1.0
+      ],
+      "sentences": [
+        "A street light in front of an elevated railway bridge"
+      ]
+    },
+    {
+      "annotation_id": "156538",
+      "image_id": "469174",
+      "class": "airplane",
+      "bbox": [
+        0.396984375,
+        0.15443478260869567,
+        0.7474375,
+        0.3024565217391304
+      ],
+      "sentences": [
+        "A plane flying in the sky above a flagpole"
+      ]
+    },
+    {
+      "annotation_id": "990368",
+      "image_id": "469174",
+      "class": "flag",
+      "bbox": [
+        0.2405,
+        0.2712391304347826,
+        0.379203125,
+        0.5840434782608694
+      ],
+      "sentences": [
+        "An American flag waving in the wind on a pole"
+      ]
+    },
+    {
+      "annotation_id": "316948",
+      "image_id": "468245",
+      "class": "bed",
+      "bbox": [
+        0.10345312499999999,
+        0.5213583138173302,
+        0.842609375,
+        0.9887587822014052
+      ],
+      "sentences": [
+        "A large unmade bed positioned against a wall"
+      ]
+    },
+    {
+      "annotation_id": "990366",
+      "image_id": "468245",
+      "class": "lamp",
+      "bbox": [
+        0.8479374999999999,
+        0.5651288056206089,
+        0.971296875,
+        0.8329508196721311
+      ],
+      "sentences": [
+        "A white lamp on top of a bedside table"
+      ]
+    },
+    {
+      "annotation_id": "990360",
+      "image_id": "370999",
+      "class": "coin",
+      "bbox": [
+        0.339609375,
+        0.2618958333333333,
+        0.660390625,
+        0.663625
+      ],
+      "sentences": [
+        "A coin surrounded by smooth holed stones on a white surface"
+      ]
+    }
+  ]
+}

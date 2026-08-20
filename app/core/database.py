@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
+
+from app.core.image_ids import canonical_image_id
 
 
 def init_database(db_path: Path) -> None:
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(db_path) as conn:
+    with closing(sqlite3.connect(db_path)) as conn:
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("""
             CREATE TABLE IF NOT EXISTS images (
@@ -63,8 +66,9 @@ def save_image(
     width: int | None = None,
     height: int | None = None,
 ) -> None:
+    image_id = canonical_image_id(image_id)
     uploaded_at = datetime.now(timezone.utc).isoformat()
-    with get_connection(db_path) as conn:
+    with closing(get_connection(db_path)) as conn:
         conn.execute(
             """
             INSERT OR REPLACE INTO images
@@ -89,8 +93,9 @@ def save_annotation_result(
     review_reason: str | None = None,
     annotation_result: dict,
 ) -> None:
+    image_id = canonical_image_id(image_id)
     created_at = datetime.now(timezone.utc).isoformat()
-    with get_connection(db_path) as conn:
+    with closing(get_connection(db_path)) as conn:
         conn.execute(
             """
             INSERT INTO annotation_runs
@@ -115,7 +120,8 @@ def save_annotation_result(
 
 
 def get_image_by_id(db_path: Path, image_id: str) -> dict | None:
-    with get_connection(db_path) as conn:
+    image_id = canonical_image_id(image_id)
+    with closing(get_connection(db_path)) as conn:
         row = conn.execute(
             "SELECT * FROM images WHERE image_id = ?",
             (image_id,),
@@ -126,7 +132,8 @@ def get_image_by_id(db_path: Path, image_id: str) -> dict | None:
 
 
 def get_annotations_by_image_id(db_path: Path, image_id: str) -> list[dict]:
-    with get_connection(db_path) as conn:
+    image_id = canonical_image_id(image_id)
+    with closing(get_connection(db_path)) as conn:
         rows = conn.execute(
             "SELECT * FROM annotation_runs WHERE image_id = ? ORDER BY created_at DESC",
             (image_id,),
