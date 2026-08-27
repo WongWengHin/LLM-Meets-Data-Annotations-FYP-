@@ -62,6 +62,10 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(summary["overall"]["tp"], 1)
         self.assertAlmostEqual(summary["overall"]["precision"], 1.0)
         self.assertAlmostEqual(summary["overall"]["recall"], 1.0)
+        self.assertAlmostEqual(summary["overall"]["f1"], 1.0)
+        self.assertAlmostEqual(summary["triplet_mean_ap"], 1.0)
+        self.assertAlmostEqual(summary["mean_ap"], 1.0)
+        self.assertAlmostEqual(next(iter(summary["per_triplet"].values()))["ap"], 1.0)
         self.assertEqual(predictions[0].object_id, 2)
         self.assertEqual(predictions[0].predicate_id, 76)
 

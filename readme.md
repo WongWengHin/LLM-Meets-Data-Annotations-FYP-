@@ -249,6 +249,7 @@ Useful endpoints:
 ### 5.1 Run offline evaluation
 
 The repository also includes an offline IoU evaluation module for COCO and HICO-DET style evaluation.
+HICO-DET reports triplet-level precision, recall, F1, and `triplet mean AP@IoU=0.5` so the detection summary stays distinct from COCO mAP.
 
 Example COCO run:
 

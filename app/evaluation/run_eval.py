@@ -143,6 +143,7 @@ def run_hicodet(
                     "fn": triplet_metrics["fn"],
                     "precision": triplet_metrics["precision"],
                     "recall": triplet_metrics["recall"],
+                    "ap": triplet_metrics["ap"],
                 }
             )
 
@@ -155,15 +156,19 @@ def run_hicodet(
         ),
         "issues": issues,
         "thresholds": summary_by_threshold,
+        "triplet_mean_ap@0.50": summary_by_threshold["0.50"]["triplet_mean_ap"],
+        "F1@0.50": summary_by_threshold["0.50"]["overall"]["f1"],
     }
     write_json(output_dir / "hicodet-summary.json", summary_payload)
     write_csv(
         output_dir / "hicodet-per-triplet.csv",
         per_triplet_rows,
-        ["iou_threshold", "triplet_key", "tp", "fp", "fn", "precision", "recall"],
+        ["iou_threshold", "triplet_key", "tp", "fp", "fn", "precision", "recall", "ap"],
     )
     recall_at_05 = summary_by_threshold["0.50"]["overall"]["recall"]
     precision_at_05 = summary_by_threshold["0.50"]["overall"]["precision"]
+    f1_at_05 = summary_by_threshold["0.50"]["overall"]["f1"]
+    map_at_05 = summary_by_threshold["0.50"]["triplet_mean_ap"]
     write_markdown(
         output_dir / "hicodet-summary.md",
         "HICO-DET Evaluation Summary",
@@ -172,6 +177,8 @@ def run_hicodet(
             f"- Ground truth count: {len(gt_instances)}",
             f"- Precision@IoU=0.5: {precision_at_05:.4f}",
             f"- Recall@IoU=0.5: {recall_at_05:.4f}",
+            f"- F1@IoU=0.5: {f1_at_05:.4f}",
+            f"- triplet mean AP@IoU=0.5: {map_at_05:.4f}",
             f"- Issues: {len(issues)}",
         ],
     )
