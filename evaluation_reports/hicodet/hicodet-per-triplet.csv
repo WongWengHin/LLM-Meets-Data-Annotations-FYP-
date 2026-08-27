@@ -1,3 +1,0 @@
-iou_threshold,triplet_key,tp,fp,fn,precision,recall,ap
-0.50,person|verb:76|object:2,0,0,1,0.0,0.0,0.0
-0.75,person|verb:76|object:2,0,0,1,0.0,0.0,0.0

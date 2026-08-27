@@ -22,28 +22,161 @@ def _resolve_image_id(image_entry: dict) -> str:
     return ""
 
 
+def _image_aliases(image_entry: dict) -> list[str]:
+    aliases: list[str] = []
+    seen: set[str] = set()
+
+    def add_alias(value: object) -> None:
+        if value is None:
+            return
+
+        text = str(value).strip()
+        if not text:
+            return
+
+        for candidate in (text, Path(text).stem):
+            candidate = str(candidate).strip()
+            if candidate and candidate not in seen:
+                seen.add(candidate)
+                aliases.append(candidate)
+
+    for key in ("image_id", "id", "global_id", "file_name"):
+        add_alias(image_entry.get(key))
+
+    return aliases
+
+
+def _annotation_image_aliases(annotation: dict) -> list[str]:
+    aliases: list[str] = []
+    seen: set[str] = set()
+
+    def add_alias(value: object) -> None:
+        if value is None:
+            return
+
+        text = str(value).strip()
+        if not text:
+            return
+
+        for candidate in (text, Path(text).stem):
+            candidate = str(candidate).strip()
+            if candidate and candidate not in seen:
+                seen.add(candidate)
+                aliases.append(candidate)
+
+    # Prefer filename-derived stems so evaluations can align with uploaded file stems.
+    file_name = annotation.get("file_name")
+    if file_name is not None:
+        add_alias(Path(str(file_name)).stem)
+        add_alias(file_name)
+    add_alias(annotation.get("image_id"))
+    add_alias(annotation.get("id"))
+    add_alias(annotation.get("global_id"))
+
+    return aliases
+
+
+def _prediction_image_aliases(export_payload: dict) -> list[str]:
+    aliases: list[str] = []
+    seen: set[str] = set()
+    image_block = export_payload.get("image", {})
+    if not isinstance(image_block, dict):
+        image_block = {}
+
+    def add_alias(value: object) -> None:
+        if value is None:
+            return
+
+        text = str(value).strip()
+        if not text:
+            return
+
+        for candidate in (text, Path(text).stem):
+            candidate = str(candidate).strip()
+            if candidate and candidate not in seen:
+                seen.add(candidate)
+                aliases.append(candidate)
+
+    for value in (
+        export_payload.get("image_id"),
+        image_block.get("image_id"),
+        image_block.get("id"),
+        image_block.get("global_id"),
+        image_block.get("file_name"),
+    ):
+        add_alias(value)
+
+    return aliases
+
+
+def _build_image_info_lookup(images: list[dict]) -> dict[str, dict]:
+    image_info_by_id: dict[str, dict] = {}
+    for image in images:
+        if not isinstance(image, dict):
+            continue
+
+        aliases = _image_aliases(image)
+        if not aliases:
+            continue
+
+        image_info = {
+            "image_id": aliases[0],
+            "file_name": image.get("file_name"),
+            "width": int(image["width"]),
+            "height": int(image["height"]),
+        }
+        for alias in aliases:
+            image_info_by_id.setdefault(alias, image_info)
+
+    return image_info_by_id
+
+
+def _iter_hicodet_annotations(payload: dict) -> list[dict]:
+    annotations = payload.get("annotations", [])
+    if isinstance(annotations, list) and annotations:
+        return [annotation for annotation in annotations if isinstance(annotation, dict)]
+
+    flattened: list[dict] = []
+    images = payload.get("images", [])
+    if not isinstance(images, list):
+        return flattened
+
+    for image in images:
+        if not isinstance(image, dict):
+            continue
+
+        image_id = _resolve_image_id(image)
+        nested_annotations = image.get("annotations", [])
+        if not isinstance(nested_annotations, list):
+            continue
+
+        for annotation in nested_annotations:
+            if not isinstance(annotation, dict):
+                continue
+            merged = dict(annotation)
+            if image_id and not merged.get("image_id"):
+                merged["image_id"] = image_id
+            if image.get("file_name") and not merged.get("file_name"):
+                merged["file_name"] = image.get("file_name")
+            flattened.append(merged)
+
+    return flattened
+
+
 def load_hicodet_ground_truth(annotation_path: Path) -> tuple[list[HicoGtInstance], dict[str, dict]]:
     payload = load_json(annotation_path)
     if not isinstance(payload, dict):
         raise ValueError("HICO-DET annotation file must be a JSON object.")
 
     images = payload.get("images", [])
-    annotations = payload.get("annotations", [])
-    image_info_by_id = {
-        _resolve_image_id(image): {
-            "image_id": _resolve_image_id(image),
-            "file_name": image.get("file_name"),
-            "width": int(image["width"]),
-            "height": int(image["height"]),
-        }
-        for image in images
-        if _resolve_image_id(image)
-    }
+    annotations = _iter_hicodet_annotations(payload)
+    image_info_by_id = _build_image_info_lookup(images if isinstance(images, list) else [])
 
     gt_instances: list[HicoGtInstance] = []
     for annotation in annotations:
-        image_id = str(annotation.get("image_id") or annotation.get("file_name") or "")
-        image_info = image_info_by_id.get(image_id)
+        annotation_image_aliases = _annotation_image_aliases(annotation)
+        image_id = next((alias for alias in annotation_image_aliases if alias in image_info_by_id), "")
+        image_info = image_info_by_id.get(image_id) if image_id else None
         if image_info is None:
             continue
 
@@ -89,11 +222,11 @@ def adapt_predictions_to_hicodet(
     normalized_predicate_mapping = predicate_mapping or {}
 
     for export_payload in prediction_exports:
-        image_block = export_payload.get("image", {})
-        image_id = str(export_payload.get("image_id") or image_block.get("image_id") or "")
-        image_info = image_info_by_id.get(image_id)
+        image_aliases = _prediction_image_aliases(export_payload)
+        image_id = next((alias for alias in image_aliases if alias in image_info_by_id), "")
+        image_info = image_info_by_id.get(image_id) if image_id else None
         if image_info is None:
-            issues.append({"image_id": image_id, "reason": "image_id_not_found"})
+            issues.append({"image_id": image_aliases[0] if image_aliases else "", "reason": "image_id_not_found"})
             continue
 
         width = int(image_info["width"])

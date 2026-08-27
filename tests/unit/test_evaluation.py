@@ -71,6 +71,82 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(predictions[0].object_id, 2)
         self.assertEqual(predictions[0].predicate_id, 76)
 
+    def test_hicodet_can_match_by_file_stem_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_path = Path(tmp_dir)
+            annotation_path = tmp_path / "annotations.json"
+            prediction_path = tmp_path / "predictions"
+            prediction_path.mkdir(parents=True, exist_ok=True)
+
+            annotation_path.write_text(
+                json.dumps(
+                    {
+                        "images": [
+                            {
+                                "id": 2149,
+                                "file_name": "HICO_train2015_00000001.jpg",
+                                "width": 640,
+                                "height": 480,
+                            }
+                        ],
+                        "annotations": [
+                            {
+                                "id": "gt1",
+                                "image_id": "HICO_train2015_00000001",
+                                "subject": "person",
+                                "object": "motorcycle",
+                                "predicate": "ride",
+                                "subject_bbox": [0.1, 0.1, 0.4, 0.8],
+                                "object_bbox": [0.4, 0.4, 0.8, 0.9],
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            prediction_path.joinpath("HICO_train2015_00000001-prediction.json").write_text(
+                json.dumps(
+                    {
+                        "image_id": "HICO_train2015_00000001",
+                        "image": {
+                            "image_id": "HICO_train2015_00000001",
+                            "file_name": "HICO_train2015_00000001.jpg",
+                            "width": 640,
+                            "height": 480,
+                        },
+                        "predictions": [
+                            {
+                                "annotation_id": "pred1",
+                                "subject": "person",
+                                "object": "motorcycle",
+                                "predicate": "ride",
+                                "subject_bbox": [0.1, 0.1, 0.4, 0.8],
+                                "object_bbox": [0.4, 0.4, 0.8, 0.9],
+                                "score": 0.9,
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            gt_instances, image_info_by_id = load_hicodet_ground_truth(annotation_path)
+            predictions, issues = adapt_predictions_to_hicodet(
+                [json.loads(prediction_path.joinpath("HICO_train2015_00000001-prediction.json").read_text(encoding="utf-8"))],
+                image_info_by_id,
+                object_mapping=load_label_mapping(FIXTURE_DIR / "label_mapping.json")["hicodet"]["object_to_id"],
+                predicate_mapping=load_label_mapping(FIXTURE_DIR / "label_mapping.json")["hicodet"]["predicate_to_id"],
+            )
+
+            self.assertEqual(issues, [])
+            self.assertEqual(len(gt_instances), 1)
+            self.assertEqual(len(predictions), 1)
+            self.assertEqual(gt_instances[0].image_id, "HICO_train2015_00000001")
+            self.assertEqual(predictions[0].image_id, "HICO_train2015_00000001")
+
     def test_hicodet_summary_includes_semantic_block(self) -> None:
         annotation_path = FIXTURE_DIR / "hicodet_annotations.json"
         prediction_path = FIXTURE_DIR / "hicodet_prediction.json"

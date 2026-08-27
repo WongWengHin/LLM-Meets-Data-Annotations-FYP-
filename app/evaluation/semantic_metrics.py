@@ -112,7 +112,8 @@ def evaluate_hico_semantic_pairs(
 ) -> tuple[list[dict], list[dict]]:
     records_by_image: dict[str, list[dict]] = defaultdict(list)
     for record in semantic_records:
-        records_by_image[str(record.get("image_id") or "")].append(record)
+        for alias in _record_image_aliases(record):
+            records_by_image[alias].append(record)
 
     used_record_ids: set[str] = set()
     matches: list[dict] = []
@@ -124,6 +125,7 @@ def evaluate_hico_semantic_pairs(
             issues.append({"reason": "missing_image_id", "prediction_file": export_payload.get("image_id")})
             continue
 
+        image_aliases = _export_image_aliases(export_payload)
         predictions = export_payload.get("predictions", [])
         if not isinstance(predictions, list):
             issues.append({"image_id": image_id, "reason": "predictions_not_list"})
@@ -137,7 +139,15 @@ def evaluate_hico_semantic_pairs(
         for prediction in sorted_predictions:
             triplet_key = _triplet_key_from_prediction(prediction)
             candidate_sentences = _extract_prediction_sentences(prediction)
-            image_records = records_by_image.get(image_id, [])
+            image_records: list[dict] = []
+            seen_records: set[str] = set()
+            for alias in image_aliases:
+                for record in records_by_image.get(alias, []):
+                    record_id = str(record.get("annotation_id") or "")
+                    if record_id in seen_records:
+                        continue
+                    seen_records.add(record_id)
+                    image_records.append(record)
             exact_candidates = [
                 record
                 for record in image_records
@@ -281,6 +291,50 @@ def _extract_image_id(export_payload: dict) -> str:
     return ""
 
 
+def _export_image_aliases(export_payload: dict) -> list[str]:
+    aliases: list[str] = []
+    image_block = export_payload.get("image", {})
+    if isinstance(image_block, dict):
+        for key in ("image_id", "id", "file_name"):
+            value = image_block.get(key)
+            if value is None:
+                continue
+            aliases.extend(_expand_aliases(str(value)))
+
+    for key in ("image_id", "id", "file_name"):
+        value = export_payload.get(key)
+        if value is not None:
+            aliases.extend(_expand_aliases(str(value)))
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for alias in aliases:
+        cleaned = alias.strip()
+        if not cleaned or cleaned in seen:
+            continue
+        seen.add(cleaned)
+        deduped.append(cleaned)
+    return deduped
+
+
+def _record_image_aliases(record: dict) -> list[str]:
+    aliases: list[str] = []
+    for key in ("image_id", "id", "file_name"):
+        value = record.get(key)
+        if value is not None:
+            aliases.extend(_expand_aliases(str(value)))
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for alias in aliases:
+        cleaned = alias.strip()
+        if not cleaned or cleaned in seen:
+            continue
+        seen.add(cleaned)
+        deduped.append(cleaned)
+    return deduped
+
+
 def _triplet_key_from_prediction(prediction: dict) -> str:
     subject = str(prediction.get("subject") or "").strip()
     predicate = str(prediction.get("predicate") or "").strip()
@@ -313,3 +367,20 @@ def _extract_reference_sentences(record: dict | None) -> list[str]:
 
 def _is_bbox(value: object) -> bool:
     return isinstance(value, list) and len(value) == 4 and all(isinstance(item, (int, float)) for item in value)
+
+
+def _expand_aliases(value: str) -> list[str]:
+    text = value.strip()
+    if not text:
+        return []
+
+    aliases = [text]
+    path_text = text.replace("\\", "/")
+    stem = path_text.rsplit("/", 1)[-1]
+    if stem not in aliases:
+        aliases.append(stem)
+    if "." in stem:
+        stem_no_ext = stem.rsplit(".", 1)[0]
+        if stem_no_ext not in aliases:
+            aliases.append(stem_no_ext)
+    return aliases

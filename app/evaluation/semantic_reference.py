@@ -30,6 +30,8 @@ def load_hico_semantic_fixture(path: Path) -> dict[str, Any]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise ValueError("Semantic fixture must be a JSON object.")
+    if "records" not in payload and "images" in payload:
+        return build_hico_semantic_fixture(payload)
     return payload
 
 
@@ -57,6 +59,8 @@ def build_hico_semantic_records(payload: dict[str, Any]) -> list[dict[str, Any]]
             object_name = str(annotation.get("object") or "").strip()
             raw_predicates = annotation.get("predicate") or []
             references = _clean_sentence_list(annotation.get("sentences"))
+            if not references:
+                references = _clean_sentence_list(annotation.get("references"))
             subject_bbox = _clean_bbox(annotation.get("subject_bbox"))
             object_bbox = _clean_bbox(annotation.get("object_bbox"))
 
