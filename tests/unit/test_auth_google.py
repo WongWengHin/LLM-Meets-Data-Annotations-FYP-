@@ -14,13 +14,12 @@ from app.services.auth.google_oauth import GoogleUser, build_google_authorizatio
 
 class GoogleAuthTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._temp_dir = tempfile.TemporaryDirectory()
+        self._temp_dir = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
         base_dir = Path(self._temp_dir.name)
         self.paths = AppPaths(
             base_dir=base_dir,
             frontend_dir=base_dir / "frontend",
             data_dir=base_dir / "data",
-            db_path=base_dir / "data" / "annotations.db",
             user_db_path=base_dir / "data" / "user_results.db",
             uploads_dir=base_dir / "data" / "uploads",
             inference_images_dir=base_dir / "data" / "inference_images",
@@ -51,8 +50,6 @@ class GoogleAuthTests(unittest.TestCase):
         ):
             path.mkdir(parents=True, exist_ok=True)
         (self.paths.frontend_dir / "index.html").write_text("<html><body>test</body></html>", encoding="utf-8")
-        self.init_database_patcher = patch("app.api.app.init_database")
-        self.init_database_patcher.start()
         self.config = AppConfig(
             llm=LLMConfig(
                 provider="annotation",
@@ -84,7 +81,6 @@ class GoogleAuthTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.client.close()
-        self.init_database_patcher.stop()
         self._temp_dir.cleanup()
 
     def test_google_login_redirects_to_google_authorization(self) -> None:

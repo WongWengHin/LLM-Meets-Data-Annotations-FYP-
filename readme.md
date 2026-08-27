@@ -154,7 +154,7 @@ FIT3163/
   Example images and XML annotations kept for manual inspection or demos
 
 - `data/`
-  Runtime output directory for uploads and generated JSON artifacts
+  Runtime output directory for uploads, generated JSON artifacts, and the active `user_results.db` SQLite database
 
 ## How to Run
 
@@ -196,6 +196,8 @@ For Google sign-in, add:
 - `GOOGLE_REDIRECT_URI` like `http://127.0.0.1:8000/auth/google/callback`
 - `SESSION_SECRET_KEY`
 - `REQUIRE_GOOGLE_LOGIN=true` if you want to block uploads until login succeeds
+
+The application now persists Google-account-owned uploads and annotation runs in `data/user_results.db`. The older `annotations.db` path has been removed from the startup flow.
 
 ### 4. Start the project
 
