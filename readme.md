@@ -251,6 +251,19 @@ Useful endpoints:
 The repository also includes an offline IoU evaluation module for COCO and HICO-DET style evaluation.
 HICO-DET reports triplet-level precision, recall, F1, and `triplet mean AP@IoU=0.5` so the detection summary stays distinct from COCO mAP.
 
+For semantic analysis, you can convert the manually annotated `HICO_sentences.py` fixture into JSON and run the separate HICO semantic evaluation script:
+
+```powershell
+python scripts/convert_hico_sentences.py path\to\HICO_sentences.py data\hico_semantic_fixture.json
+python scripts/run_hico_semantic_eval.py --predictions-dir data\predictions --semantic-reference data\hico_semantic_fixture.json --output-dir evaluation_reports\hicodet_semantic
+```
+
+You can also merge semantic results into the main HICO-DET report:
+
+```powershell
+python -m app.evaluation.run_eval --dataset hicodet --predictions-dir data\predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet --semantic-reference data\hico_semantic_fixture.json
+```
+
 Example COCO run:
 
 ```powershell

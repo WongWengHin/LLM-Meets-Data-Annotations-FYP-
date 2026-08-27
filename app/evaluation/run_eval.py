@@ -21,6 +21,8 @@ from app.evaluation.label_mapping import load_label_mapping
 from app.evaluation.matching import coco_match_by_threshold, hicodet_match_by_threshold
 from app.evaluation.metrics import summarize_coco_threshold, summarize_hicodet_threshold
 from app.evaluation.reporting import write_csv, write_debug_reports, write_json, write_markdown
+from app.evaluation.semantic_metrics import evaluate_hico_semantic_pairs, summarize_semantic_matches
+from app.evaluation.semantic_reference import load_hico_semantic_fixture
 
 
 def parse_args() -> argparse.Namespace:
@@ -30,6 +32,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--annotations", required=True, help="Path to official dataset annotation JSON.")
     parser.add_argument("--output-dir", required=True, help="Directory to write evaluation reports.")
     parser.add_argument("--label-mapping", required=False, help="Optional path to dataset label mapping JSON.")
+    parser.add_argument(
+        "--semantic-reference",
+        required=False,
+        help="Optional path to converted HICO semantic reference JSON for semantic evaluation.",
+    )
     return parser.parse_args()
 
 
@@ -112,6 +119,7 @@ def run_hicodet(
     output_dir: Path,
     *,
     label_mapping: dict[str, dict[str, dict[str, int]]] | None = None,
+    semantic_reference_path: Path | None = None,
 ) -> None:
     gt_instances, image_info_by_id = load_hicodet_ground_truth(annotations_path)
     prediction_exports = load_hicodet_predictions(predictions_dir)
@@ -127,6 +135,37 @@ def run_hicodet(
     summary_by_threshold: dict[str, dict] = {}
     per_triplet_rows: list[dict] = []
     all_debug_records = []
+    semantic_summary: dict | None = None
+    semantic_rows: list[dict] = []
+
+    if semantic_reference_path is not None:
+        reference_payload = load_hico_semantic_fixture(semantic_reference_path)
+        semantic_records = reference_payload.get("records", [])
+        if not isinstance(semantic_records, list):
+            raise RuntimeError("Semantic reference fixture does not contain a records list.")
+        semantic_matches, semantic_issues = evaluate_hico_semantic_pairs(
+            prediction_exports,
+            [record for record in semantic_records if isinstance(record, dict)],
+            iou_threshold=0.5,
+        )
+        semantic_summary = summarize_semantic_matches(semantic_matches)
+        semantic_rows = [
+            {
+                "image_id": match["image_id"],
+                "prediction_id": match["prediction_id"],
+                "reference_id": match["reference_id"] or "",
+                "triplet_key": match["triplet_key"],
+                "matched": match["matched"],
+                "subject_iou": match["subject_iou"],
+                "object_iou": match["object_iou"],
+                "bleu": match["bleu"],
+                "meteor": match["meteor"],
+                "candidate_count": match["candidate_count"],
+                "reference_count": match["reference_count"],
+            }
+            for match in semantic_matches
+        ]
+        semantic_summary["issues"] = semantic_issues
 
     for threshold in thresholds:
         match_outcomes, debug_records = hicodet_match_by_threshold(predictions, gt_instances, threshold)
@@ -159,28 +198,62 @@ def run_hicodet(
         "triplet_mean_ap@0.50": summary_by_threshold["0.50"]["triplet_mean_ap"],
         "F1@0.50": summary_by_threshold["0.50"]["overall"]["f1"],
     }
+    if semantic_summary is not None:
+        summary_payload["semantic"] = semantic_summary
     write_json(output_dir / "hicodet-summary.json", summary_payload)
     write_csv(
         output_dir / "hicodet-per-triplet.csv",
         per_triplet_rows,
         ["iou_threshold", "triplet_key", "tp", "fp", "fn", "precision", "recall", "ap"],
     )
+    if semantic_summary is not None:
+        write_csv(
+            output_dir / "hicodet-semantic-pairs.csv",
+            semantic_rows,
+            [
+                "image_id",
+                "prediction_id",
+                "reference_id",
+                "triplet_key",
+                "matched",
+                "subject_iou",
+                "object_iou",
+                "bleu",
+                "meteor",
+                "candidate_count",
+                "reference_count",
+            ],
+        )
     recall_at_05 = summary_by_threshold["0.50"]["overall"]["recall"]
     precision_at_05 = summary_by_threshold["0.50"]["overall"]["precision"]
     f1_at_05 = summary_by_threshold["0.50"]["overall"]["f1"]
     map_at_05 = summary_by_threshold["0.50"]["triplet_mean_ap"]
+    markdown_lines = [
+        f"- Prediction count: {len(predictions)}",
+        f"- Ground truth count: {len(gt_instances)}",
+        f"- Precision@IoU=0.5: {precision_at_05:.4f}",
+        f"- Recall@IoU=0.5: {recall_at_05:.4f}",
+        f"- F1@IoU=0.5: {f1_at_05:.4f}",
+        f"- triplet mean AP@IoU=0.5: {map_at_05:.4f}",
+        f"- Issues: {len(issues)}",
+    ]
+    if semantic_summary is not None:
+        markdown_lines.extend(
+            [
+                "",
+                "## Semantic",
+                f"- Pair count: {semantic_summary['pair_count']}",
+                f"- Matched pair count: {semantic_summary['matched_pair_count']}",
+                f"- Match rate: {semantic_summary['match_rate']:.4f}",
+                f"- BLEU: {semantic_summary['bleu']:.4f}",
+                f"- METEOR: {semantic_summary['meteor']:.4f}",
+                f"- Semantic issues: {len(semantic_summary.get('issues', []))}",
+            ]
+        )
     write_markdown(
         output_dir / "hicodet-summary.md",
         "HICO-DET Evaluation Summary",
-        [
-            f"- Prediction count: {len(predictions)}",
-            f"- Ground truth count: {len(gt_instances)}",
-            f"- Precision@IoU=0.5: {precision_at_05:.4f}",
-            f"- Recall@IoU=0.5: {recall_at_05:.4f}",
-            f"- F1@IoU=0.5: {f1_at_05:.4f}",
-            f"- triplet mean AP@IoU=0.5: {map_at_05:.4f}",
-            f"- Issues: {len(issues)}",
-        ],
+        markdown_lines,
     )
     write_debug_reports(output_dir / "debug", all_debug_records)
 
@@ -196,7 +269,13 @@ def main() -> None:
     if args.dataset == "coco":
         run_coco(predictions_dir, annotations_path, output_dir, label_mapping=label_mapping)
         return
-    run_hicodet(predictions_dir, annotations_path, output_dir, label_mapping=label_mapping)
+    run_hicodet(
+        predictions_dir,
+        annotations_path,
+        output_dir,
+        label_mapping=label_mapping,
+        semantic_reference_path=Path(args.semantic_reference) if args.semantic_reference else None,
+    )
 
 
 if __name__ == "__main__":
