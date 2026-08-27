@@ -53,6 +53,10 @@ def init_evaluation_database(database_path: Path) -> None:
                 iou_weight REAL NOT NULL,
                 class_weight REAL NOT NULL,
                 l2_weight REAL NOT NULL,
+                sentence_eligible_pairs INTEGER NOT NULL DEFAULT 0,
+                sentence_evaluated_pairs INTEGER NOT NULL DEFAULT 0,
+                mean_bleu REAL,
+                mean_meteor REAL,
                 FOREIGN KEY (evaluation_run_id) REFERENCES evaluation_runs(id) ON DELETE CASCADE
             )
             """
@@ -77,10 +81,30 @@ def init_evaluation_database(database_path: Path) -> None:
                 class_correct INTEGER,
                 status TEXT NOT NULL,
                 rejection_reason TEXT,
+                sentence_eligible INTEGER,
+                sentence_skip_reason TEXT,
+                predicted_sentences TEXT,
+                ground_truth_sentences TEXT,
+                bleu REAL,
+                meteor REAL,
                 FOREIGN KEY (evaluation_run_id) REFERENCES evaluation_runs(id) ON DELETE CASCADE
             )
             """
         )
+        _add_missing_columns(connection, "coco_results", {
+            "sentence_eligible_pairs": "INTEGER NOT NULL DEFAULT 0",
+            "sentence_evaluated_pairs": "INTEGER NOT NULL DEFAULT 0",
+            "mean_bleu": "REAL",
+            "mean_meteor": "REAL",
+        })
+        _add_missing_columns(connection, "coco_pairs", {
+            "sentence_eligible": "INTEGER",
+            "sentence_skip_reason": "TEXT",
+            "predicted_sentences": "TEXT",
+            "ground_truth_sentences": "TEXT",
+            "bleu": "REAL",
+            "meteor": "REAL",
+        })
         connection.execute(
             "CREATE INDEX IF NOT EXISTS idx_evaluation_runs_image_id "
             "ON evaluation_runs(image_id)"
@@ -92,8 +116,23 @@ def init_evaluation_database(database_path: Path) -> None:
         connection.commit()
 
 
+def _add_missing_columns(
+    connection: sqlite3.Connection, table: str, columns: dict[str, str]
+) -> None:
+    existing = {
+        row[1] for row in connection.execute(f"PRAGMA table_info({table})")
+    }
+    for name, declaration in columns.items():
+        if name not in existing:
+            connection.execute(f"ALTER TABLE {table} ADD COLUMN {name} {declaration}")
+
+
 def _json_bbox(bbox: Any) -> str | None:
     return None if bbox is None else json.dumps(bbox, separators=(",", ":"))
+
+
+def _json_sentences(sentences: Any) -> str:
+    return json.dumps(sentences if isinstance(sentences, list) else [], ensure_ascii=False)
 
 
 def save_coco_evaluation(
@@ -111,6 +150,13 @@ def save_coco_evaluation(
     counts = result["counts"]
     config = result["config"]
     assigned_pairs = result["assigned_pairs"]
+    sentence_summary = result.get("sentence_summary", {})
+    sentence_eligible_pairs = sentence_summary.get("eligible_pairs", 0)
+    if sentence_eligible_pairs == 0 and (
+        sentence_summary.get("mean_bleu") is not None
+        or sentence_summary.get("mean_meteor") is not None
+    ):
+        sentence_eligible_pairs = len(assigned_pairs)
     mean_iou = (
         sum(float(pair["iou"]) for pair in assigned_pairs) / len(assigned_pairs)
         if assigned_pairs
@@ -145,8 +191,9 @@ def save_coco_evaluation(
             INSERT INTO coco_results
                 (evaluation_run_id, image_id, num_predictions, num_ground_truths,
                  tp, fp, fn, classification_errors, mean_iou, class_accuracy,
-                 iou_threshold, iou_weight, class_weight, l2_weight)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 iou_threshold, iou_weight, class_weight, l2_weight,
+                 sentence_eligible_pairs, sentence_evaluated_pairs, mean_bleu, mean_meteor)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 evaluation_run_id,
@@ -163,6 +210,10 @@ def save_coco_evaluation(
                 weights["iou"],
                 weights["class"],
                 weights["l2"],
+                sentence_eligible_pairs,
+                sentence_summary.get("evaluated_pairs", 0),
+                sentence_summary.get("mean_bleu"),
+                sentence_summary.get("mean_meteor"),
             ),
         )
 
@@ -186,6 +237,12 @@ def save_coco_evaluation(
                     int(bool(pair["class_correct"])),
                     pair["status"],
                     pair["rejection_reason"],
+                    int(bool(pair.get("sentence_eligible"))) if "sentence_eligible" in pair else None,
+                    pair.get("sentence_skip_reason"),
+                    _json_sentences(pair.get("predicted_sentences")),
+                    _json_sentences(pair.get("ground_truth_sentences")),
+                    pair.get("bleu"),
+                    pair.get("meteor"),
                 )
             )
         for prediction_index in result["unassigned_prediction_indices"]:
@@ -208,6 +265,7 @@ def save_coco_evaluation(
                     None,
                     "FP",
                     "unmatched_prediction",
+                    None, None, _json_sentences(prediction.get("sentences")), None, None, None,
                 )
             )
         for ground_truth_index in result["unassigned_ground_truth_indices"]:
@@ -230,6 +288,7 @@ def save_coco_evaluation(
                     None,
                     "FN",
                     "unmatched_ground_truth",
+                    None, None, None, _json_sentences(truth.get("sentences")), None, None,
                 )
             )
 
@@ -239,8 +298,10 @@ def save_coco_evaluation(
                 (evaluation_run_id, image_id, prediction_index, ground_truth_index,
                  prediction_annotation_id, ground_truth_annotation_id,
                  predicted_class, ground_truth_class, predicted_bbox, ground_truth_bbox,
-                 iou, l2_distance, matching_cost, class_correct, status, rejection_reason)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                  iou, l2_distance, matching_cost, class_correct, status, rejection_reason,
+                  sentence_eligible, sentence_skip_reason, predicted_sentences,
+                  ground_truth_sentences, bleu, meteor)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             pair_rows,
         )

@@ -16,7 +16,7 @@ from app.api.auth_routes import router as auth_router
 
 def create_app(config: AppConfig) -> FastAPI:
     init_user_database(config.paths.user_db_path)
-    init_evaluation_database(config.paths.data_dir / "evaluation_results.db")
+    init_evaluation_database(config.paths.data_dir / "evaluation_result.db")
 
     app = FastAPI(
         title="Large Language Meets Data Annotation",

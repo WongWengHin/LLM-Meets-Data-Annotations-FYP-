@@ -15,11 +15,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from app.core.evaluation_database import save_coco_evaluation
+from evaluation_new.COCO.sentence_metrics import SentenceMetricScorer, sentence_list
 
 DEFAULT_GT = Path(__file__).parent / "ground_truth" / "official_coco_gt.json"
 DEFAULT_PREDICTIONS = ROOT / "data" / "predictions"
 DEFAULT_DATABASE = ROOT / "data" / "user_results.db"
-DEFAULT_EVALUATION_DATABASE = ROOT / "data" / "evaluation_results.db"
+DEFAULT_EVALUATION_DATABASE = ROOT / "data" / "evaluation_result.db"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -294,9 +295,59 @@ def evaluate_image(predictions, truths, *, image_id, iou_threshold=0.5, iou_weig
         "counts": {"predictions": len(predictions), "ground_truths": len(truths), "tp": tp,
                    "fp": len(predictions) - tp, "fn": len(truths) - tp, "classification_errors": errors},
         "cost_matrix": costs, "assigned_pairs": pairs,
+        "sentence_summary": {
+            "eligible_pairs": 0, "evaluated_pairs": 0,
+            "mean_bleu": None, "mean_meteor": None,
+        },
         "unassigned_prediction_indices": [i for i in range(len(predictions)) if i not in used_p],
         "unassigned_ground_truth_indices": [i for i in range(len(truths)) if i not in used_g],
     }
+
+
+def apply_sentence_evaluation(result, predictions, truths, *, scorer=None):
+    """Score captions for IoU-eligible matched pairs without changing detection metrics."""
+    metric_scorer = scorer or SentenceMetricScorer()
+    evaluated_scores = []
+    eligible_pairs = 0
+    for pair in result["assigned_pairs"]:
+        prediction = predictions[pair["prediction_index"]]
+        truth = truths[pair["ground_truth_index"]]
+        predicted_sentences = sentence_list(prediction.get("sentences"))
+        ground_truth_sentences = sentence_list(truth.get("sentences"))
+        pair["predicted_sentences"] = predicted_sentences
+        pair["ground_truth_sentences"] = ground_truth_sentences
+        pair["bleu"] = None
+        pair["meteor"] = None
+        pair["sentence_eligible"] = pair["iou"] >= result["config"]["iou_threshold"]
+        if pair["sentence_eligible"]:
+            eligible_pairs += 1
+            if not predicted_sentences:
+                pair["sentence_skip_reason"] = "missing_predicted_sentences"
+            elif not ground_truth_sentences:
+                pair["sentence_skip_reason"] = "missing_ground_truth_sentences"
+            else:
+                bleu, meteor = metric_scorer.score_text(
+                    predicted_sentences[0], ground_truth_sentences
+                )
+                pair["bleu"] = bleu
+                pair["meteor"] = meteor
+                pair["sentence_skip_reason"] = None
+                evaluated_scores.append((bleu, meteor))
+        else:
+            pair["sentence_skip_reason"] = "low_iou"
+    result["sentence_summary"] = {
+        "eligible_pairs": eligible_pairs,
+        "evaluated_pairs": len(evaluated_scores),
+        "mean_bleu": (
+            sum(score[0] for score in evaluated_scores) / len(evaluated_scores)
+            if evaluated_scores else None
+        ),
+        "mean_meteor": (
+            sum(score[1] for score in evaluated_scores) / len(evaluated_scores)
+            if evaluated_scores else None
+        ),
+    }
+    return result
 
 
 def print_result(result):
@@ -385,6 +436,7 @@ def main() -> int:
         truths = ground_truth_for_image(load_json(args.ground_truth), image_id)
         cli = evaluate_image(predictions, truths, image_id=image_id, iou_threshold=args.iou_threshold,
                              iou_weight=args.iou_weight, class_weight=args.class_weight, l2_weight=args.l2_weight)
+        apply_sentence_evaluation(cli, predictions, truths)
         print_result(cli)
         if not args.no_save:
             evaluation_run_id = save_coco_evaluation(
