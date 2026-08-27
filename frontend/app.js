@@ -260,8 +260,14 @@ function getPredictionJson(result) {
 function renderSummary(result) {
   const annotations = getAnnotations(result);
   const warningCount = Array.isArray(result?.validation?.warnings) ? result.validation.warnings.length : 0;
-  const peopleCount = annotations.filter((annotation) => annotation?.subject === "person").length;
-  const objectCount = annotations.filter((annotation) => annotation?.object || annotation?.class || annotation?.category).length;
+  const peopleCount = annotations.filter(
+    (annotation) => annotation?.subject === "person" || isPersonObjectDetectionAnnotation(annotation)
+  ).length;
+  const objectCount = annotations.filter(
+    (annotation) =>
+      (annotation?.object || annotation?.class || annotation?.category) &&
+      !isPersonObjectDetectionAnnotation(annotation)
+  ).length;
 
   annotationCountValue.textContent = annotations.length > 0 ? String(annotations.length) : "-";
   personCountValue.textContent = annotations.length > 0 ? String(peopleCount) : "-";
@@ -470,6 +476,15 @@ function getAnnotationRenderBox(annotation, filter) {
       };
     }
 
+    if (isPersonObjectDetectionAnnotation(annotation)) {
+      return {
+        field: "bbox",
+        label: annotation?.class || "person",
+        rectClassName: "bbox-rect-person",
+        labelClassName: "bbox-label-person"
+      };
+    }
+
     return null;
   }
 
@@ -483,7 +498,7 @@ function getAnnotationRenderBox(annotation, filter) {
       };
     }
 
-    if (Array.isArray(annotation?.bbox)) {
+    if (Array.isArray(annotation?.bbox) && !isPersonObjectDetectionAnnotation(annotation)) {
       return {
         field: "bbox",
         label: annotation?.class || annotation?.category || "object",
@@ -492,7 +507,7 @@ function getAnnotationRenderBox(annotation, filter) {
       };
     }
 
-    if (Array.isArray(annotation?.bounding_box)) {
+    if (Array.isArray(annotation?.bounding_box) && !isPersonObjectDetectionAnnotation(annotation)) {
       return {
         field: "bounding_box",
         label: annotation?.class || annotation?.category || "object",
@@ -581,19 +596,39 @@ function renderBoxRect(annotation, bboxField, rectClassName, labelClassName, lab
 
 function getFilteredAnnotations(annotations) {
   if (activeBboxFilter === "person") {
-    return annotations.filter((annotation) => Array.isArray(annotation?.subject_bbox));
+    return annotations.filter(
+      (annotation) =>
+        Array.isArray(annotation?.subject_bbox) ||
+        isPersonObjectDetectionAnnotation(annotation)
+    );
   }
 
   if (activeBboxFilter === "object") {
     return annotations.filter(
       (annotation) =>
         Array.isArray(annotation?.object_bbox) ||
-        Array.isArray(annotation?.bbox) ||
-        Array.isArray(annotation?.bounding_box)
+        (Array.isArray(annotation?.bbox) && !isPersonObjectDetectionAnnotation(annotation)) ||
+        (Array.isArray(annotation?.bounding_box) && !isPersonObjectDetectionAnnotation(annotation))
     );
   }
 
   return [];
+}
+
+function isPersonObjectDetectionAnnotation(annotation) {
+  if (!annotation || Array.isArray(annotation.subject_bbox) || Array.isArray(annotation.object_bbox)) {
+    return false;
+  }
+
+  const labels = [annotation.class, annotation.class_name, annotation.category]
+    .map((value) => String(value || "").trim().toLowerCase());
+  const personLabels = new Set(["person", "human", "man", "woman", "child", "boy", "girl"]);
+  if (labels.some((label) => personLabels.has(label))) {
+    return true;
+  }
+
+  const sentences = Array.isArray(annotation.sentences) ? annotation.sentences.join(" ") : "";
+  return /\b(person|people|human|man|woman|child|boy|girl)\b/i.test(sentences);
 }
 
 function setActiveBboxFilter(filter) {

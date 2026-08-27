@@ -9,6 +9,20 @@ from app.domain.annotations.validator import validate_annotation
 
 
 class AnnotationFormatTests(unittest.TestCase):
+    def test_object_detection_preserves_person_label(self) -> None:
+        normalized = parse_and_normalize_model_output(
+            '{"annotations": ['
+            '{"class": "person", "bbox": [0, 0, 0.5, 1], "sentences": ["A person."]},'
+            '{"class": "bicycle", "bbox": [0.4, 0.4, 1, 1], "sentences": ["A bicycle."]}'
+            ']}',
+            Path("sample.jpg"),
+        )
+
+        self.assertEqual(
+            [item["class"] for item in normalized["annotations"]],
+            ["person", "bicycle"],
+        )
+
     def test_object_detection_payload_without_caption_is_normalized_and_valid(self) -> None:
         raw_output = '''
         {
