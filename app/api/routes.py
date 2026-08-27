@@ -142,16 +142,13 @@ async def get_result_image(
 
 
 def _unique_destination(upload_dir: Path, filename: str) -> Path:
-    candidate = upload_dir / filename
-    stem = candidate.stem
-    suffix = candidate.suffix
-    index = 1
+    """
+    Keep upload filenames stable so image_id stays aligned with GT filenames.
 
-    while candidate.exists():
-        candidate = upload_dir / f"{stem}-{index}{suffix}"
-        index += 1
-
-    return candidate
+    We intentionally overwrite an existing file with the same name instead of
+    creating a suffixed duplicate like "2149-1.jpg".
+    """
+    return upload_dir / filename
 
 
 def _normalize_prompt_mode(prompt_mode: str | None) -> str:

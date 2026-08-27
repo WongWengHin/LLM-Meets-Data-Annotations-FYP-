@@ -6,8 +6,10 @@ from pathlib import Path
 from unittest.mock import patch
 
 from fastapi.testclient import TestClient
+from starlette.requests import Request
 
 from app.api.app import create_app
+from app.api import auth_routes
 from app.core.config import AppConfig, AppPaths, AuthConfig, ImagePreprocessConfig, LLMConfig
 from app.services.auth.google_oauth import GoogleUser, build_google_authorization_url
 
@@ -92,6 +94,12 @@ class GoogleAuthTests(unittest.TestCase):
         self.assertIn("state-123", response.headers["location"])
         self.assertIn("openid+email+profile", response.headers["location"])
 
+    def test_google_login_uses_current_local_host_for_redirect_uri(self) -> None:
+        request = self._build_request(host="localhost", port=8000)
+        redirect_uri = auth_routes._resolve_google_redirect_uri(request, self.config)
+
+        self.assertEqual(redirect_uri, "http://localhost:8000/auth/google/callback")
+
     def test_google_callback_stores_session_user(self) -> None:
         fake_user = GoogleUser(
             sub="google-sub-1",
@@ -148,6 +156,22 @@ class GoogleAuthTests(unittest.TestCase):
         self.assertIn("response_type=code", url)
         self.assertIn("scope=openid+email+profile", url)
         self.assertIn("state=state-abc", url)
+
+    def _build_request(self, host: str, port: int) -> Request:
+        scope = {
+            "type": "http",
+            "http_version": "1.1",
+            "method": "GET",
+            "scheme": "http",
+            "path": "/auth/google/login",
+            "raw_path": b"/auth/google/login",
+            "query_string": b"",
+            "headers": [(b"host", f"{host}:{port}".encode("utf-8"))],
+            "client": ("testclient", 50000),
+            "server": (host, port),
+            "app": self.app,
+        }
+        return Request(scope)
 
 
 if __name__ == "__main__":

@@ -6,5 +6,7 @@ __all__ = [
     "adapters",
     "matching",
     "metrics",
+    "semantic_metrics",
+    "semantic_reference",
     "reporting",
 ]

@@ -79,34 +79,48 @@ def summarize_hicodet_threshold(
     total_tp = 0
     total_fp = 0
     total_fn = 0
+    triplet_ap_values: list[float] = []
 
     for triplet_key, gt_count in gt_count_by_triplet.items():
         triplet_outcomes = outcomes_by_triplet.get(triplet_key, [])
+        precisions, recalls = precision_recall_curve(triplet_outcomes, gt_count)
         tp = sum(1 for item in triplet_outcomes if item["matched"])
         fp = sum(1 for item in triplet_outcomes if not item["matched"])
         fn = max(gt_count - tp, 0)
         precision = tp / (tp + fp) if tp + fp > 0 else 0.0
         recall = tp / gt_count if gt_count > 0 else 0.0
+        average_precision = interpolated_ap(precisions, recalls)
         per_triplet[triplet_key] = {
             "tp": tp,
             "fp": fp,
             "fn": fn,
             "precision": precision,
             "recall": recall,
+            "ap": average_precision,
         }
+        triplet_ap_values.append(average_precision)
         total_tp += tp
         total_fp += fp
         total_fn += fn
 
     overall_precision = total_tp / (total_tp + total_fp) if total_tp + total_fp > 0 else 0.0
     overall_recall = total_tp / (total_tp + total_fn) if total_tp + total_fn > 0 else 0.0
+    overall_f1 = (
+        2 * overall_precision * overall_recall / (overall_precision + overall_recall)
+        if overall_precision + overall_recall > 0
+        else 0.0
+    )
+    mean_ap = sum(triplet_ap_values) / len(triplet_ap_values) if triplet_ap_values else 0.0
     return {
         "per_triplet": per_triplet,
+        "triplet_mean_ap": mean_ap,
+        "mean_ap": mean_ap,
         "overall": {
             "tp": total_tp,
             "fp": total_fp,
             "fn": total_fn,
             "precision": overall_precision,
             "recall": overall_recall,
+            "f1": overall_f1,
         },
     }
