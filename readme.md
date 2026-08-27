@@ -197,6 +197,8 @@ For Google sign-in, add:
 - `SESSION_SECRET_KEY`
 - `REQUIRE_GOOGLE_LOGIN=true` if you want to block uploads until login succeeds
 
+For local development, the app now accepts both `http://localhost:8000` and `http://127.0.0.1:8000` as the browser host. Make sure your Google OAuth client registers both callback URLs if you plan to switch between them.
+
 The application now persists Google-account-owned uploads and annotation runs in `data/user_results.db`. The older `annotations.db` path has been removed from the startup flow.
 
 ### 4. Start the project
