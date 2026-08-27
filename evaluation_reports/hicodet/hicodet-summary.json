@@ -1,0 +1,116 @@
+{
+  "dataset": "hicodet",
+  "prediction_count": 0,
+  "ground_truth_count": 1,
+  "label_mapping_enabled": false,
+  "issues": [
+    {
+      "image_id": "000000000785-1",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-10",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-2",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-3",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-4",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-5",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-6",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-7",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-8",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "000000000785-9",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "images-16",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "images-7",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "shot1",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "WhatsApp Image 2026-07-31 at 1.11.10 PM-1",
+      "reason": "image_id_not_found"
+    },
+    {
+      "image_id": "WhatsApp Image 2026-07-31 at 1.11.10 PM",
+      "reason": "image_id_not_found"
+    }
+  ],
+  "thresholds": {
+    "0.50": {
+      "per_triplet": {
+        "person|verb:76|object:2": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ap": 0.0
+        }
+      },
+      "triplet_mean_ap": 0.0,
+      "mean_ap": 0.0,
+      "overall": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    },
+    "0.75": {
+      "per_triplet": {
+        "person|verb:76|object:2": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "ap": 0.0
+        }
+      },
+      "triplet_mean_ap": 0.0,
+      "mean_ap": 0.0,
+      "overall": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      }
+    }
+  },
+  "triplet_mean_ap@0.50": 0.0,
+  "F1@0.50": 0.0
+}
