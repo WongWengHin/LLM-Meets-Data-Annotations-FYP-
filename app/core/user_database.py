@@ -106,9 +106,10 @@ def get_user_results(database_path: Path, owner_id: str) -> list[dict]:
                    user_annotation_runs.task_status, user_annotation_runs.review_required,
                    user_annotation_runs.annotation_result, user_annotation_runs.created_at AS annotated_at
             FROM user_images
-            LEFT JOIN user_annotation_runs ON user_annotation_runs.id = (
+            INNER JOIN user_annotation_runs ON user_annotation_runs.id = (
                 SELECT id FROM user_annotation_runs
                 WHERE user_annotation_runs.image_id = user_images.image_id
+                  AND user_annotation_runs.task_status = 'completed'
                 ORDER BY user_annotation_runs.created_at DESC, user_annotation_runs.id DESC LIMIT 1
             )
             WHERE user_images.owner_id = ?

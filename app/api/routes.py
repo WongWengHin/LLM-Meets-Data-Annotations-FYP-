@@ -74,31 +74,32 @@ async def upload_image(
         agent = AnnotationAgent(config)
         response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
 
-        owner_id = _owner_id(user)
-        # Images are served through an ownership-checked route, never from a
-        # publicly browsable upload directory.
-        response_payload["uploaded_image_url"] = f"/api/results/{destination.stem}/image"
-        save_user_image(
-            config.paths.user_db_path,
-            image_id=destination.stem,
-            owner_id=owner_id,
-            filename=destination.name,
-            file_data=file_bytes,
-            size_bytes=len(file_bytes),
-        )
         agent_info = response_payload.get("agent", {})
-        save_user_annotation_result(
-            config.paths.user_db_path,
-            image_id=destination.stem,
-            task_id=agent_info.get("task_id", ""),
-            task_status=agent_info.get("task_status", ""),
-            strategy=agent_info.get("strategy"),
-            prompt_mode=selected_prompt_mode,
-            attempt_count=agent_info.get("attempt_count", 0),
-            review_required=agent_info.get("review_required", False),
-            review_reason=agent_info.get("review_reason"),
-            annotation_result=response_payload,
-        )
+        if _is_completed_annotation(response_payload):
+            owner_id = _owner_id(user)
+            # Images are served through an ownership-checked route, never from
+            # a publicly browsable upload directory.
+            response_payload["uploaded_image_url"] = f"/api/results/{destination.stem}/image"
+            save_user_image(
+                config.paths.user_db_path,
+                image_id=destination.stem,
+                owner_id=owner_id,
+                filename=destination.name,
+                file_data=file_bytes,
+                size_bytes=len(file_bytes),
+            )
+            save_user_annotation_result(
+                config.paths.user_db_path,
+                image_id=destination.stem,
+                task_id=agent_info.get("task_id", ""),
+                task_status=agent_info.get("task_status", ""),
+                strategy=agent_info.get("strategy"),
+                prompt_mode=selected_prompt_mode,
+                attempt_count=agent_info.get("attempt_count", 0),
+                review_required=agent_info.get("review_required", False),
+                review_reason=agent_info.get("review_reason"),
+                annotation_result=response_payload,
+            )
 
         return UploadResponse.model_validate(response_payload)
     except ValueError as exc:
@@ -156,6 +157,14 @@ def _normalize_prompt_mode(prompt_mode: str | None) -> str:
     if normalized_mode in {"hoi", "human-object interaction", "human_object_interaction"}:
         return "hoi"
     return "object_detection"
+
+
+def _is_completed_annotation(response_payload: dict) -> bool:
+    """Persist private results only after the annotation workflow validates."""
+    return (
+        response_payload.get("agent", {}).get("task_status") == "completed"
+        and response_payload.get("validation", {}).get("is_valid") is True
+    )
 
 
 def _owner_id(user: dict | None) -> str:

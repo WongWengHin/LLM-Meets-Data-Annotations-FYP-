@@ -41,6 +41,13 @@
       <div id="resultsGrid" class="results-grid"></div>
     </main>
   </div>
-  <script src="results.js?v=2"></script>
+  <dialog id="resultDialog" class="result-dialog" aria-labelledby="resultDialogTitle">
+    <div class="result-dialog-header">
+      <div><p class="eyebrow">Saved image</p><h2 id="resultDialogTitle"></h2></div>
+      <button id="resultDialogClose" class="dialog-close" type="button" aria-label="Close annotations">&times;</button>
+    </div>
+    <div id="resultDialogBody" class="result-dialog-body"></div>
+  </dialog>
+  <script src="results.js?v=4"></script>
 </body>
 </html>

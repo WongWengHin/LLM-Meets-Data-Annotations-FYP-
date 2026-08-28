@@ -14,6 +14,21 @@ from app.core.user_database import (
 
 
 class UserResultsDatabaseTests(unittest.TestCase):
+    def test_results_exclude_runs_that_did_not_complete(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            database_path = Path(directory) / "user_results.db"
+            init_user_database(database_path)
+            save_user_image(
+                database_path, image_id="needs-review", owner_id="user",
+                filename="needs-review.jpg", file_data=b"image", size_bytes=5,
+            )
+            save_user_annotation_result(
+                database_path, image_id="needs-review", task_id="task",
+                task_status="review_required", annotation_result={"annotations": []},
+            )
+
+            self.assertEqual(get_user_results(database_path, "user"), [])
+
     def test_numeric_image_ids_are_stored_without_leading_zeroes(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             database_path = Path(directory) / "user_results.db"
@@ -56,6 +71,13 @@ class UserResultsDatabaseTests(unittest.TestCase):
                 filename="second.jpg",
                 file_data=b"second-image-data",
                 size_bytes=17,
+            )
+            save_user_annotation_result(
+                database_path,
+                image_id="second-image",
+                task_id="task-2",
+                task_status="completed",
+                annotation_result={"annotations": [{"annotation_id": "second-image_001"}]},
             )
 
             first_user_results = get_user_results(database_path, "google:user-one")
