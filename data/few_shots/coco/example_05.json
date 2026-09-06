@@ -1,0 +1,60 @@
+{
+  "annotations": [
+    {
+      "annotation_id": "000000318238_001",
+      "image_id": "000000318238",
+      "class": "dog",
+      "bbox": [
+        0.0054,
+        0.4525,
+        0.9359,
+        0.895
+      ],
+      "sentences": [
+        "A large dog lying across the lower part of the bed"
+      ]
+    },
+    {
+      "annotation_id": "000000318238_002",
+      "image_id": "000000318238",
+      "class": "dog",
+      "bbox": [
+        0.352,
+        0.2545,
+        0.7281,
+        0.5309
+      ],
+      "sentences": [
+        "A second dog resting near the middle of the bed"
+      ]
+    },
+    {
+      "annotation_id": "000000318238_003",
+      "image_id": "000000318238",
+      "class": "bed",
+      "bbox": [
+        0.0,
+        0.1412,
+        1.0,
+        0.989
+      ],
+      "sentences": [
+        "A large bed occupied by the animals"
+      ]
+    },
+    {
+      "annotation_id": "000000318238_004",
+      "image_id": "000000318238",
+      "class": "cat",
+      "bbox": [
+        0.5189,
+        0.1668,
+        0.7474,
+        0.3285
+      ],
+      "sentences": [
+        "A cat resting near the upper part of the bed"
+      ]
+    }
+  ]
+}

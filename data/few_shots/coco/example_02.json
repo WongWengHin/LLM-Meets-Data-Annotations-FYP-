@@ -1,0 +1,60 @@
+{
+  "annotations": [
+    {
+      "annotation_id": "000000000872_001",
+      "image_id": "000000000872",
+      "class": "sports ball",
+      "bbox": [
+        0.6571,
+        0.2688,
+        0.6883,
+        0.2946
+      ],
+      "sentences": [
+        "A small baseball visible beside the raised glove"
+      ]
+    },
+    {
+      "annotation_id": "000000000872_002",
+      "image_id": "000000000872",
+      "class": "person",
+      "bbox": [
+        0.2339,
+        0.1573,
+        0.704,
+        0.8719
+      ],
+      "sentences": [
+        "A baseball player in a green shirt holding a brown glove"
+      ]
+    },
+    {
+      "annotation_id": "000000000872_003",
+      "image_id": "000000000872",
+      "class": "person",
+      "bbox": [
+        0.2637,
+        0.1975,
+        0.6915,
+        0.9482
+      ],
+      "sentences": [
+        "A baseball player in a white uniform running across the field"
+      ]
+    },
+    {
+      "annotation_id": "000000000872_004",
+      "image_id": "000000000872",
+      "class": "baseball glove",
+      "bbox": [
+        0.5936,
+        0.2457,
+        0.6861,
+        0.3172
+      ],
+      "sentences": [
+        "A brown baseball glove raised near the ball"
+      ]
+    }
+  ]
+}

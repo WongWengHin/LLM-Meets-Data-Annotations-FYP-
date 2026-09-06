@@ -5,7 +5,12 @@
 __pycache__/
 */__pycache__/
 uploads/
-data/
+data/*
+!data/few_shots/
+!data/few_shots/**
 *.pyc
 *.pyo
 api_key/MDS21 LLM Secret Key.txt
+COCO_categorisation.py
+HICO_sentences.py
+setup_HICO.py

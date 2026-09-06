@@ -1,0 +1,32 @@
+{
+  "annotations": [
+    {
+      "annotation_id": "000000000785_001",
+      "image_id": "000000000785",
+      "class": "person",
+      "bbox": [
+        0.4387,
+        0.1052,
+        0.7805,
+        0.921
+      ],
+      "sentences": [
+        "A skier wearing a bright red jacket and black pants on a snowy slope"
+      ]
+    },
+    {
+      "annotation_id": "000000000785_002",
+      "image_id": "000000000785",
+      "class": "skis",
+      "bbox": [
+        0.3208,
+        0.8523,
+        0.961,
+        0.9421
+      ],
+      "sentences": [
+        "A pair of long skis beneath the skier on the snow"
+      ]
+    }
+  ]
+}

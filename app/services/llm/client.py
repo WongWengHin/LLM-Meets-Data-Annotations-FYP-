@@ -13,6 +13,7 @@ from app.core.config import LLMConfig
 from app.core.errors import ExternalAPIError
 from app.domain.images.bbox_utils import guess_mime_type
 from app.services.prompts.image_annotation_prompts import get_annotation_prompts
+from app.services.prompts.few_shot_examples import get_few_shot_examples
 
 
 def request_image_annotation(
@@ -41,25 +42,117 @@ def request_image_annotation(
         f"timeout={llm_config.timeout_seconds}s"
     )
 
-    payload = {
-    "model": llm_config.model,
-    "messages": [
+    # payload = {
+    # "model": llm_config.model,
+    # "messages": [
+    #     {
+    #         "role": "system",
+    #         "content": system_prompt,
+    #     },
+    #     {
+    #         "role": "user",
+    #         "content": _build_user_content(user_prompt, mime_type, image_base64),
+    #     },
+    # ],
+    # "stream": False,
+    # "temperature": 0,
+    # "max_completion_tokens": llm_config.max_tokens,
+    # # "reasoning": {
+    # #     "effort": "none"
+    # # },
+    # }
+
+
+    ###New for fewshot
+    messages = [
         {
             "role": "system",
             "content": system_prompt,
-        },
+        }
+    ]
+
+    # Add few-shot demonstrations
+    few_shot_examples = get_few_shot_examples(active_prompt_mode)
+
+    for example_image_path, example_json_path in few_shot_examples:
+
+        # Make sure both files exist
+        if not example_image_path.exists():
+            raise FileNotFoundError(
+                f"Few-shot example image not found: {example_image_path}"
+            )
+
+        if not example_json_path.exists():
+            raise FileNotFoundError(
+                f"Few-shot example JSON not found: {example_json_path}"
+            )
+
+        # Encode example image
+        example_image_bytes = example_image_path.read_bytes()
+        example_image_base64 = base64.b64encode(
+            example_image_bytes
+        ).decode("utf-8")
+
+        example_mime_type = guess_mime_type(
+            example_image_path.suffix.lower()
+        )
+
+        # Load the correct ground-truth JSON
+        with example_json_path.open("r", encoding="utf-8") as f:
+            example_annotation = json.load(f)
+
+        # Example input
+        messages.append(
+            {
+                "role": "user",
+                "content": _build_user_content(
+                    user_prompt,
+                    example_mime_type,
+                    example_image_base64,
+                ),
+            }
+        )
+
+        # Example correct output
+        messages.append(
+            {
+                "role": "assistant",
+                "content": json.dumps(
+                    example_annotation,
+                    ensure_ascii=False,
+                ),
+            }
+        )
+
+    print(
+        f"[llm] Added {len(few_shot_examples)} "
+        f"few-shot examples for mode={active_prompt_mode}"
+    )
+
+    # Finally add the actual image that needs to be annotated
+    messages.append(
         {
             "role": "user",
-            "content": _build_user_content(user_prompt, mime_type, image_base64),
-        },
-    ],
-    "stream": False,
-    "temperature": 0,
-    "max_completion_tokens": llm_config.max_tokens,
-    # "reasoning": {
-    #     "effort": "none"
-    # },
+            "content": _build_user_content(
+                user_prompt,
+                mime_type,
+                image_base64,
+            ),
+        }
+    )
+
+    payload = {
+        "model": llm_config.model,
+        "messages": messages,
+        "stream": False,
+        "temperature": 0,
+        "max_completion_tokens": llm_config.max_tokens,
     }
+    ###
+
+
+
+    
 
     if llm_config.provider == "ollama":
         # Prefer direct answer content over reasoning-only output for local Qwen models.

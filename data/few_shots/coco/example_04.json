@@ -1,0 +1,46 @@
+{
+  "annotations": [
+    {
+      "annotation_id": "000000065736_001",
+      "image_id": "000000065736",
+      "class": "sports ball",
+      "bbox": [
+        0.5247,
+        0.1456,
+        0.559,
+        0.1933
+      ],
+      "sentences": [
+        "A small tennis ball above the player"
+      ]
+    },
+    {
+      "annotation_id": "000000065736_002",
+      "image_id": "000000065736",
+      "class": "person",
+      "bbox": [
+        0.2894,
+        0.0136,
+        0.5877,
+        0.9574
+      ],
+      "sentences": [
+        "A tennis player holding a racket during play"
+      ]
+    },
+    {
+      "annotation_id": "000000065736_003",
+      "image_id": "000000065736",
+      "class": "tennis racket",
+      "bbox": [
+        0.4353,
+        0.0594,
+        0.6142,
+        0.2522
+      ],
+      "sentences": [
+        "A tennis racket raised beside the player"
+      ]
+    }
+  ]
+}
