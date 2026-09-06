@@ -1,35 +1,35 @@
 {
-  "caption": "A person is holding, opening, and reading a book.",
+  "caption": "A person is blocking, holding, and throwing a frisbee.",
   "annotations": [
     {
       "subject": "person",
-      "object": "book",
+      "object": "frisbee",
       "subject_bbox": [
-        0.3484375,
-        0.00625,
-        0.7734375,
-        1.0
+        0.39375,
+        0.29577464788732394,
+        0.81875,
+        0.9765258215962441
       ],
       "object_bbox": [
-        0.4578125,
-        0.389583333333,
-        0.684375,
-        0.595833333333
+        0.365625,
+        0.5211267605633803,
+        0.49375,
+        0.607981220657277
       ],
       "predicate": [
+        "block",
         "hold",
-        "open",
-        "read"
+        "throw"
       ],
       "sentences": [
-        "A person is holding, opening, and reading a book.",
-        "The person is wearing a cap, a jacket, and dark pants.",
-        "The person is holding the open book with both hands and reading it.",
-        "The book is an open book with printed pages.",
-        "The person wearing a cap and jacket is holding, opening, and reading the book.",
-        "The person is holding an open book.",
-        "The person is holding and reading the open book.",
-        "The person wearing a cap and jacket is holding and reading the open book."
+        "A person is blocking, holding, and throwing a frisbee.",
+        "The person is a man wearing a green cap, a purple shirt, and black pants.",
+        "The person is crouching on the grass while reaching toward the frisbee.",
+        "The frisbee is a white flying disc visible in front of the person.",
+        "The man wearing a green cap and purple shirt is blocking, holding, and throwing the frisbee.",
+        "The person is interacting with a white frisbee in front of him.",
+        "The person is blocking and holding the white frisbee while throwing it.",
+        "The man wearing a green cap and purple shirt is blocking, holding, and throwing the white frisbee while crouching on the grass."
       ]
     }
   ]
