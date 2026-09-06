@@ -27,16 +27,16 @@ OUTPUT FORMAT
       "object": "bicycle",
       "subject_bbox": [0.33, 0.09, 0.62, 0.84],
       "object_bbox": [0.38, 0.77, 0.56, 0.86],
-      "predicate": "ride",
+      "predicate": ["hold", "ride", "sit_on", "straddle"],
       "sentences": [
         "A person is riding a bicycle.",
-        "The person is wearing a blue shirt and a red helmet.",
-        "The person is carefully riding the bicycle.",
-        "The bicycle is red with a metallic frame and black tires.",
-        "The person wearing a blue shirt and a red helmet is carefully riding the bicycle.",
-        "The person wearing a blue shirt and a red helmet is near a red bicycle with a metallic frame and black tires.",
-        "The person is carefully riding a red bicycle with a metallic frame and black tires.",
-        "The person wearing a blue shirt and a red helmet is carefully riding a red bicycle with a metallic frame and black tires."
+        "The person is wearing a dark shirt, light-colored pants, and a cap.",
+        "The person is seated on the bicycle and holding the handlebars while riding.",
+        "The bicycle has a dark frame, two large wheels, and thin tires.",
+        "The person is riding the bicycle while seated and holding the handlebars.",
+        "The person wearing a dark shirt and cap is seated on the bicycle.",
+        "The person is riding a bicycle with a dark frame and large wheels.",
+        "The person wearing a dark shirt and cap is riding the bicycle while holding the handlebars."
       ]
     }
   ]

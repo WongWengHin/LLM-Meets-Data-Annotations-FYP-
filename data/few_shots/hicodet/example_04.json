@@ -1,0 +1,36 @@
+{
+  "caption": "A person is riding, running with, and straddling a horse.",
+  "annotations": [
+    {
+      "subject": "person",
+      "object": "horse",
+      "subject_bbox": [
+        0.4359375,
+        0.011709601874,
+        0.7703125,
+        0.543325526932
+      ],
+      "object_bbox": [
+        0.09375,
+        0.117096018735,
+        0.9328125,
+        0.976580796253
+      ],
+      "predicate": [
+        "ride",
+        "run",
+        "straddle"
+      ],
+      "sentences": [
+        "A person is riding, running with, and straddling a horse.",
+        "The person is wearing a dark blue shirt, white pants, and a white helmet.",
+        "The person is seated on the horse while holding the reins as the horse runs across the field.",
+        "The horse is a dark-colored horse with a black mane and tail.",
+        "The person wearing a dark blue shirt and white pants is riding and straddling the running horse.",
+        "The person is seated astride the dark-colored horse.",
+        "The person is riding and straddling the horse as it runs.",
+        "The person wearing a dark blue shirt, white pants, and white helmet is riding and straddling the dark-colored horse as it runs."
+      ]
+    }
+  ]
+}

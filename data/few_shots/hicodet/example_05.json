@@ -1,0 +1,36 @@
+{
+  "caption": "A person is holding, opening, and reading a book.",
+  "annotations": [
+    {
+      "subject": "person",
+      "object": "book",
+      "subject_bbox": [
+        0.3484375,
+        0.00625,
+        0.7734375,
+        1.0
+      ],
+      "object_bbox": [
+        0.4578125,
+        0.389583333333,
+        0.684375,
+        0.595833333333
+      ],
+      "predicate": [
+        "hold",
+        "open",
+        "read"
+      ],
+      "sentences": [
+        "A person is holding, opening, and reading a book.",
+        "The person is wearing a cap, a jacket, and dark pants.",
+        "The person is holding the open book with both hands and reading it.",
+        "The book is an open book with printed pages.",
+        "The person wearing a cap and jacket is holding, opening, and reading the book.",
+        "The person is holding an open book.",
+        "The person is holding and reading the open book.",
+        "The person wearing a cap and jacket is holding and reading the open book."
+      ]
+    }
+  ]
+}

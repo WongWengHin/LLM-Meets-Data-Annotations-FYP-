@@ -1,0 +1,36 @@
+{
+  "caption": "A person is holding an umbrella.",
+  "annotations": [
+    {
+      "subject": "person",
+      "object": "umbrella",
+      "subject_bbox": [
+        0.257874015748,
+        0.2578125,
+        0.82874015748,
+        0.915625
+      ],
+      "object_bbox": [
+        0.104330708661,
+        0.121875,
+        0.673228346457,
+        0.309375
+      ],
+      "predicate": [
+        "carry",
+        "hold",
+        "stand_under"
+      ],
+      "sentences": [
+        "A person is holding an umbrella.",
+        "The person is wearing dark clothing and walking in the rain.",
+        "The person is holding the umbrella above their head while walking.",
+        "The umbrella is large, dark-colored, and positioned above the person's head.",
+        "The person is walking while holding the umbrella.",
+        "The person is near and underneath a large dark umbrella.",
+        "The person is holding the large dark umbrella above their head.",
+        "The person wearing dark clothing is walking while holding a large dark umbrella above their head."
+      ]
+    }
+  ]
+}
