@@ -8,14 +8,18 @@ def validate_annotation(normalized_annotation: dict) -> dict:
     warnings: list[str] = []
 
     annotation_type = normalized_annotation.get("annotation_type") or "hoi"
-    if annotation_type == "hoi":
+    no_humans_detected = normalized_annotation.get("no_humans_detected") is True
+    if annotation_type == "hoi" and not no_humans_detected:
         caption = normalized_annotation.get("caption")
         if not isinstance(caption, str) or not caption.strip():
             errors.append("caption must be a non-empty string.")
 
     annotations = normalized_annotation.get("annotations")
     if not isinstance(annotations, list) or not annotations:
-        errors.append("annotations must be a non-empty list.")
+        if no_humans_detected:
+            errors.append("No humans detected. Please try object detection instead.")
+        else:
+            errors.append("No annotations returned. The model was unable to determine any humans.")
         return {
             "is_valid": False,
             "errors": errors,

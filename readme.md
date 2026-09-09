@@ -390,3 +390,11 @@ This project sits at the intersection of:
 - evaluation-ready schema design
 
 It is intended as both a demo system and an experimental foundation for studying how LLM-based systems can contribute to automated annotation workflows.
+
+## For OpenAI, the following environment variables can be configured:
+OPENAI_MAX_TOKENS=16000
+OPENAI_TIMEOUT_SECONDS=300
+OPENAI_MAX_TOKENS sets the maximum output token budget for a model response. (Allow images with more annotations to be annotated)
+OPENAI_TIMEOUT_SECONDS sets the maximum time allowed for an OpenAI API request before it times out.
+
+These settings provide a larger output budget and longer request timeout for complex multimodal annotation tasks.

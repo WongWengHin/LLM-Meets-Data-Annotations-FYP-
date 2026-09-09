@@ -115,11 +115,14 @@ def parse_and_normalize_model_output(raw_model_output: str, image_path: Path | N
 
     annotation_type = _detect_annotation_type(data, normalized_annotations)
     caption = _normalize_caption(data, normalized_annotations, annotation_type)
-    return {
+    normalized_output = {
         "annotation_type": annotation_type,
         "caption": caption,
         "annotations": normalized_annotations,
     }
+    if data.get("no_humans_detected") is True:
+        normalized_output["no_humans_detected"] = True
+    return normalized_output
 
 
 def _normalize_annotation_item(

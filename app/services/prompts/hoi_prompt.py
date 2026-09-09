@@ -21,6 +21,7 @@ Objects involved in an interaction should only appear as part of the HOI annotat
 OUTPUT FORMAT
 {
   "caption": "A brief description of the image.",
+  "no_humans_detected": false,
   "annotations": [
     {
       "subject": "person",
@@ -41,6 +42,18 @@ OUTPUT FORMAT
     }
   ]
 }
+
+If there are no visible humans, return an empty annotations list and set
+"no_humans_detected" to true. Do not create annotations for objects in this
+case; the user can use object detection instead.
+
+If a human may be present but you are uncertain whether the visible subject
+is a person, do not create a person annotation. Return an empty annotations
+list and set "no_humans_detected" to false. This indicates that the model
+could not confidently determine whether a human is present.
+
+If you are confident that a human is visible, create the appropriate person
+annotation with its bounding box and sentence.
 
 GENERAL RULES
 - Return one annotation for each visible human-object interaction.

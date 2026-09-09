@@ -54,6 +54,20 @@ class AnnotationFormatTests(unittest.TestCase):
         self.assertTrue(validation["is_valid"], validation)
         self.assertEqual(validation["errors"], [])
 
+    def test_no_humans_uses_object_detection_guidance(self) -> None:
+        normalized = parse_and_normalize_model_output(
+            '{"caption": "A landscape with trees.", "no_humans_detected": true, "annotations": []}',
+            Path("sample.jpg"),
+        )
+
+        validation = validate_annotation(normalized)
+
+        self.assertFalse(validation["is_valid"])
+        self.assertEqual(
+            validation["errors"],
+            ["No humans detected. Please try object detection instead."],
+        )
+
     def test_object_detection_prediction_export_omits_caption_and_duplicate_bbox_fields(self) -> None:
         master_annotation = {
             "schema_version": "3.0.0",
