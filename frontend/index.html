@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260816-results-nav">
+  <link rel="stylesheet" href="styles.css?v=20260910-folder-upload">
 </head>
 <body>
   <div class="page-shell">
@@ -105,12 +105,22 @@
               </div>
             </div>
 
-            <label class="upload-zone" for="imageInput">
-              <input id="imageInput" type="file" accept="image/*">
-              <span class="upload-badge">Drop image here</span>
-              <strong>Click to upload or drag an image</strong>
-              <span>PNG, JPG, and WEBP image files are supported.</span>
-            </label>
+            <div class="upload-zone">
+              <span class="upload-badge">Drop images here</span>
+              <strong>Choose an image or folder</strong>
+              <span>PNG, JPG, WEBP, GIF, BMP, AVIF, and TIFF image files are supported.</span>
+              <div class="upload-actions">
+                <button id="imageButton" class="button button-secondary" type="button">
+                  Upload Image
+                </button>
+                <button id="folderButton" class="button button-secondary" type="button">
+                  Upload Folder
+                </button>
+              </div>
+              <span id="selectionSummary" class="selection-summary">No image selected</span>
+              <input id="imageInput" class="visually-hidden-file" type="file" accept="image/*">
+              <input id="folderInput" class="visually-hidden-file" type="file" accept="image/*" webkitdirectory directory multiple>
+            </div>
 
             <div class="prompt-mode-group" role="group" aria-label="Prompt mode selector">
               <button type="button" class="prompt-mode-button is-active" data-prompt-mode="object_detection">Object Detection</button>
@@ -266,6 +276,6 @@
     </main>
   </div>
 
-  <script src="app.js?v=20260827-person-filter-1"></script>
+  <script src="app.js?v=20260910-folder-upload"></script>
 </body>
 </html>

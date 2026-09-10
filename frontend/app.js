@@ -2,6 +2,10 @@ const analyzeButton = document.getElementById("analyzeButton");
 const authButton = document.getElementById("authButton");
 const resultsButton = document.getElementById("resultsButton");
 const imageInput = document.getElementById("imageInput");
+const imageButton = document.getElementById("imageButton");
+const folderInput = document.getElementById("folderInput");
+const folderButton = document.getElementById("folderButton");
+const selectionSummary = document.getElementById("selectionSummary");
 const previewImage = document.getElementById("previewImage");
 const previewPlaceholder = document.getElementById("previewPlaceholder");
 const previewFrame = document.getElementById("previewFrame") || document.querySelector(".preview-frame");
@@ -34,6 +38,7 @@ const artifactTaskState = document.getElementById("artifactTaskState");
 
 let uploadedImageName = "";
 let uploadedFile = null;
+let selectedImageFiles = [];
 let currentResult = null;
 let previewObjectUrl = null;
 let activeBboxFilter = "person";
@@ -664,7 +669,7 @@ updateAuthUi();
 syncAnalyzeButtonState();
 refreshAuthState();
 
-function handleSelectedFile(file) {
+function resetResultState() {
   currentResult = null;
   activeAnnotationId = null;
   annotationCountValue.textContent = "-";
@@ -688,38 +693,144 @@ function handleSelectedFile(file) {
   jsonOutput.textContent = JSON.stringify(emptyPayload, null, 2);
   renderArtifacts(null);
   downloadButton.disabled = true;
+}
 
-  if (!file) {
-    uploadedFile = null;
-    uploadedImageName = "";
-    resetPreview();
-    setStatus("Waiting");
+function updateSelectionSummary(files) {
+  if (!selectionSummary) {
     return;
   }
 
-  if (!file.type.startsWith("image/")) {
-    uploadedFile = null;
-    uploadedImageName = "";
-    resetPreview();
-    setStatus("Invalid File");
+  if (files.length === 0) {
+    selectionSummary.textContent = "No image selected";
     return;
   }
 
-  uploadedFile = file;
-  uploadedImageName = file.name;
+  if (files.length === 1) {
+    selectionSummary.textContent = files[0].name;
+    return;
+  }
+
+  const firstFolder = getFolderName(files[0]);
+  selectionSummary.textContent = `${files.length} images selected${firstFolder ? ` from ${firstFolder}` : ""}`;
+}
+
+function getFolderName(file) {
+  const relativePath = getRelativePath(file);
+  const [folderName] = relativePath.split("/");
+  return folderName || "";
+}
+
+function getRelativePath(file) {
+  return file?.webkitRelativePath || file?.relativePath || "";
+}
+
+function isImageFile(file) {
+  return Boolean(
+    file &&
+    (file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp|avif|tiff?)$/i.test(file.name))
+  );
+}
+
+function getUploadFilename(file, allFiles) {
+  const duplicateNameCount = allFiles.filter((item) => item.name === file.name).length;
+  const relativePath = getRelativePath(file);
+  if (duplicateNameCount <= 1 || !relativePath) {
+    return file.name;
+  }
+
+  return relativePath.replace(/[\\/]+/g, "__");
+}
+
+function handleSelectedFiles(files) {
+  resetResultState();
+
+  const selectedFiles = Array.from(files || []);
+  const images = selectedFiles.filter(isImageFile);
+
+  if (images.length === 0) {
+    uploadedFile = null;
+    uploadedImageName = "";
+    selectedImageFiles = [];
+    updateSelectionSummary(selectedImageFiles);
+    resetPreview();
+    setStatus(selectedFiles.length > 0 ? "Invalid File" : "Waiting");
+    return;
+  }
+
+  selectedImageFiles = images;
+  uploadedFile = images[0];
+  uploadedImageName = images[0].name;
+  updateSelectionSummary(selectedImageFiles);
   if (previewObjectUrl) {
     URL.revokeObjectURL(previewObjectUrl);
   }
 
-  previewObjectUrl = URL.createObjectURL(file);
+  previewObjectUrl = URL.createObjectURL(uploadedFile);
   showPreviewState();
   previewImage.src = previewObjectUrl;
-  setStatus("Image Ready");
+  setStatus(images.length === 1 ? "Image Ready" : `${images.length} Images Ready`);
 }
 
-async function uploadImage(file) {
+function handleSelectedFile(file) {
+  handleSelectedFiles(file ? [file] : []);
+}
+
+async function getDroppedFiles(dataTransfer) {
+  const items = Array.from(dataTransfer?.items || []);
+  const entries = items
+    .map((item) => (typeof item.webkitGetAsEntry === "function" ? item.webkitGetAsEntry() : null))
+    .filter(Boolean);
+
+  if (entries.length === 0) {
+    return Array.from(dataTransfer?.files || []);
+  }
+
+  const nestedFiles = await Promise.all(entries.map((entry) => readDroppedEntry(entry)));
+  return nestedFiles.flat();
+}
+
+async function readDroppedEntry(entry, pathPrefix = "") {
+  if (entry.isFile) {
+    return new Promise((resolve) => {
+      entry.file((file) => {
+        Object.defineProperty(file, "relativePath", {
+          value: `${pathPrefix}${file.name}`,
+          configurable: true
+        });
+        resolve([file]);
+      });
+    });
+  }
+
+  if (!entry.isDirectory) {
+    return [];
+  }
+
+  const reader = entry.createReader();
+  const childEntries = await readAllDirectoryEntries(reader);
+  const nestedFiles = await Promise.all(
+    childEntries.map((childEntry) => readDroppedEntry(childEntry, `${pathPrefix}${entry.name}/`))
+  );
+  return nestedFiles.flat();
+}
+
+async function readAllDirectoryEntries(reader) {
+  const entries = [];
+
+  while (true) {
+    const batch = await new Promise((resolve) => {
+      reader.readEntries(resolve);
+    });
+    if (batch.length === 0) {
+      return entries;
+    }
+    entries.push(...batch);
+  }
+}
+
+async function uploadImage(file, allFiles = [file]) {
   const formData = new FormData();
-  formData.append("image", file);
+  formData.append("image", file, getUploadFilename(file, allFiles));
   formData.append("prompt_mode", activePromptMode);
 
   const response = await fetch("/upload", {
@@ -735,9 +846,23 @@ async function uploadImage(file) {
   return payload;
 }
 
+imageButton.addEventListener("click", () => {
+  imageInput.click();
+});
+
 imageInput.addEventListener("change", (event) => {
   const [file] = event.target.files;
   handleSelectedFile(file);
+  imageInput.value = "";
+});
+
+folderButton.addEventListener("click", () => {
+  folderInput.click();
+});
+
+folderInput.addEventListener("change", (event) => {
+  handleSelectedFiles(event.target.files);
+  folderInput.value = "";
 });
 
 previewImage.addEventListener("load", () => {
@@ -768,9 +893,10 @@ previewImage.addEventListener("error", () => {
   });
 });
 
-uploadZone.addEventListener("drop", (event) => {
-  const [file] = event.dataTransfer.files;
-  handleSelectedFile(file);
+uploadZone.addEventListener("drop", async (event) => {
+  setStatus("Reading Files...");
+  const files = await getDroppedFiles(event.dataTransfer);
+  handleSelectedFiles(files);
 });
 
 bboxFilterButtons.forEach((button) => {
@@ -799,20 +925,15 @@ analyzeButton.addEventListener("click", () => {
     return;
   }
 
-  if (!uploadedImageName || !uploadedFile) {
+  if (selectedImageFiles.length === 0 || !uploadedFile) {
     setStatus("Upload First");
     return;
   }
 
-  setStatus("Analyzing...");
+  setStatus(selectedImageFiles.length === 1 ? "Analyzing..." : `Analyzing 1/${selectedImageFiles.length}`);
   analyzeButton.disabled = true;
 
-  uploadImage(uploadedFile)
-    .then((uploadResult) => {
-      currentResult = uploadResult;
-      renderResult(currentResult);
-      setStatus(uploadResult?.agent?.review_required ? "Review Required" : "Completed");
-    })
+  uploadSelectedImages()
     .catch((error) => {
       let message = "Upload Failed";
       if (error instanceof Error) {
@@ -827,6 +948,34 @@ analyzeButton.addEventListener("click", () => {
       syncAnalyzeButtonState();
     });
 });
+
+async function uploadSelectedImages() {
+  let lastResult = null;
+  let reviewRequired = false;
+
+  for (const [index, file] of selectedImageFiles.entries()) {
+    setStatus(selectedImageFiles.length === 1 ? "Analyzing..." : `Analyzing ${index + 1}/${selectedImageFiles.length}`);
+
+    if (previewObjectUrl) {
+      URL.revokeObjectURL(previewObjectUrl);
+    }
+    previewObjectUrl = URL.createObjectURL(file);
+    uploadedFile = file;
+    uploadedImageName = file.name;
+    showPreviewState();
+    previewImage.src = previewObjectUrl;
+
+    const uploadResult = await uploadImage(file, selectedImageFiles);
+    lastResult = uploadResult;
+    reviewRequired = reviewRequired || Boolean(uploadResult?.agent?.review_required);
+    currentResult = uploadResult;
+    renderResult(currentResult);
+  }
+
+  if (lastResult) {
+    setStatus(reviewRequired ? "Review Required" : "Completed");
+  }
+}
 
 window.addEventListener("resize", () => {
   if (currentResult) {

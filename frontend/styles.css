@@ -538,7 +538,7 @@ h3 {
 .upload-zone {
   position: relative;
   display: grid;
-  gap: 8px;
+  gap: 10px;
   min-height: 200px;
   margin-top: 24px;
   padding: 24px;
@@ -546,7 +546,6 @@ h3 {
   border: 1px dashed rgba(13, 124, 102, 0.4);
   place-items: center;
   text-align: center;
-  cursor: pointer;
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
@@ -556,11 +555,32 @@ h3 {
   background: rgba(205, 238, 227, 0.78);
 }
 
-.upload-zone input {
+.upload-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.upload-actions .button {
+  padding: 10px 16px;
+}
+
+.selection-summary {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.visually-hidden-file {
   position: absolute;
-  inset: 0;
+  width: 1px;
+  height: 1px;
   opacity: 0;
-  cursor: pointer;
+  pointer-events: none;
 }
 
 .upload-badge {
