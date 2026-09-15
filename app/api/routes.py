@@ -12,9 +12,23 @@ from fastapi.responses import JSONResponse, Response
 from app.agent.orchestrator import AnnotationAgent
 from app.api.auth_dependencies import require_authenticated_user, require_google_user
 from app.api.responses import format_exception_message, format_exception_status
-from app.api.schemas import ErrorResponse, HealthResponse, UploadResponse
+from app.api.schemas import (
+    BatchRunCreateRequest,
+    BatchRunResponse,
+    ErrorResponse,
+    HealthResponse,
+    UploadResponse,
+)
 from app.core.config import AppConfig
-from app.core.user_database import get_user_image_by_id, get_user_results, save_user_annotation_result, save_user_image
+from app.core.user_database import (
+    create_batch_run,
+    get_user_image_by_id,
+    get_user_results,
+    record_batch_image_result,
+    save_user_annotation_result,
+    save_user_image,
+    start_batch_run,
+)
 
 router = APIRouter()
 
@@ -27,6 +41,29 @@ router = APIRouter()
 )
 async def health() -> HealthResponse:
     return HealthResponse(status="ok")
+
+
+@router.post(
+    "/api/batches",
+    response_model=BatchRunResponse,
+    responses={400: {"model": ErrorResponse}},
+    summary="Create a batch annotation run",
+)
+async def create_batch(
+    payload: BatchRunCreateRequest,
+    request: Request,
+    _user: dict | None = Depends(require_authenticated_user),
+) -> BatchRunResponse | JSONResponse:
+    config = _get_config(request)
+    try:
+        batch = create_batch_run(
+            config.paths.user_db_path,
+            total_images=payload.total_images,
+            prompt_mode=_normalize_prompt_mode(payload.prompt_mode),
+        )
+        return BatchRunResponse.model_validate(batch)
+    except ValueError as exc:
+        return _json_error_response(exc, status_code=400, log_traceback=False)
 
 
 @router.post(
@@ -50,8 +87,11 @@ async def upload_image(
         description="Legacy image file field name.",
     ),
     prompt_mode: str | None = Form(default=None, alias="prompt_mode"),
+    batch_id: str | None = Form(default=None, alias="batch_id"),
 ) -> UploadResponse | JSONResponse:
     config = _get_config(request)
+    active_batch_id: str | None = None
+    batch_result_recorded = False
     try:
         selected_image = image or uploaded_image
         if selected_image is None:
@@ -71,11 +111,21 @@ async def upload_image(
         print(f"[upload] Stored file at {destination}")
         print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
         selected_prompt_mode = _normalize_prompt_mode(prompt_mode)
+        normalized_batch_id = (batch_id or "").strip() or None
+        if normalized_batch_id is not None:
+            start_batch_run(
+                config.paths.user_db_path,
+                batch_id=normalized_batch_id,
+                prompt_mode=selected_prompt_mode,
+            )
+            active_batch_id = normalized_batch_id
+
         agent = AnnotationAgent(config)
         response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
 
         agent_info = response_payload.get("agent", {})
-        if _is_completed_annotation(response_payload):
+        annotation_completed = _is_completed_annotation(response_payload)
+        if annotation_completed:
             owner_id = _owner_id(user)
             # Images are served through an ownership-checked route, never from
             # a publicly browsable upload directory.
@@ -87,6 +137,7 @@ async def upload_image(
                 filename=destination.name,
                 file_data=file_bytes,
                 size_bytes=len(file_bytes),
+                batch_id=active_batch_id,
             )
             save_user_annotation_result(
                 config.paths.user_db_path,
@@ -99,12 +150,25 @@ async def upload_image(
                 review_required=agent_info.get("review_required", False),
                 review_reason=agent_info.get("review_reason"),
                 annotation_result=response_payload,
+                batch_id=active_batch_id,
             )
 
-        return UploadResponse.model_validate(response_payload)
+        if active_batch_id is not None:
+            response_payload["batch_id"] = active_batch_id
+        response = UploadResponse.model_validate(response_payload)
+        if active_batch_id is not None:
+            record_batch_image_result(
+                config.paths.user_db_path,
+                batch_id=active_batch_id,
+                successful=annotation_completed,
+            )
+            batch_result_recorded = True
+        return response
     except ValueError as exc:
+        _record_failed_batch_upload(config, active_batch_id, batch_result_recorded)
         return _json_error_response(exc, status_code=400, log_traceback=False)
     except Exception as exc:
+        _record_failed_batch_upload(config, active_batch_id, batch_result_recorded)
         return _json_error_response(exc, log_traceback=True)
 
 
@@ -205,3 +269,21 @@ def _json_error_response(
         content={"error": format_exception_message(exc)},
         status_code=response_status,
     )
+
+
+def _record_failed_batch_upload(
+    config: AppConfig,
+    batch_id: str | None,
+    already_recorded: bool,
+) -> None:
+    if batch_id is None or already_recorded:
+        return
+    try:
+        record_batch_image_result(
+            config.paths.user_db_path,
+            batch_id=batch_id,
+            successful=False,
+        )
+    except Exception:
+        print(f"Unable to record failed upload for batch {batch_id}:")
+        traceback.print_exc()

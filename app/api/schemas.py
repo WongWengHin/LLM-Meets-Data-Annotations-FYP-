@@ -70,6 +70,24 @@ class AgentSummary(BaseModel):
     review_reason: str | None = Field(default=None, examples=["Validation failed after 2 attempts."])
 
 
+class BatchRunCreateRequest(BaseModel):
+    total_images: int = Field(gt=0, examples=[25])
+    prompt_mode: str = Field(examples=["object_detection"])
+
+
+class BatchRunResponse(BaseModel):
+    batch_id: str
+    status: str
+    total_images: int
+    processed_images: int
+    successful_images: int
+    failed_images: int
+    prompt_mode: str
+    created_at: str
+    started_at: str | None = None
+    completed_at: str | None = None
+
+
 class UploadResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -79,6 +97,7 @@ class UploadResponse(BaseModel):
     size_bytes: int = Field(examples=[83412])
     schema_version: str = Field(examples=["3.0.0"])
     image_id: str = Field(examples=["image-7"])
+    batch_id: str | None = Field(default=None)
     caption: str | None = Field(default=None, examples=["A person is riding a snowboard on a snowy slope."])
     annotation_count: int = Field(examples=[2])
     validation: ValidationSummary

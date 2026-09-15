@@ -828,10 +828,31 @@ async function readAllDirectoryEntries(reader) {
   }
 }
 
-async function uploadImage(file, allFiles = [file]) {
+async function createBatchRun(totalImages) {
+  const response = await fetch("/api/batches", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      total_images: totalImages,
+      prompt_mode: activePromptMode
+    })
+  });
+
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload.error || `Batch creation failed with status ${response.status}`);
+  }
+
+  return payload;
+}
+
+async function uploadImage(file, allFiles = [file], batchId = null) {
   const formData = new FormData();
   formData.append("image", file, getUploadFilename(file, allFiles));
   formData.append("prompt_mode", activePromptMode);
+  if (batchId) {
+    formData.append("batch_id", batchId);
+  }
 
   const response = await fetch("/upload", {
     method: "POST",
@@ -952,6 +973,10 @@ analyzeButton.addEventListener("click", () => {
 async function uploadSelectedImages() {
   let lastResult = null;
   let reviewRequired = false;
+  let failedUploads = 0;
+  const batch = selectedImageFiles.length > 1
+    ? await createBatchRun(selectedImageFiles.length)
+    : null;
 
   for (const [index, file] of selectedImageFiles.entries()) {
     setStatus(selectedImageFiles.length === 1 ? "Analyzing..." : `Analyzing ${index + 1}/${selectedImageFiles.length}`);
@@ -965,14 +990,24 @@ async function uploadSelectedImages() {
     showPreviewState();
     previewImage.src = previewObjectUrl;
 
-    const uploadResult = await uploadImage(file, selectedImageFiles);
-    lastResult = uploadResult;
-    reviewRequired = reviewRequired || Boolean(uploadResult?.agent?.review_required);
-    currentResult = uploadResult;
-    renderResult(currentResult);
+    try {
+      const uploadResult = await uploadImage(file, selectedImageFiles, batch?.batch_id);
+      lastResult = uploadResult;
+      reviewRequired = reviewRequired || Boolean(uploadResult?.agent?.review_required);
+      currentResult = uploadResult;
+      renderResult(currentResult);
+    } catch (error) {
+      failedUploads += 1;
+      console.error(`Upload failed for ${file.name}:`, error);
+    }
   }
 
-  if (lastResult) {
+  if (failedUploads === selectedImageFiles.length) {
+    throw new Error(`All ${failedUploads} uploads failed.`);
+  }
+  if (failedUploads > 0) {
+    setStatus(`Completed with ${failedUploads} Failed`);
+  } else if (lastResult) {
     setStatus(reviewRequired ? "Review Required" : "Completed");
   }
 }

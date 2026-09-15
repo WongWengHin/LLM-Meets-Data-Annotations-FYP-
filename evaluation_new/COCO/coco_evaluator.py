@@ -14,7 +14,12 @@ ROOT = Path(__file__).parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from app.core.evaluation_database import save_coco_evaluation
+from app.core.evaluation_database import (
+    calculate_coco_batch_metrics,
+    create_coco_batch_evaluation_run,
+    save_coco_evaluation,
+    set_evaluation_run_status,
+)
 from evaluation_new.COCO.sentence_metrics import SentenceMetricScorer, sentence_list
 
 DEFAULT_GT = Path(__file__).parent / "ground_truth" / "official_coco_gt.json"
@@ -146,6 +151,60 @@ def load_database_prompt_mode(path: Path, run_id: int) -> str | None:
     return value or None
 
 
+def load_database_batch_id(path: Path, run_id: int) -> str | None:
+    """Return the source batch ID when the annotation run belongs to a batch."""
+    with closing(sqlite3.connect(path)) as connection:
+        tables = {
+            row[0]
+            for row in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"
+            )
+        }
+        table = "user_annotation_runs" if "user_annotation_runs" in tables else "annotation_runs"
+        columns = {
+            row[1] for row in connection.execute(f"PRAGMA table_info({table})")
+        }
+        if "batch_id" not in columns:
+            return None
+        row = connection.execute(
+            f"SELECT batch_id FROM {table} WHERE id = ?", (run_id,)
+        ).fetchone()
+    if row is None or row[0] is None:
+        return None
+    value = str(row[0]).strip()
+    return value or None
+
+
+def load_batch_annotation_runs(
+    path: Path, batch_id: str
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Load the latest completed annotation for every image in an upload batch."""
+    if not path.is_file():
+        raise ValueError(f"SQLite database does not exist: {path}")
+    with closing(sqlite3.connect(path)) as connection:
+        connection.row_factory = sqlite3.Row
+        batch = connection.execute(
+            "SELECT * FROM batch_runs WHERE batch_id = ?", (batch_id,)
+        ).fetchone()
+        if batch is None:
+            raise ValueError(f"Batch run not found: {batch_id}")
+        rows = connection.execute(
+            """
+            SELECT run.id, run.image_id, run.prompt_mode, run.annotation_result
+            FROM user_annotation_runs AS run
+            INNER JOIN (
+                SELECT image_id, MAX(id) AS id
+                FROM user_annotation_runs
+                WHERE batch_id = ? AND task_status = 'completed'
+                GROUP BY image_id
+            ) AS latest ON latest.id = run.id
+            ORDER BY run.id
+            """,
+            (batch_id,),
+        ).fetchall()
+    return dict(batch), [dict(row) for row in rows]
+
+
 def infer_prompt_mode(predictions: list[dict[str, Any]]) -> str:
     """Infer a prompt mode from exported prediction generation metadata."""
     modes = {
@@ -163,6 +222,17 @@ def infer_prompt_mode(predictions: list[dict[str, Any]]) -> str:
 def canonical_image_id(image_id: Any) -> str:
     value = str(image_id).strip()
     return str(int(value)) if value.isdecimal() else value
+
+
+def precision_recall_f1(tp: int, fp: int, fn: int) -> dict[str, float]:
+    precision = tp / (tp + fp) if tp + fp > 0 else 0.0
+    recall = tp / (tp + fn) if tp + fn > 0 else 0.0
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if precision + recall > 0
+        else 0.0
+    )
+    return {"precision": precision, "recall": recall, "f1": f1}
 
 
 def validate_annotation(item: dict[str, Any], source: str) -> None:
@@ -289,11 +359,14 @@ def evaluate_image(predictions, truths, *, image_id, iou_threshold=0.5, iou_weig
             "result": "TP" if accepted else "rejected",
         })
     used_p, used_g = {p for p, _ in assignments}, {g for _, g in assignments}
+    fp = len(predictions) - tp
+    fn = len(truths) - tp
     return {
         "image_id": image_id,
         "config": {"iou_threshold": iou_threshold, "cost_weights": {"iou": iou_weight, "class": class_weight, "l2": l2_weight}},
         "counts": {"predictions": len(predictions), "ground_truths": len(truths), "tp": tp,
-                   "fp": len(predictions) - tp, "fn": len(truths) - tp, "classification_errors": errors},
+                   "fp": fp, "fn": fn, "classification_errors": errors},
+        "metrics": precision_recall_f1(tp, fp, fn),
         "cost_matrix": costs, "assigned_pairs": pairs,
         "sentence_summary": {
             "eligible_pairs": 0, "evaluated_pairs": 0,
@@ -350,11 +423,94 @@ def apply_sentence_evaluation(result, predictions, truths, *, scorer=None):
     return result
 
 
+def evaluate_batch(
+    *,
+    batch_id: str,
+    user_database_path: Path,
+    evaluation_database_path: Path,
+    ground_truth_path: Path,
+    iou_threshold: float = 0.5,
+    iou_weight: float = 2.0,
+    class_weight: float = 1.0,
+    l2_weight: float = 1.0,
+    sentence_scorer=None,
+) -> dict[str, Any]:
+    """Evaluate every available image in a batch under one evaluation run ID."""
+    batch, annotation_runs = load_batch_annotation_runs(user_database_path, batch_id)
+    ground_truth_payload = load_json(ground_truth_path)
+    evaluation_run_id = create_coco_batch_evaluation_run(
+        evaluation_database_path,
+        batch_id=batch_id,
+        prompt_mode=batch["prompt_mode"],
+    )
+    scorer = sentence_scorer or SentenceMetricScorer()
+
+    try:
+        for index, annotation_run in enumerate(annotation_runs, start=1):
+            image_id = canonical_image_id(annotation_run["image_id"])
+            print(
+                f"Evaluating batch image {index}/{batch['total_images']}: {image_id}"
+            )
+            try:
+                payload = json.loads(annotation_run["annotation_result"])
+                predictions = annotations_in(payload)
+                truths = ground_truth_for_image(ground_truth_payload, image_id)
+                result = evaluate_image(
+                    predictions,
+                    truths,
+                    image_id=image_id,
+                    iou_threshold=iou_threshold,
+                    iou_weight=iou_weight,
+                    class_weight=class_weight,
+                    l2_weight=l2_weight,
+                )
+                apply_sentence_evaluation(
+                    result, predictions, truths, scorer=scorer
+                )
+                save_coco_evaluation(
+                    evaluation_database_path,
+                    source_batch_id=batch_id,
+                    image_id=image_id,
+                    prompt_mode=annotation_run["prompt_mode"] or batch["prompt_mode"],
+                    predictions=predictions,
+                    ground_truths=truths,
+                    result=result,
+                    evaluation_run_id=evaluation_run_id,
+                )
+            except Exception as exc:
+                print(f"Failed to evaluate image {image_id}: {exc}", file=sys.stderr)
+
+        metrics = calculate_coco_batch_metrics(
+            evaluation_database_path,
+            evaluation_run_id=evaluation_run_id,
+            batch_id=batch_id,
+            user_database_path=user_database_path,
+        )
+        set_evaluation_run_status(
+            evaluation_database_path,
+            evaluation_run_id=evaluation_run_id,
+            status="completed",
+        )
+        return metrics
+    except Exception:
+        set_evaluation_run_status(
+            evaluation_database_path,
+            evaluation_run_id=evaluation_run_id,
+            status="failed",
+        )
+        raise
+
+
 def print_result(result):
     count = result["counts"]
+    metrics = result["metrics"]
     print(f"\nCOCO single-image evaluation: {result['image_id']}")
     print(f"Predictions: {count['predictions']} | Ground truths: {count['ground_truths']}")
     print(f"TP: {count['tp']} | FP: {count['fp']} | FN: {count['fn']}")
+    print(
+        f"Precision: {metrics['precision']:.4f} | "
+        f"Recall: {metrics['recall']:.4f} | F1: {metrics['f1']:.4f}"
+    )
     print(f"Classification errors (assigned pair with passing IoU): {count['classification_errors']}")
     print("\nHungarian-selected pairs:")
     if not result["assigned_pairs"]: print("  (none)")
@@ -376,14 +532,18 @@ def parser() -> argparse.ArgumentParser:
         "--database-image-id",
         help="Load the newest SQLite annotation run for this image ID",
     )
+    source.add_argument(
+        "--batch-id",
+        help="Calculate and store aggregate COCO metrics for this batch ID",
+    )
     result.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
     result.add_argument(
         "--evaluation-database", type=Path, default=DEFAULT_EVALUATION_DATABASE,
         help="SQLite destination for evaluation results",
     )
     result.add_argument(
-        "--source-run-id", type=int,
-        help="Original user_results.db run ID when evaluating a prediction file",
+        "--source-batch-id",
+        help="batch_runs.batch_id when evaluating a prediction file",
     )
     result.add_argument(
         "--prompt-mode",
@@ -409,14 +569,29 @@ def main() -> int:
             files = sorted(args.predictions_dir.glob("*.json"))
             print("\n".join(str(path) for path in files) if files else "No prediction JSON files found.")
             return 0
+        if args.batch_id is not None:
+            batch_metrics = evaluate_batch(
+                batch_id=args.batch_id,
+                user_database_path=args.database,
+                evaluation_database_path=args.evaluation_database,
+                ground_truth_path=args.ground_truth,
+                iou_threshold=args.iou_threshold,
+                iou_weight=args.iou_weight,
+                class_weight=args.class_weight,
+                l2_weight=args.l2_weight,
+            )
+            print(json.dumps(batch_metrics, indent=2))
+            return 0
         if args.prediction is None and args.run_id is None and args.database_image_id is None:
             arguments.error(
-                "choose --prediction FILE, --run-id ID, or --database-image-id ID "
+                "choose --prediction FILE, --run-id ID, --database-image-id ID, "
+                "or --batch-id ID "
                 "(or use --list-predictions)"
             )
         if not 0 <= args.iou_threshold <= 1: raise ValueError("IoU threshold must be in 0..1")
         if min(args.iou_weight, args.class_weight, args.l2_weight) < 0: raise ValueError("Cost weights cannot be negative")
-        selected_run_id = args.source_run_id
+        selected_run_id = None
+        selected_batch_id = args.source_batch_id
         source_prompt_mode = None
         if args.prediction is not None:
             predictions, inferred_id = load_prediction_file(args.prediction)
@@ -424,11 +599,15 @@ def main() -> int:
             predictions, inferred_id = load_database_run(args.database, args.run_id)
             selected_run_id = args.run_id
             source_prompt_mode = load_database_prompt_mode(args.database, selected_run_id)
+            if selected_batch_id is None:
+                selected_batch_id = load_database_batch_id(args.database, selected_run_id)
         else:
             predictions, inferred_id, selected_run_id = load_latest_database_run_for_image(
                 args.database, args.database_image_id
             )
             source_prompt_mode = load_database_prompt_mode(args.database, selected_run_id)
+            if selected_batch_id is None:
+                selected_batch_id = load_database_batch_id(args.database, selected_run_id)
             print(f"Using newest annotation run for image {inferred_id}: run ID {selected_run_id}")
         image_id = canonical_image_id(args.image_id) if args.image_id is not None else inferred_id
         if image_id is None: raise ValueError("Cannot infer image ID; pass --image-id")
@@ -441,7 +620,7 @@ def main() -> int:
         if not args.no_save:
             evaluation_run_id = save_coco_evaluation(
                 args.evaluation_database,
-                source_run_id=selected_run_id,
+                source_batch_id=selected_batch_id,
                 image_id=image_id,
                 prompt_mode=args.prompt_mode or source_prompt_mode or infer_prompt_mode(predictions),
                 predictions=predictions,
