@@ -16,7 +16,6 @@ class LLMConfig:
     api_key: str
     base_url: str
     model: str
-    max_tokens: int
     timeout_seconds: int
 
 
@@ -174,7 +173,6 @@ def resolve_llm_config() -> LLMConfig:
         api_key = os.environ.get(f"{provider}_API_KEY", "").strip()
         base_url = os.environ.get(f"{provider}_BASE_URL", "").strip()
         model = os.environ.get(f"{provider}_MODEL", "").strip()
-        max_tokens = parse_env_int(f"{provider}_MAX_TOKENS", 512)
         timeout_seconds = parse_env_int(f"{provider}_TIMEOUT_SECONDS", 300)
 
         if not api_key:
@@ -187,7 +185,6 @@ def resolve_llm_config() -> LLMConfig:
             api_key=api_key,
             base_url=base_url or "https://api.b.ai/v1",
             model=model or "gpt-5.2",
-            max_tokens=max_tokens,
             timeout_seconds=timeout_seconds,
         )
 
@@ -208,7 +205,6 @@ def resolve_llm_config() -> LLMConfig:
         or os.environ.get("MIMO_MODEL")
         or "gpt-5.2"
     ).strip()
-    max_tokens = parse_env_int("ANNOTATION_MAX_TOKENS", 512)
     timeout_seconds = parse_env_int("ANNOTATION_TIMEOUT_SECONDS", 300)
 
     return LLMConfig(
@@ -216,7 +212,6 @@ def resolve_llm_config() -> LLMConfig:
         api_key=api_key,
         base_url=base_url,
         model=model,
-        max_tokens=max_tokens,
         timeout_seconds=timeout_seconds,
     )
 

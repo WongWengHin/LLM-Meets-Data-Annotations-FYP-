@@ -96,6 +96,10 @@ def init_evaluation_database(database_path: Path) -> None:
             "ON coco_results(batch_id)"
         )
         connection.execute(
+            "CREATE INDEX IF NOT EXISTS idx_hicodet_results_batch_id "
+            "ON hicodet_results(batch_id)"
+        )
+        connection.execute(
             "CREATE INDEX IF NOT EXISTS idx_coco_pairs_evaluation_run_id "
             "ON coco_pairs(evaluation_run_id)"
         )
@@ -104,11 +108,23 @@ def init_evaluation_database(database_path: Path) -> None:
             "ON coco_pairs(batch_id)"
         )
         connection.execute(
+            "CREATE INDEX IF NOT EXISTS idx_hicodet_pairs_evaluation_run_id "
+            "ON hicodet_pairs(evaluation_run_id)"
+        )
+        connection.execute(
+            "CREATE INDEX IF NOT EXISTS idx_hicodet_pairs_batch_id "
+            "ON hicodet_pairs(batch_id)"
+        )
+        connection.execute(
             "DROP INDEX IF EXISTS idx_coco_batch_metrics_batch_id"
         )
         connection.execute(
             "CREATE INDEX IF NOT EXISTS idx_coco_batch_metrics_batch_id "
             "ON coco_batch_metrics(batch_id)"
+        )
+        connection.execute(
+            "CREATE INDEX IF NOT EXISTS idx_hicodet_batch_metrics_batch_id "
+            "ON hicodet_batch_metrics(batch_id)"
         )
         connection.commit()
         connection.execute("PRAGMA foreign_keys = ON")
@@ -194,6 +210,36 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
     )
     connection.execute(
         """
+        CREATE TABLE IF NOT EXISTS hicodet_results (
+            evaluation_run_id INTEGER NOT NULL,
+            batch_id TEXT,
+            image_id TEXT NOT NULL,
+            num_predictions INTEGER NOT NULL,
+            num_ground_truths INTEGER NOT NULL,
+            tp INTEGER NOT NULL,
+            fp INTEGER NOT NULL,
+            fn INTEGER NOT NULL,
+            precision REAL NOT NULL DEFAULT 0,
+            recall REAL NOT NULL DEFAULT 0,
+            f1 REAL NOT NULL DEFAULT 0,
+            classification_errors INTEGER NOT NULL,
+            class_accuracy REAL NOT NULL,
+            mean_subject_iou REAL NOT NULL,
+            mean_object_iou REAL NOT NULL,
+            iou_threshold REAL NOT NULL,
+            sentence_eligible_pairs INTEGER NOT NULL DEFAULT 0,
+            sentence_evaluated_pairs INTEGER NOT NULL DEFAULT 0,
+            mean_bleu REAL,
+            mean_meteor REAL,
+            calculated_at TEXT NOT NULL,
+            FOREIGN KEY (evaluation_run_id)
+                REFERENCES evaluation_runs(evaluation_run_id) ON DELETE CASCADE,
+            PRIMARY KEY (evaluation_run_id, image_id)
+        )
+        """
+    )
+    connection.execute(
+        """
         CREATE TABLE IF NOT EXISTS coco_batch_metrics (
             evaluation_run_id INTEGER PRIMARY KEY,
             batch_id TEXT NOT NULL,
@@ -210,6 +256,80 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             mean_f1 REAL,
             iou_evaluated_pairs INTEGER NOT NULL,
             mean_iou REAL NOT NULL,
+            class_correct_pairs INTEGER NOT NULL,
+            class_evaluated_pairs INTEGER NOT NULL,
+            total_classification_errors INTEGER NOT NULL,
+            class_accuracy REAL NOT NULL,
+            sentence_eligible_pairs INTEGER NOT NULL,
+            sentence_evaluated_pairs INTEGER NOT NULL,
+            mean_bleu REAL,
+            mean_meteor REAL,
+            calculated_at TEXT NOT NULL,
+            FOREIGN KEY (evaluation_run_id)
+                REFERENCES evaluation_runs(evaluation_run_id) ON DELETE CASCADE
+        )
+        """
+    )
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS hicodet_pairs (
+            pair_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            evaluation_run_id INTEGER NOT NULL,
+            batch_id TEXT,
+            image_id TEXT NOT NULL,
+            prediction_index INTEGER,
+            ground_truth_index INTEGER,
+            prediction_annotation_id TEXT,
+            ground_truth_annotation_id TEXT,
+            predicted_subject TEXT,
+            ground_truth_subject TEXT,
+            predicted_predicate TEXT,
+            ground_truth_predicate TEXT,
+            predicted_object TEXT,
+            ground_truth_object TEXT,
+            predicted_subject_bbox TEXT,
+            ground_truth_subject_bbox TEXT,
+            predicted_object_bbox TEXT,
+            ground_truth_object_bbox TEXT,
+            subject_iou REAL,
+            object_iou REAL,
+            match_score REAL,
+            subject_class_correct INTEGER,
+            object_class_correct INTEGER,
+            predicate_correct INTEGER,
+            class_correct INTEGER,
+            status TEXT NOT NULL,
+            rejection_reason TEXT,
+            sentence_eligible INTEGER,
+            sentence_skip_reason TEXT,
+            predicted_sentences TEXT,
+            ground_truth_sentences TEXT,
+            bleu REAL,
+            meteor REAL,
+            FOREIGN KEY (evaluation_run_id)
+                REFERENCES evaluation_runs(evaluation_run_id) ON DELETE CASCADE
+        )
+        """
+    )
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS hicodet_batch_metrics (
+            evaluation_run_id INTEGER PRIMARY KEY,
+            batch_id TEXT NOT NULL,
+            total_images INTEGER NOT NULL,
+            successful_images INTEGER NOT NULL,
+            failed_images INTEGER NOT NULL,
+            total_predictions INTEGER NOT NULL,
+            total_gt INTEGER NOT NULL,
+            total_tp INTEGER NOT NULL,
+            total_fp INTEGER NOT NULL,
+            total_fn INTEGER NOT NULL,
+            mean_precision REAL,
+            mean_recall REAL,
+            mean_f1 REAL,
+            iou_evaluated_pairs INTEGER NOT NULL,
+            mean_subj_iou REAL NOT NULL,
+            mean_obj_iou REAL NOT NULL,
             class_correct_pairs INTEGER NOT NULL,
             class_evaluated_pairs INTEGER NOT NULL,
             total_classification_errors INTEGER NOT NULL,
@@ -708,6 +828,185 @@ def create_coco_batch_evaluation_run(
         )
         connection.commit()
         return int(cursor.lastrowid)
+
+
+def create_hicodet_batch_evaluation_run(
+    database_path: Path,
+    *,
+    batch_id: str,
+    prompt_mode: str,
+) -> int:
+    """Create the parent run for a HICO-DET batch evaluation."""
+    init_evaluation_database(database_path)
+    with closing(_connection(database_path)) as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO evaluation_runs
+                (source_batch_id, image_id, dataset, task_type,
+                 prompt_mode, status, evaluated_at)
+            VALUES (?, NULL, 'HICO-DET', 'hoi_detection_batch', ?, 'processing', ?)
+            """,
+            (batch_id, prompt_mode, datetime.now(timezone.utc).isoformat()),
+        )
+        connection.commit()
+        return int(cursor.lastrowid)
+
+
+def create_hicodet_image_evaluation_run(
+    database_path: Path, *, batch_id: str | None, image_id: str, prompt_mode: str
+) -> int:
+    """Create a standalone HICO-DET evaluation run for one image."""
+    init_evaluation_database(database_path)
+    with closing(_connection(database_path)) as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO evaluation_runs
+                (source_batch_id, image_id, dataset, task_type, prompt_mode, status, evaluated_at)
+            VALUES (?, ?, 'HICO-DET', 'hoi_detection', ?, 'processing', ?)
+            """,
+            (batch_id, image_id, prompt_mode, datetime.now(timezone.utc).isoformat()),
+        )
+        connection.commit()
+        return int(cursor.lastrowid)
+
+
+def save_hicodet_evaluation(
+    database_path: Path,
+    *,
+    evaluation_run_id: int,
+    batch_id: str | None,
+    image_id: str,
+    result: dict[str, Any],
+) -> None:
+    """Persist one HICO-DET image result and its complete pair audit trail."""
+    init_evaluation_database(database_path)
+    counts = result["counts"]
+    metrics = result["metrics"]
+    sentence = result["sentence_summary"]
+    calculated_at = datetime.now(timezone.utc).isoformat()
+    with closing(_connection(database_path)) as connection:
+        run = connection.execute(
+            "SELECT source_batch_id, dataset, task_type, status FROM evaluation_runs "
+            "WHERE evaluation_run_id = ?", (evaluation_run_id,)
+        ).fetchone()
+        if run is None:
+            raise ValueError(f"Evaluation run not found: {evaluation_run_id}")
+        if (run["source_batch_id"], run["dataset"], run["status"]) != (
+            batch_id, "HICO-DET", "processing"
+        ) or run["task_type"] not in {"hoi_detection", "hoi_detection_batch"}:
+            raise ValueError("Evaluation run is not an active HICO-DET run for this batch ID.")
+        connection.execute(
+            """
+            INSERT INTO hicodet_results
+                (evaluation_run_id, batch_id, image_id, num_predictions,
+                 num_ground_truths, tp, fp, fn, precision, recall, f1,
+                 classification_errors, class_accuracy, mean_subject_iou,
+                 mean_object_iou, iou_threshold, sentence_eligible_pairs,
+                 sentence_evaluated_pairs, mean_bleu, mean_meteor, calculated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (evaluation_run_id, batch_id, image_id, counts["predictions"],
+             counts["ground_truths"], counts["tp"], counts["fp"], counts["fn"],
+             metrics["precision"], metrics["recall"], metrics["f1"],
+             counts["classification_errors"], metrics["class_accuracy"],
+             metrics["mean_subject_iou"], metrics["mean_object_iou"],
+             result["iou_threshold"], sentence["eligible_pairs"],
+             sentence["evaluated_pairs"], sentence["mean_bleu"],
+             sentence["mean_meteor"], calculated_at),
+        )
+        rows = []
+        for pair in result["pairs"]:
+            rows.append((
+                evaluation_run_id, batch_id, image_id,
+                pair.get("prediction_index"), pair.get("ground_truth_index"),
+                pair.get("prediction_annotation_id"), pair.get("ground_truth_annotation_id"),
+                pair.get("predicted_subject"), pair.get("ground_truth_subject"),
+                pair.get("predicted_predicate"), pair.get("ground_truth_predicate"),
+                pair.get("predicted_object"), pair.get("ground_truth_object"),
+                _json_bbox(pair.get("predicted_subject_bbox")), _json_bbox(pair.get("ground_truth_subject_bbox")),
+                _json_bbox(pair.get("predicted_object_bbox")), _json_bbox(pair.get("ground_truth_object_bbox")),
+                pair.get("subject_iou"), pair.get("object_iou"), pair.get("match_score"),
+                pair.get("subject_class_correct"), pair.get("object_class_correct"),
+                pair.get("predicate_correct"), pair.get("class_correct"), pair["status"],
+                pair.get("rejection_reason"), pair.get("sentence_eligible"),
+                pair.get("sentence_skip_reason"), _json_sentences(pair.get("predicted_sentences")),
+                _json_sentences(pair.get("ground_truth_sentences")), pair.get("bleu"), pair.get("meteor"),
+            ))
+        connection.executemany(
+            """
+            INSERT INTO hicodet_pairs
+                (evaluation_run_id, batch_id, image_id, prediction_index, ground_truth_index,
+                 prediction_annotation_id, ground_truth_annotation_id, predicted_subject,
+                 ground_truth_subject, predicted_predicate, ground_truth_predicate,
+                 predicted_object, ground_truth_object, predicted_subject_bbox,
+                 ground_truth_subject_bbox, predicted_object_bbox, ground_truth_object_bbox,
+                 subject_iou, object_iou, match_score, subject_class_correct,
+                 object_class_correct, predicate_correct, class_correct, status,
+                 rejection_reason, sentence_eligible, sentence_skip_reason,
+                 predicted_sentences, ground_truth_sentences, bleu, meteor)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, rows,
+        )
+        connection.commit()
+
+
+def calculate_hicodet_batch_metrics(
+    database_path: Path, *, evaluation_run_id: int, batch_id: str,
+    user_database_path: Path | None = None,
+) -> dict[str, Any]:
+    """Aggregate HICO-DET image rows. Only successfully saved images contribute."""
+    normalized_batch_id = batch_id.strip()
+    if not normalized_batch_id:
+        raise ValueError("A batch ID is required.")
+    batch = _load_source_batch(user_database_path or database_path.with_name("user_results.db"), normalized_batch_id)
+    init_evaluation_database(database_path)
+    with closing(_connection(database_path)) as connection:
+        run = connection.execute("SELECT source_batch_id, dataset, task_type FROM evaluation_runs WHERE evaluation_run_id = ?", (evaluation_run_id,)).fetchone()
+        if run is None or (run["source_batch_id"], run["dataset"], run["task_type"]) != (normalized_batch_id, "HICO-DET", "hoi_detection_batch"):
+            raise ValueError("Evaluation run is not a HICO-DET batch for this batch ID.")
+        images = connection.execute("SELECT * FROM hicodet_results WHERE evaluation_run_id = ? AND batch_id = ?", (evaluation_run_id, normalized_batch_id)).fetchall()
+        pairs = connection.execute("SELECT * FROM hicodet_pairs WHERE evaluation_run_id = ? AND batch_id = ?", (evaluation_run_id, normalized_batch_id)).fetchall()
+        successful = len(images)
+        subject_ious = [float(row["subject_iou"]) for row in pairs if row["subject_iou"] is not None]
+        object_ious = [float(row["object_iou"]) for row in pairs if row["object_iou"] is not None]
+        class_values = [int(row["class_correct"]) for row in pairs if row["class_correct"] is not None]
+        values = (
+            evaluation_run_id, normalized_batch_id, int(batch["total_images"]), successful,
+            max(int(batch["total_images"]) - successful, 0),
+            sum(row["num_predictions"] for row in images), sum(row["num_ground_truths"] for row in images),
+            sum(row["tp"] for row in images), sum(row["fp"] for row in images), sum(row["fn"] for row in images),
+            _mean_scored_image_metric(images, "precision"), _mean_scored_image_metric(images, "recall"), _mean_scored_image_metric(images, "f1"),
+            len(subject_ious), sum(subject_ious) / len(subject_ious) if subject_ious else 0.0,
+            sum(object_ious) / len(object_ious) if object_ious else 0.0,
+            sum(class_values), len(class_values), len(class_values) - sum(class_values),
+            sum(class_values) / len(class_values) if class_values else 0.0,
+            sum(row["sentence_eligible_pairs"] for row in images), sum(row["sentence_evaluated_pairs"] for row in images),
+            _weighted_metric_mean(images, "mean_bleu", "sentence_evaluated_pairs"),
+            _weighted_metric_mean(images, "mean_meteor", "sentence_evaluated_pairs"), datetime.now(timezone.utc).isoformat(),
+        )
+        connection.execute(
+            """INSERT INTO hicodet_batch_metrics
+                (evaluation_run_id, batch_id, total_images, successful_images, failed_images,
+                 total_predictions, total_gt, total_tp, total_fp, total_fn, mean_precision,
+                 mean_recall, mean_f1, iou_evaluated_pairs, mean_subj_iou, mean_obj_iou,
+                 class_correct_pairs, class_evaluated_pairs, total_classification_errors,
+                 class_accuracy, sentence_eligible_pairs, sentence_evaluated_pairs, mean_bleu,
+                 mean_meteor, calculated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(evaluation_run_id) DO UPDATE SET
+              batch_id=excluded.batch_id, total_images=excluded.total_images, successful_images=excluded.successful_images,
+              failed_images=excluded.failed_images, total_predictions=excluded.total_predictions, total_gt=excluded.total_gt,
+              total_tp=excluded.total_tp, total_fp=excluded.total_fp, total_fn=excluded.total_fn,
+              mean_precision=excluded.mean_precision, mean_recall=excluded.mean_recall, mean_f1=excluded.mean_f1,
+              iou_evaluated_pairs=excluded.iou_evaluated_pairs, mean_subj_iou=excluded.mean_subj_iou,
+              mean_obj_iou=excluded.mean_obj_iou, class_correct_pairs=excluded.class_correct_pairs,
+              class_evaluated_pairs=excluded.class_evaluated_pairs, total_classification_errors=excluded.total_classification_errors,
+              class_accuracy=excluded.class_accuracy, sentence_eligible_pairs=excluded.sentence_eligible_pairs,
+              sentence_evaluated_pairs=excluded.sentence_evaluated_pairs, mean_bleu=excluded.mean_bleu,
+              mean_meteor=excluded.mean_meteor, calculated_at=excluded.calculated_at
+            """, values)
+        connection.commit()
+        return dict(connection.execute("SELECT * FROM hicodet_batch_metrics WHERE evaluation_run_id = ?", (evaluation_run_id,)).fetchone())
 
 
 def set_evaluation_run_status(

@@ -38,7 +38,6 @@ def request_image_annotation(
         f"model={llm_config.model}, "
         f"image={image_path.name}, "
         f"bytes={len(image_bytes)}, "
-        f"max_tokens={llm_config.max_tokens}, "
         f"timeout={llm_config.timeout_seconds}s"
     )
 
@@ -56,7 +55,6 @@ def request_image_annotation(
     # ],
     # "stream": False,
     # "temperature": 0,
-    # "max_completion_tokens": llm_config.max_tokens,
     # # "reasoning": {
     # #     "effort": "none"
     # # },
@@ -146,7 +144,6 @@ def request_image_annotation(
         "messages": messages,
         "stream": False,
         "temperature": 0,
-        "max_completion_tokens": llm_config.max_tokens,
     }
     ###
 

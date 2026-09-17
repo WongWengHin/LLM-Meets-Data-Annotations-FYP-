@@ -354,9 +354,11 @@ def evaluate_image(predictions, truths, *, image_id, iou_threshold=0.5, iou_weig
             "predicted_bbox": predictions[p]["bbox"], "ground_truth_bbox": truths[g]["bbox"],
             "iou": overlap, "l2_distance": distances[p][g], "matching_cost": costs[p][g],
             "class_correct": same_class,
-            "status": "TP" if accepted else "REJECTED",
+            # An assigned pair that fails class or IoU contributes one FP and
+            # one FN to the image-level counts, so expose both in the audit row.
+            "status": "TP" if accepted else "FP_FN",
             "rejection_reason": ",".join(rejection_reasons) or None,
-            "result": "TP" if accepted else "rejected",
+            "result": "TP" if accepted else "fp_fn",
         })
     used_p, used_g = {p for p, _ in assignments}, {g for _, g in assignments}
     fp = len(predictions) - tp

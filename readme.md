@@ -250,21 +250,9 @@ Useful endpoints:
 
 ### 5.1 Run offline evaluation
 
-The repository also includes an offline IoU evaluation module for COCO and HICO-DET style evaluation.
-HICO-DET reports triplet-level precision, recall, F1, and `triplet mean AP@IoU=0.5` so the detection summary stays distinct from COCO mAP.
-
-For semantic analysis, you can convert the manually annotated `HICO_sentences.py` fixture into JSON and run the separate HICO semantic evaluation script:
-
-```powershell
-python scripts/convert_hico_sentences.py path\to\HICO_sentences.py data\hico_semantic_fixture.json
-python scripts/run_hico_semantic_eval.py --predictions-dir data\predictions --semantic-reference data\hico_semantic_fixture.json --output-dir evaluation_reports\hicodet_semantic
-```
-
-You can also merge semantic results into the main HICO-DET report:
-
-```powershell
-python -m app.evaluation.run_eval --dataset hicodet --predictions-dir data\predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet --semantic-reference data\hico_semantic_fixture.json
-```
+COCO has an offline report evaluator. HICO-DET batch evaluation reads the
+ground truth and sentence references from `evaluation_new/HICO-DET/hico_gt.py`
+and stores its results in `evaluation_result.db`.
 
 Example COCO run:
 
@@ -275,7 +263,7 @@ python -m app.evaluation.run_eval --dataset coco --predictions-dir data/predicti
 Example HICO-DET run:
 
 ```powershell
-python -m app.evaluation.run_eval --dataset hicodet --predictions-dir data/predictions --annotations path\to\hicodet_annotations.json --output-dir evaluation_reports\hicodet
+python evaluation_new/HICO-DET/hicodet_evaluator.py --batch-id YOUR_BATCH_ID
 ```
 
 Optional label mapping:
@@ -284,13 +272,13 @@ Optional label mapping:
 python -m app.evaluation.run_eval --dataset coco --predictions-dir data/predictions --annotations path\to\coco_annotations.json --output-dir evaluation_reports\coco --label-mapping app\evaluation\label_mappings.example.json
 ```
 
-The evaluator writes:
+The COCO report evaluator writes:
 
 - summary json
 - csv breakdown files
 - markdown summary
 - per-image debug match reports
-- mapping-aware category or verb/object id assignment when a label mapping file is provided
+- mapping-aware category assignment when a label mapping file is provided
 
 ### 6. Use the demo
 
@@ -392,9 +380,7 @@ This project sits at the intersection of:
 It is intended as both a demo system and an experimental foundation for studying how LLM-based systems can contribute to automated annotation workflows.
 
 ## For OpenAI, the following environment variables can be configured:
-OPENAI_MAX_TOKENS=16000
 OPENAI_TIMEOUT_SECONDS=300
-OPENAI_MAX_TOKENS sets the maximum output token budget for a model response. (Allow images with more annotations to be annotated)
 OPENAI_TIMEOUT_SECONDS sets the maximum time allowed for an OpenAI API request before it times out.
 
-These settings provide a larger output budget and longer request timeout for complex multimodal annotation tasks.
+This setting provides a longer request timeout for complex multimodal annotation tasks.

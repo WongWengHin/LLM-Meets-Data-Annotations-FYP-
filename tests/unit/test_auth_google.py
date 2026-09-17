@@ -58,7 +58,6 @@ class GoogleAuthTests(unittest.TestCase):
                 api_key="test-key",
                 base_url="https://example.invalid",
                 model="gpt-5.2",
-                max_tokens=32,
                 timeout_seconds=30,
             ),
             image_preprocess=ImagePreprocessConfig(

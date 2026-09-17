@@ -1,126 +1,29 @@
-"""*** COCO 与 HICO-DET 评估指标聚合辅助逻辑。 ***"""
-
+"""Metric helpers used by the retained offline COCO evaluator."""
 from __future__ import annotations
 
 from collections import defaultdict
 
 
-def precision_recall_curve(match_outcomes: list[dict], gt_count: int) -> tuple[list[float], list[float]]:
+def precision_recall_curve(outcomes: list[dict], gt_count: int) -> tuple[list[float], list[float]]:
     if gt_count <= 0:
         return [], []
-
-    sorted_outcomes = sorted(match_outcomes, key=lambda item: (-item["score"], item["prediction_id"]))
-    true_positives = 0
-    false_positives = 0
-    precisions: list[float] = []
-    recalls: list[float] = []
-
-    for outcome in sorted_outcomes:
-        if outcome["matched"]:
-            true_positives += 1
-        else:
-            false_positives += 1
-        precision = true_positives / max(true_positives + false_positives, 1)
-        recall = true_positives / gt_count
-        precisions.append(precision)
-        recalls.append(recall)
-
-    return precisions, recalls
+    tp = fp = 0
+    precision, recall = [], []
+    for outcome in sorted(outcomes, key=lambda item: (-item["score"], item["prediction_id"])):
+        tp += int(outcome["matched"])
+        fp += int(not outcome["matched"])
+        precision.append(tp / (tp + fp))
+        recall.append(tp / gt_count)
+    return precision, recall
 
 
-def interpolated_ap(precisions: list[float], recalls: list[float]) -> float:
-    if not precisions or not recalls:
-        return 0.0
-
-    ap = 0.0
-    for recall_threshold in [step / 100 for step in range(101)]:
-        precision_candidates = [
-            precision
-            for precision, recall in zip(precisions, recalls)
-            if recall >= recall_threshold
-        ]
-        ap += max(precision_candidates, default=0.0)
-    return ap / 101
+def interpolated_ap(precision: list[float], recall: list[float]) -> float:
+    return sum(max((p for p, r in zip(precision, recall) if r >= threshold), default=0.0) for threshold in (step / 100 for step in range(101))) / 101 if precision else 0.0
 
 
-def summarize_coco_threshold(
-    match_outcomes: list[dict],
-    gt_count_by_category: dict[int, int],
-) -> dict:
-    outcomes_by_category: dict[int, list[dict]] = defaultdict(list)
-    for outcome in match_outcomes:
-        outcomes_by_category[int(outcome["category_id"])].append(outcome)
-
-    per_category_ap: dict[str, float] = {}
-    for category_id, gt_count in gt_count_by_category.items():
-        precisions, recalls = precision_recall_curve(outcomes_by_category.get(category_id, []), gt_count)
-        per_category_ap[str(category_id)] = interpolated_ap(precisions, recalls)
-
-    mean_ap = (
-        sum(per_category_ap.values()) / len(per_category_ap)
-        if per_category_ap
-        else 0.0
-    )
-    return {
-        "per_category_ap": per_category_ap,
-        "mean_ap": mean_ap,
-    }
-
-
-def summarize_hicodet_threshold(
-    match_outcomes: list[dict],
-    gt_count_by_triplet: dict[str, int],
-) -> dict:
-    outcomes_by_triplet: dict[str, list[dict]] = defaultdict(list)
-    for outcome in match_outcomes:
-        outcomes_by_triplet[outcome["triplet_key"]].append(outcome)
-
-    per_triplet: dict[str, dict[str, float | int]] = {}
-    total_tp = 0
-    total_fp = 0
-    total_fn = 0
-    triplet_ap_values: list[float] = []
-
-    for triplet_key, gt_count in gt_count_by_triplet.items():
-        triplet_outcomes = outcomes_by_triplet.get(triplet_key, [])
-        precisions, recalls = precision_recall_curve(triplet_outcomes, gt_count)
-        tp = sum(1 for item in triplet_outcomes if item["matched"])
-        fp = sum(1 for item in triplet_outcomes if not item["matched"])
-        fn = max(gt_count - tp, 0)
-        precision = tp / (tp + fp) if tp + fp > 0 else 0.0
-        recall = tp / gt_count if gt_count > 0 else 0.0
-        average_precision = interpolated_ap(precisions, recalls)
-        per_triplet[triplet_key] = {
-            "tp": tp,
-            "fp": fp,
-            "fn": fn,
-            "precision": precision,
-            "recall": recall,
-            "ap": average_precision,
-        }
-        triplet_ap_values.append(average_precision)
-        total_tp += tp
-        total_fp += fp
-        total_fn += fn
-
-    overall_precision = total_tp / (total_tp + total_fp) if total_tp + total_fp > 0 else 0.0
-    overall_recall = total_tp / (total_tp + total_fn) if total_tp + total_fn > 0 else 0.0
-    overall_f1 = (
-        2 * overall_precision * overall_recall / (overall_precision + overall_recall)
-        if overall_precision + overall_recall > 0
-        else 0.0
-    )
-    mean_ap = sum(triplet_ap_values) / len(triplet_ap_values) if triplet_ap_values else 0.0
-    return {
-        "per_triplet": per_triplet,
-        "triplet_mean_ap": mean_ap,
-        "mean_ap": mean_ap,
-        "overall": {
-            "tp": total_tp,
-            "fp": total_fp,
-            "fn": total_fn,
-            "precision": overall_precision,
-            "recall": overall_recall,
-            "f1": overall_f1,
-        },
-    }
+def summarize_coco_threshold(outcomes: list[dict], gt_count_by_category: dict[int, int]) -> dict:
+    grouped: dict[int, list[dict]] = defaultdict(list)
+    for outcome in outcomes:
+        grouped[int(outcome["category_id"])].append(outcome)
+    per_category = {str(category): interpolated_ap(*precision_recall_curve(grouped.get(category, []), count)) for category, count in gt_count_by_category.items()}
+    return {"per_category_ap": per_category, "mean_ap": sum(per_category.values()) / len(per_category) if per_category else 0.0}
