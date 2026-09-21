@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 from app.core.evaluation_database import (
     calculate_coco_batch_metrics,
     create_coco_batch_evaluation_run,
+    reuse_existing_image_evaluation,
     save_coco_evaluation,
     set_evaluation_run_status,
 )
@@ -224,9 +225,9 @@ def canonical_image_id(image_id: Any) -> str:
     return str(int(value)) if value.isdecimal() else value
 
 
-def precision_recall_f1(tp: int, fp: int, fn: int) -> dict[str, float]:
+def precision_recall_f1(tp: int, fp: int, ground_truths: int) -> dict[str, float]:
     precision = tp / (tp + fp) if tp + fp > 0 else 0.0
-    recall = tp / (tp + fn) if tp + fn > 0 else 0.0
+    recall = tp / ground_truths if ground_truths > 0 else 0.0
     f1 = (
         2 * precision * recall / (precision + recall)
         if precision + recall > 0
@@ -354,28 +355,29 @@ def evaluate_image(predictions, truths, *, image_id, iou_threshold=0.5, iou_weig
             "predicted_bbox": predictions[p]["bbox"], "ground_truth_bbox": truths[g]["bbox"],
             "iou": overlap, "l2_distance": distances[p][g], "matching_cost": costs[p][g],
             "class_correct": same_class,
-            # An assigned pair that fails class or IoU contributes one FP and
-            # one FN to the image-level counts, so expose both in the audit row.
-            "status": "TP" if accepted else "FP_FN",
+            "status": "TP" if accepted else "FP",
             "rejection_reason": ",".join(rejection_reasons) or None,
-            "result": "TP" if accepted else "fp_fn",
+            "result": "TP" if accepted else "fp",
         })
     used_p, used_g = {p for p, _ in assignments}, {g for _, g in assignments}
-    fp = len(predictions) - tp
-    fn = len(truths) - tp
+    unassigned_predictions = [i for i in range(len(predictions)) if i not in used_p]
+    unassigned_ground_truths = [i for i in range(len(truths)) if i not in used_g]
+    # Every non-TP is reported as an FP.  This includes a GT object for which
+    # Hungarian matching found no prediction at all.
+    fp = len(predictions) - tp + len(unassigned_ground_truths)
     return {
         "image_id": image_id,
         "config": {"iou_threshold": iou_threshold, "cost_weights": {"iou": iou_weight, "class": class_weight, "l2": l2_weight}},
         "counts": {"predictions": len(predictions), "ground_truths": len(truths), "tp": tp,
-                   "fp": fp, "fn": fn, "classification_errors": errors},
-        "metrics": precision_recall_f1(tp, fp, fn),
+                   "fp": fp, "classification_errors": errors},
+        "metrics": precision_recall_f1(tp, fp, len(truths)),
         "cost_matrix": costs, "assigned_pairs": pairs,
         "sentence_summary": {
             "eligible_pairs": 0, "evaluated_pairs": 0,
             "mean_bleu": None, "mean_meteor": None,
         },
-        "unassigned_prediction_indices": [i for i in range(len(predictions)) if i not in used_p],
-        "unassigned_ground_truth_indices": [i for i in range(len(truths)) if i not in used_g],
+        "unassigned_prediction_indices": unassigned_predictions,
+        "unassigned_ground_truth_indices": unassigned_ground_truths,
     }
 
 
@@ -454,6 +456,15 @@ def evaluate_batch(
                 f"Evaluating batch image {index}/{batch['total_images']}: {image_id}"
             )
             try:
+                if reuse_existing_image_evaluation(
+                    evaluation_database_path,
+                    evaluation_run_id=evaluation_run_id,
+                    batch_id=batch_id,
+                    image_id=image_id,
+                    dataset="COCO",
+                ):
+                    print(f"Reused existing image metrics: {image_id}")
+                    continue
                 payload = json.loads(annotation_run["annotation_result"])
                 predictions = annotations_in(payload)
                 truths = ground_truth_for_image(ground_truth_payload, image_id)
@@ -508,7 +519,7 @@ def print_result(result):
     metrics = result["metrics"]
     print(f"\nCOCO single-image evaluation: {result['image_id']}")
     print(f"Predictions: {count['predictions']} | Ground truths: {count['ground_truths']}")
-    print(f"TP: {count['tp']} | FP: {count['fp']} | FN: {count['fn']}")
+    print(f"TP: {count['tp']} | FP: {count['fp']}")
     print(
         f"Precision: {metrics['precision']:.4f} | "
         f"Recall: {metrics['recall']:.4f} | F1: {metrics['f1']:.4f}"
@@ -522,7 +533,7 @@ def print_result(result):
               f"{pair['ground_truth_class']} | cost={pair['matching_cost']:.4f} IoU={pair['iou']:.4f} "
               f"L2={pair['l2_distance']:.4f} | {pair['status']}{rejection}")
     if result["unassigned_prediction_indices"]: print(f"Unassigned predictions (FP): {result['unassigned_prediction_indices']}")
-    if result["unassigned_ground_truth_indices"]: print(f"Unassigned ground truths (FN): {result['unassigned_ground_truth_indices']}")
+    if result["unassigned_ground_truth_indices"]: print(f"Unassigned ground truths (FP): {result['unassigned_ground_truth_indices']}")
 
 
 def parser() -> argparse.ArgumentParser:

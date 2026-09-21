@@ -25,6 +25,7 @@ from app.core.evaluation_database import (
     calculate_hicodet_batch_metrics,
     create_hicodet_batch_evaluation_run,
     create_hicodet_image_evaluation_run,
+    reuse_existing_image_evaluation,
     save_hicodet_evaluation,
     set_evaluation_run_status,
 )
@@ -279,12 +280,10 @@ def evaluate_image(predictions: list[dict[str, Any]], truths: list[dict[str, Any
             tp += 1
             pair.update(status="TP", rejection_reason=None)
         else:
-            # Like the COCO evaluator's assigned-pair audit row, retain the
-            # prediction/GT correspondence even when it fails the threshold.
-            # It is both an FP and an FN in the image metrics,
-            # but no duplicate standalone FN row is written for this GT.
+            # Retain the prediction/GT correspondence even when it fails the
+            # threshold. It is an FP, while recall uses total GT directly.
             used_truths.add(best_index)
-            pair.update(status="FP_FN", rejection_reason="subject_or_object_iou_below_threshold", sentence_skip_reason="not_a_true_positive")
+            pair.update(status="FP", rejection_reason="subject_or_object_iou_below_threshold", sentence_skip_reason="not_a_true_positive")
         # Semantic text is valid whenever the subject, object, and predicate
         # matched a GT interaction, even if one or both boxes miss the IoU
         # threshold.  A label mismatch has no candidate truth and stays skipped.
@@ -295,29 +294,33 @@ def evaluate_image(predictions: list[dict[str, Any]], truths: list[dict[str, Any
             else:
                 pair.update(sentence_eligible=1, sentence_skip_reason=None, bleu=scores[0], meteor=scores[1])
         pairs.append(pair)
-    for truth_index, truth in enumerate(truths):
-        if truth_index not in used_truths:
-            pair = _pair_base(None, truth)
-            pair.update(prediction_index=None, ground_truth_index=truth_index, subject_iou=None, object_iou=None,
-                        match_score=None, subject_class_correct=None, object_class_correct=None, predicate_correct=None,
-                        class_correct=None, status="FN", rejection_reason="unmatched_ground_truth", sentence_eligible=0,
-                        sentence_skip_reason="unmatched_ground_truth", bleu=None, meteor=None)
-            pairs.append(pair)
-    fp, fn = len(predictions) - tp, len(truths) - tp
-    evaluated = [pair for pair in pairs if pair["status"] == "TP"]
+    unmatched_truths = [index for index in range(len(truths)) if index not in used_truths]
+    for truth_index in unmatched_truths:
+        truth = truths[truth_index]
+        pair = _pair_base(None, truth)
+        pair.update(prediction_index=None, ground_truth_index=truth_index, subject_iou=None, object_iou=None,
+                    match_score=None, subject_class_correct=None, object_class_correct=None, predicate_correct=None,
+                    class_correct=None, status="FP", rejection_reason="unmatched_ground_truth", sentence_eligible=0,
+                    sentence_skip_reason="unmatched_ground_truth", bleu=None, meteor=None)
+        pairs.append(pair)
+    fp = len(predictions) - tp + len(unmatched_truths)
     semantic = [pair for pair in pairs if pair["sentence_eligible"]]
-    subject_values = [pair["subject_iou"] for pair in evaluated]
-    object_values = [pair["object_iou"] for pair in evaluated]
+    matching_triplet_pairs = [
+        pair for pair in pairs
+        if pair["subject_iou"] is not None and pair["object_iou"] is not None
+    ]
     precision = tp / (tp + fp) if tp + fp else 0.0
-    recall = tp / (tp + fn) if tp + fn else 0.0
+    recall = tp / len(truths) if truths else 0.0
     class_values = [pair["class_correct"] for pair in pairs if pair["class_correct"] is not None]
     return {"iou_threshold": iou_threshold, "pairs": pairs,
-            "counts": {"predictions": len(predictions), "ground_truths": len(truths), "tp": tp, "fp": fp, "fn": fn,
+            "counts": {"predictions": len(predictions), "ground_truths": len(truths), "tp": tp, "fp": fp,
                        "classification_errors": len(class_values) - sum(class_values)},
             "metrics": {"precision": precision, "recall": recall, "f1": 2 * precision * recall / (precision + recall) if precision + recall else 0.0,
                         "class_accuracy": sum(class_values) / len(class_values) if class_values else 0.0,
-                        "mean_subject_iou": sum(subject_values) / len(subject_values) if subject_values else 0.0,
-                        "mean_object_iou": sum(object_values) / len(object_values) if object_values else 0.0},
+                        # A GT image has one annotated interaction. Keep the
+                        # selected same-triplet pair's IoUs even below threshold.
+                        "subject_iou": matching_triplet_pairs[0]["subject_iou"] if matching_triplet_pairs else None,
+                        "object_iou": matching_triplet_pairs[0]["object_iou"] if matching_triplet_pairs else None},
             "sentence_summary": {"eligible_pairs": len(semantic), "evaluated_pairs": len(semantic),
                                   "mean_bleu": sum(pair["bleu"] for pair in semantic) / len(semantic) if semantic else None,
                                   "mean_meteor": sum(pair["meteor"] for pair in semantic) / len(semantic) if semantic else None}}
@@ -333,6 +336,15 @@ def evaluate_batch(*, batch_id: str, user_database_path: Path = DEFAULT_USER_DAT
         for run in runs:
             image_id = _text(run["image_id"])
             try:
+                if reuse_existing_image_evaluation(
+                    evaluation_database_path,
+                    evaluation_run_id=run_id,
+                    batch_id=batch_id,
+                    image_id=image_id,
+                    dataset="HICO-DET",
+                ):
+                    print(f"Reused existing image metrics: {image_id}")
+                    continue
                 if image_id not in ground_truth:
                     raise ValueError(f"No HICO-DET ground truth found for image {image_id}.")
                 payload = json.loads(run["annotation_result"])

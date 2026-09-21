@@ -25,6 +25,11 @@ def init_evaluation_database(database_path: Path) -> None:
         connection.execute("PRAGMA foreign_keys = OFF")
         _migrate_legacy_schema(connection)
         _create_evaluation_tables(connection)
+        _migrate_hicodet_metric_columns(connection)
+        _migrate_result_fn_columns(connection)
+        _migrate_hicodet_result_iou_columns(connection)
+        _migrate_batch_aggregate_metric_columns(connection)
+        _reorder_batch_metric_columns(connection)
         _add_missing_columns(connection, "coco_results", {
             "precision": "REAL NOT NULL DEFAULT 0",
             "recall": "REAL NOT NULL DEFAULT 0",
@@ -50,39 +55,23 @@ def init_evaluation_database(database_path: Path) -> None:
                     ELSE 0.0
                 END,
                 recall = CASE
-                    WHEN tp + fn > 0 THEN CAST(tp AS REAL) / (tp + fn)
-                    ELSE 0.0
-                END,
-                f1 = CASE
-                    WHEN 2 * tp + fp + fn > 0
-                    THEN CAST(2 * tp AS REAL) / (2 * tp + fp + fn)
+                    WHEN num_ground_truths > 0
+                    THEN CAST(tp AS REAL) / num_ground_truths
                     ELSE 0.0
                 END
             """
         )
         connection.execute(
             """
-            UPDATE coco_batch_metrics
-            SET mean_precision = (
-                    SELECT AVG(result.precision)
-                    FROM coco_results AS result
-                    WHERE result.evaluation_run_id = coco_batch_metrics.evaluation_run_id
-                      AND result.batch_id = coco_batch_metrics.batch_id
-                ),
-                mean_recall = (
-                    SELECT AVG(result.recall)
-                    FROM coco_results AS result
-                    WHERE result.evaluation_run_id = coco_batch_metrics.evaluation_run_id
-                      AND result.batch_id = coco_batch_metrics.batch_id
-                ),
-                mean_f1 = (
-                    SELECT AVG(result.f1)
-                    FROM coco_results AS result
-                    WHERE result.evaluation_run_id = coco_batch_metrics.evaluation_run_id
-                      AND result.batch_id = coco_batch_metrics.batch_id
-                )
+            UPDATE coco_results
+            SET f1 = CASE
+                    WHEN precision + recall > 0
+                    THEN 2 * precision * recall / (precision + recall)
+                    ELSE 0.0
+                END
             """
         )
+        _recalculate_stored_batch_metric_aggregates(connection)
         connection.execute(
             "CREATE INDEX IF NOT EXISTS idx_evaluation_runs_image_id "
             "ON evaluation_runs(image_id)"
@@ -155,7 +144,6 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             num_ground_truths INTEGER NOT NULL,
             tp INTEGER NOT NULL,
             fp INTEGER NOT NULL,
-            fn INTEGER NOT NULL,
             precision REAL NOT NULL DEFAULT 0,
             recall REAL NOT NULL DEFAULT 0,
             f1 REAL NOT NULL DEFAULT 0,
@@ -218,14 +206,11 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             num_ground_truths INTEGER NOT NULL,
             tp INTEGER NOT NULL,
             fp INTEGER NOT NULL,
-            fn INTEGER NOT NULL,
             precision REAL NOT NULL DEFAULT 0,
             recall REAL NOT NULL DEFAULT 0,
             f1 REAL NOT NULL DEFAULT 0,
-            classification_errors INTEGER NOT NULL,
-            class_accuracy REAL NOT NULL,
-            mean_subject_iou REAL NOT NULL,
-            mean_object_iou REAL NOT NULL,
+            subject_iou REAL,
+            object_iou REAL,
             iou_threshold REAL NOT NULL,
             sentence_eligible_pairs INTEGER NOT NULL DEFAULT 0,
             sentence_evaluated_pairs INTEGER NOT NULL DEFAULT 0,
@@ -254,6 +239,9 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             mean_precision REAL,
             mean_recall REAL,
             mean_f1 REAL,
+            batch_precision REAL,
+            batch_recall REAL,
+            batch_f1 REAL,
             iou_evaluated_pairs INTEGER NOT NULL,
             mean_iou REAL NOT NULL,
             class_correct_pairs INTEGER NOT NULL,
@@ -327,13 +315,14 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             mean_precision REAL,
             mean_recall REAL,
             mean_f1 REAL,
+            batch_precision REAL,
+            batch_recall REAL,
+            batch_f1 REAL,
             iou_evaluated_pairs INTEGER NOT NULL,
             mean_subj_iou REAL NOT NULL,
             mean_obj_iou REAL NOT NULL,
             class_correct_pairs INTEGER NOT NULL,
             class_evaluated_pairs INTEGER NOT NULL,
-            total_classification_errors INTEGER NOT NULL,
-            class_accuracy REAL NOT NULL,
             sentence_eligible_pairs INTEGER NOT NULL,
             sentence_evaluated_pairs INTEGER NOT NULL,
             mean_bleu REAL,
@@ -354,6 +343,219 @@ def _table_exists(connection: sqlite3.Connection, table: str) -> bool:
     return connection.execute(
         "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)
     ).fetchone() is not None
+
+
+def _migrate_hicodet_metric_columns(connection: sqlite3.Connection) -> None:
+    """Remove retired HICO classification aggregate columns from existing DBs."""
+    for table, columns in {
+        "hicodet_results": ("classification_errors", "class_accuracy"),
+        "hicodet_batch_metrics": ("total_classification_errors", "class_accuracy"),
+    }.items():
+        existing = _table_columns(connection, table)
+        for column in columns:
+            if column in existing:
+                connection.execute(f"ALTER TABLE {table} DROP COLUMN {column}")
+                existing.remove(column)
+
+
+def _migrate_result_fn_columns(connection: sqlite3.Connection) -> None:
+    """Remove retired per-image FN columns from existing result tables."""
+    for table in ("coco_results", "hicodet_results"):
+        if "fn" in _table_columns(connection, table):
+            connection.execute(f"ALTER TABLE {table} DROP COLUMN fn")
+
+
+def _migrate_batch_aggregate_metric_columns(connection: sqlite3.Connection) -> None:
+    """Add whole-batch precision, recall, and F1 columns to existing databases."""
+    for table in ("coco_batch_metrics", "hicodet_batch_metrics"):
+        _add_missing_columns(connection, table, {
+            "batch_precision": "REAL",
+            "batch_recall": "REAL",
+            "batch_f1": "REAL",
+        })
+
+
+def _reorder_batch_metric_columns(connection: sqlite3.Connection) -> None:
+    """Keep batch metrics beside their corresponding per-image means."""
+    table_columns = {
+        "coco_batch_metrics": [
+            "evaluation_run_id", "batch_id", "total_images", "successful_images",
+            "failed_images", "total_predictions", "total_ground_truths", "total_tp",
+            "total_fp", "total_fn", "mean_precision", "mean_recall", "mean_f1",
+            "batch_precision", "batch_recall", "batch_f1", "iou_evaluated_pairs",
+            "mean_iou", "class_correct_pairs", "class_evaluated_pairs",
+            "total_classification_errors", "class_accuracy", "sentence_eligible_pairs",
+            "sentence_evaluated_pairs", "mean_bleu", "mean_meteor", "calculated_at",
+        ],
+        "hicodet_batch_metrics": [
+            "evaluation_run_id", "batch_id", "total_images", "successful_images",
+            "failed_images", "total_predictions", "total_gt", "total_tp", "total_fp",
+            "total_fn", "mean_precision", "mean_recall", "mean_f1", "batch_precision",
+            "batch_recall", "batch_f1", "iou_evaluated_pairs", "mean_subj_iou",
+            "mean_obj_iou", "class_correct_pairs", "class_evaluated_pairs",
+            "sentence_eligible_pairs", "sentence_evaluated_pairs", "mean_bleu",
+            "mean_meteor", "calculated_at",
+        ],
+    }
+    for table, columns in table_columns.items():
+        current_columns = [row[1] for row in connection.execute(f"PRAGMA table_info({table})")]
+        if current_columns == columns:
+            continue
+
+        legacy_table = f"{table}_reorder_legacy"
+        if _table_exists(connection, legacy_table):
+            raise RuntimeError(f"Cannot reorder {table} while {legacy_table} exists.")
+        connection.execute(f"ALTER TABLE {table} RENAME TO {legacy_table}")
+        _create_evaluation_tables(connection)
+        column_list = ", ".join(columns)
+        connection.execute(
+            f"INSERT INTO {table} ({column_list}) SELECT {column_list} FROM {legacy_table}"
+        )
+        connection.execute(f"DROP TABLE {legacy_table}")
+
+
+def _recalculate_stored_batch_metric_aggregates(connection: sqlite3.Connection) -> None:
+    """Bring persisted batch metrics in line with the current aggregation formulas."""
+    connection.execute(
+        """
+        UPDATE coco_batch_metrics AS batch
+        SET mean_precision = (
+                SELECT AVG(result.precision)
+                FROM coco_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            mean_recall = (
+                SELECT AVG(result.recall)
+                FROM coco_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            mean_f1 = (
+                SELECT AVG(result.f1)
+                FROM coco_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            batch_precision = CASE
+                WHEN batch.total_tp + batch.total_fp > 0
+                THEN CAST(batch.total_tp AS REAL) / (batch.total_tp + batch.total_fp)
+                ELSE NULL
+            END,
+            batch_recall = CASE
+                WHEN batch.total_ground_truths > 0
+                THEN CAST(batch.total_tp AS REAL) / batch.total_ground_truths
+                ELSE NULL
+            END,
+            batch_f1 = CASE
+                WHEN batch.total_tp + batch.total_fp > 0
+                 AND batch.total_ground_truths > 0
+                THEN CAST(2 * batch.total_tp AS REAL)
+                    / (batch.total_tp + batch.total_fp + batch.total_ground_truths)
+                ELSE NULL
+            END
+        """
+    )
+    connection.execute(
+        """
+        UPDATE hicodet_batch_metrics AS batch
+        SET mean_precision = (
+                SELECT AVG(result.precision)
+                FROM hicodet_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            mean_recall = (
+                SELECT AVG(result.recall)
+                FROM hicodet_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            mean_f1 = (
+                SELECT AVG(result.f1)
+                FROM hicodet_results AS result
+                WHERE result.evaluation_run_id = batch.evaluation_run_id
+                  AND result.batch_id = batch.batch_id
+            ),
+            batch_precision = CASE
+                WHEN batch.total_tp + batch.total_fp > 0
+                THEN CAST(batch.total_tp AS REAL) / (batch.total_tp + batch.total_fp)
+                ELSE NULL
+            END,
+            batch_recall = CASE
+                WHEN batch.total_gt > 0
+                THEN CAST(batch.total_tp AS REAL) / batch.total_gt
+                ELSE NULL
+            END,
+            batch_f1 = CASE
+                WHEN batch.total_tp + batch.total_fp > 0
+                 AND batch.total_gt > 0
+                THEN CAST(2 * batch.total_tp AS REAL)
+                    / (batch.total_tp + batch.total_fp + batch.total_gt)
+                ELSE NULL
+            END
+        """
+    )
+
+
+def _migrate_hicodet_result_iou_columns(connection: sqlite3.Connection) -> None:
+    """Replace legacy per-image mean IoU columns with nullable pair IoUs."""
+    columns = _table_columns(connection, "hicodet_results")
+    needs_rebuild = (
+        "mean_subject_iou" in columns
+        or "mean_object_iou" in columns
+        or "subject_iou" not in columns
+        or "object_iou" not in columns
+        or _column_is_not_null(connection, "hicodet_results", "subject_iou")
+        or _column_is_not_null(connection, "hicodet_results", "object_iou")
+    )
+    if not needs_rebuild:
+        return
+    legacy = "hicodet_results_iou_legacy"
+    if _table_exists(connection, legacy):
+        raise RuntimeError(f"Cannot migrate HICO results while {legacy} exists.")
+    connection.execute(f"ALTER TABLE hicodet_results RENAME TO {legacy}")
+    _create_evaluation_tables(connection)
+    connection.execute(
+        f"""
+        INSERT INTO hicodet_results
+            (evaluation_run_id, batch_id, image_id, num_predictions,
+             num_ground_truths, tp, fp, precision, recall, f1,
+             subject_iou, object_iou, iou_threshold,
+             sentence_eligible_pairs, sentence_evaluated_pairs,
+             mean_bleu, mean_meteor, calculated_at)
+        SELECT evaluation_run_id, batch_id, image_id, num_predictions,
+               num_ground_truths, tp, fp, precision, recall, f1,
+               NULL, NULL, iou_threshold,
+               sentence_eligible_pairs, sentence_evaluated_pairs,
+               mean_bleu, mean_meteor, calculated_at
+        FROM {legacy}
+        """
+    )
+    connection.execute(
+        """
+        UPDATE hicodet_results AS result
+        SET subject_iou = (
+                SELECT pair.subject_iou
+                FROM hicodet_pairs AS pair
+                WHERE pair.evaluation_run_id = result.evaluation_run_id
+                  AND pair.image_id = result.image_id
+                  AND pair.subject_iou IS NOT NULL
+                ORDER BY pair.pair_id
+                LIMIT 1
+            ),
+            object_iou = (
+                SELECT pair.object_iou
+                FROM hicodet_pairs AS pair
+                WHERE pair.evaluation_run_id = result.evaluation_run_id
+                  AND pair.image_id = result.image_id
+                  AND pair.object_iou IS NOT NULL
+                ORDER BY pair.pair_id
+                LIMIT 1
+            )
+        """
+    )
+    connection.execute(f"DROP TABLE {legacy}")
 
 
 def _column_is_not_null(
@@ -462,19 +664,20 @@ def _migrate_legacy_schema(connection: sqlite3.Connection) -> None:
                 f"""
                 INSERT INTO coco_results
                     (evaluation_run_id, batch_id, image_id, num_predictions,
-                     num_ground_truths, tp, fp, fn, precision, recall, f1,
+                     num_ground_truths, tp, fp, precision, recall, f1,
                      classification_errors,
                      mean_iou, class_accuracy, iou_threshold, iou_weight,
                      class_weight, l2_weight, sentence_eligible_pairs,
                      sentence_evaluated_pairs, mean_bleu, mean_meteor)
                 SELECT evaluation_run_id, {result_batch_expression}, image_id,
-                       num_predictions, num_ground_truths, tp, fp, fn,
+                       num_predictions, num_ground_truths, tp, fp,
                        CASE WHEN tp + fp > 0
                             THEN CAST(tp AS REAL) / (tp + fp) ELSE 0.0 END,
-                       CASE WHEN tp + fn > 0
-                            THEN CAST(tp AS REAL) / (tp + fn) ELSE 0.0 END,
-                       CASE WHEN 2 * tp + fp + fn > 0
-                            THEN CAST(2 * tp AS REAL) / (2 * tp + fp + fn)
+                       CASE WHEN num_ground_truths > 0
+                            THEN CAST(tp AS REAL) / num_ground_truths ELSE 0.0 END,
+                       CASE WHEN tp > 0 AND num_ground_truths > 0
+                            THEN CAST(2 * tp AS REAL) /
+                                 (num_ground_truths + tp + fp)
                             ELSE 0.0 END,
                        classification_errors, mean_iou, class_accuracy,
                        iou_threshold, iou_weight, class_weight, l2_weight,
@@ -604,6 +807,110 @@ def _precision_recall_f1(tp: int, fp: int, fn: int) -> tuple[float, float, float
     return precision, recall, f1
 
 
+def _batch_metrics(
+    total_tp: int, total_fp: int, total_ground_truths: int
+) -> tuple[float | None, float | None, float | None]:
+    batch_precision = (
+        total_tp / (total_tp + total_fp)
+        if total_tp + total_fp > 0
+        else None
+    )
+    batch_recall = (
+        total_tp / total_ground_truths
+        if total_ground_truths > 0
+        else None
+    )
+    batch_f1 = (
+        2 * batch_precision * batch_recall / (batch_precision + batch_recall)
+        if batch_precision is not None
+        and batch_recall is not None
+        and batch_precision + batch_recall > 0
+        else None
+    )
+    return batch_precision, batch_recall, batch_f1
+
+
+def reuse_existing_image_evaluation(
+    database_path: Path,
+    *,
+    evaluation_run_id: int,
+    batch_id: str,
+    image_id: str,
+    dataset: str,
+) -> bool:
+    """Copy the newest completed image evaluation into a batch run if available."""
+    table = "coco_results" if dataset == "COCO" else "hicodet_results"
+    pairs_table = "coco_pairs" if dataset == "COCO" else "hicodet_pairs"
+    task_types = (
+        ("object_detection", "object_detection_batch")
+        if dataset == "COCO"
+        else ("hoi_detection", "hoi_detection_batch")
+    )
+    init_evaluation_database(database_path)
+    with closing(_connection(database_path)) as connection:
+        source = connection.execute(
+            f"""
+            SELECT result.evaluation_run_id
+            FROM {table} AS result
+            JOIN evaluation_runs AS run
+              ON run.evaluation_run_id = result.evaluation_run_id
+            WHERE result.image_id = ?
+              AND run.dataset = ?
+                            AND run.task_type IN (?, ?)
+                            AND run.source_batch_id = ?
+              AND run.status = 'completed'
+            ORDER BY run.evaluated_at DESC, result.evaluation_run_id DESC
+            LIMIT 1
+            """,
+            (image_id, dataset, *task_types, batch_id),
+        ).fetchone()
+        if source is None:
+            return False
+
+        source_run_id = source["evaluation_run_id"]
+        result_columns = [
+            row[1] for row in connection.execute(f"PRAGMA table_info({table})")
+        ]
+        result_values = connection.execute(
+            f"SELECT * FROM {table} WHERE evaluation_run_id = ? AND image_id = ?",
+            (source_run_id, image_id),
+        ).fetchone()
+        if result_values is None:
+            return False
+        result_data = dict(result_values)
+        result_data.update(evaluation_run_id=evaluation_run_id, batch_id=batch_id)
+        columns_sql = ", ".join(result_columns)
+        placeholders = ", ".join("?" for _ in result_columns)
+        connection.execute(
+            f"INSERT INTO {table} ({columns_sql}) VALUES ({placeholders})",
+            [result_data[column] for column in result_columns],
+        )
+
+        pair_columns = [
+            row[1]
+            for row in connection.execute(f"PRAGMA table_info({pairs_table})")
+            if row[1] != "pair_id"
+        ]
+        pair_rows = connection.execute(
+            f"SELECT * FROM {pairs_table} WHERE evaluation_run_id = ? AND image_id = ?",
+            (source_run_id, image_id),
+        ).fetchall()
+        if pair_rows:
+            pair_columns_sql = ", ".join(pair_columns)
+            pair_placeholders = ", ".join("?" for _ in pair_columns)
+            copied_pairs = []
+            for pair in pair_rows:
+                pair_data = dict(pair)
+                pair_data.update(evaluation_run_id=evaluation_run_id, batch_id=batch_id)
+                copied_pairs.append([pair_data[column] for column in pair_columns])
+            connection.executemany(
+                f"INSERT INTO {pairs_table} ({pair_columns_sql}) VALUES ({pair_placeholders})",
+                copied_pairs,
+            )
+        connection.commit()
+        return True
+
+
 def save_coco_evaluation(
     database_path: Path,
     *,
@@ -637,9 +944,11 @@ def save_coco_evaluation(
         if assigned_pairs
         else 0.0
     )
-    precision, recall, f1 = _precision_recall_f1(
-        counts["tp"], counts["fp"], counts["fn"]
-    )
+    # The evaluator defines recall as TP / total ground truths. Do not
+    # recompute it from the persisted FN field, which is intentionally zero.
+    precision = float(result["metrics"]["precision"])
+    recall = float(result["metrics"]["recall"])
+    f1 = float(result["metrics"]["f1"])
 
     with closing(_connection(database_path)) as connection:
         if evaluation_run_id is None:
@@ -681,11 +990,11 @@ def save_coco_evaluation(
             INSERT INTO coco_results
                 (evaluation_run_id, batch_id, image_id,
                  num_predictions, num_ground_truths,
-                 tp, fp, fn, precision, recall, f1,
+                 tp, fp, precision, recall, f1,
                  classification_errors, mean_iou, class_accuracy,
                  iou_threshold, iou_weight, class_weight, l2_weight,
                  sentence_eligible_pairs, sentence_evaluated_pairs, mean_bleu, mean_meteor)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 evaluation_run_id,
@@ -695,7 +1004,6 @@ def save_coco_evaluation(
                 counts["ground_truths"],
                 counts["tp"],
                 counts["fp"],
-                counts["fn"],
                 precision,
                 recall,
                 f1,
@@ -785,7 +1093,7 @@ def save_coco_evaluation(
                     None,
                     None,
                     None,
-                    "FN",
+                    "FP",
                     "unmatched_ground_truth",
                     None, None, None, _json_sentences(truth.get("sentences")), None, None,
                 )
@@ -899,17 +1207,15 @@ def save_hicodet_evaluation(
             """
             INSERT INTO hicodet_results
                 (evaluation_run_id, batch_id, image_id, num_predictions,
-                 num_ground_truths, tp, fp, fn, precision, recall, f1,
-                 classification_errors, class_accuracy, mean_subject_iou,
-                 mean_object_iou, iou_threshold, sentence_eligible_pairs,
+                 num_ground_truths, tp, fp, precision, recall, f1,
+                 subject_iou, object_iou, iou_threshold, sentence_eligible_pairs,
                  sentence_evaluated_pairs, mean_bleu, mean_meteor, calculated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (evaluation_run_id, batch_id, image_id, counts["predictions"],
-             counts["ground_truths"], counts["tp"], counts["fp"], counts["fn"],
+             counts["ground_truths"], counts["tp"], counts["fp"],
              metrics["precision"], metrics["recall"], metrics["f1"],
-             counts["classification_errors"], metrics["class_accuracy"],
-             metrics["mean_subject_iou"], metrics["mean_object_iou"],
+             metrics["subject_iou"], metrics["object_iou"],
              result["iou_threshold"], sentence["eligible_pairs"],
              sentence["evaluated_pairs"], sentence["mean_bleu"],
              sentence["mean_meteor"], calculated_at),
@@ -970,16 +1276,26 @@ def calculate_hicodet_batch_metrics(
         subject_ious = [float(row["subject_iou"]) for row in pairs if row["subject_iou"] is not None]
         object_ious = [float(row["object_iou"]) for row in pairs if row["object_iou"] is not None]
         class_values = [int(row["class_correct"]) for row in pairs if row["class_correct"] is not None]
+        class_correct_pairs = sum(class_values)
+        class_evaluated_pairs = sum(row["num_predictions"] for row in images)
+        total_predictions = sum(row["num_predictions"] for row in images)
+        total_gt = sum(row["num_ground_truths"] for row in images)
+        total_tp = sum(row["tp"] for row in images)
+        total_fp = sum(row["fp"] for row in images)
+        batch_precision, batch_recall, batch_f1 = _batch_metrics(
+            total_tp, total_fp, total_gt
+        )
         values = (
             evaluation_run_id, normalized_batch_id, int(batch["total_images"]), successful,
             max(int(batch["total_images"]) - successful, 0),
-            sum(row["num_predictions"] for row in images), sum(row["num_ground_truths"] for row in images),
-            sum(row["tp"] for row in images), sum(row["fp"] for row in images), sum(row["fn"] for row in images),
-            _mean_scored_image_metric(images, "precision"), _mean_scored_image_metric(images, "recall"), _mean_scored_image_metric(images, "f1"),
+            total_predictions, total_gt, total_tp, total_fp, 0,
+            _mean_scored_image_metric(images, "precision"),
+            _mean_scored_image_metric(images, "recall"),
+            _mean_scored_image_metric(images, "f1"),
+            batch_precision, batch_recall, batch_f1,
             len(subject_ious), sum(subject_ious) / len(subject_ious) if subject_ious else 0.0,
             sum(object_ious) / len(object_ious) if object_ious else 0.0,
-            sum(class_values), len(class_values), len(class_values) - sum(class_values),
-            sum(class_values) / len(class_values) if class_values else 0.0,
+            class_correct_pairs, class_evaluated_pairs,
             sum(row["sentence_eligible_pairs"] for row in images), sum(row["sentence_evaluated_pairs"] for row in images),
             _weighted_metric_mean(images, "mean_bleu", "sentence_evaluated_pairs"),
             _weighted_metric_mean(images, "mean_meteor", "sentence_evaluated_pairs"), datetime.now(timezone.utc).isoformat(),
@@ -988,20 +1304,22 @@ def calculate_hicodet_batch_metrics(
             """INSERT INTO hicodet_batch_metrics
                 (evaluation_run_id, batch_id, total_images, successful_images, failed_images,
                  total_predictions, total_gt, total_tp, total_fp, total_fn, mean_precision,
-                 mean_recall, mean_f1, iou_evaluated_pairs, mean_subj_iou, mean_obj_iou,
-                 class_correct_pairs, class_evaluated_pairs, total_classification_errors,
-                 class_accuracy, sentence_eligible_pairs, sentence_evaluated_pairs, mean_bleu,
+                 mean_recall, mean_f1, batch_precision, batch_recall, batch_f1,
+                 iou_evaluated_pairs, mean_subj_iou, mean_obj_iou,
+                 class_correct_pairs, class_evaluated_pairs, sentence_eligible_pairs,
+                 sentence_evaluated_pairs, mean_bleu,
                  mean_meteor, calculated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(evaluation_run_id) DO UPDATE SET
               batch_id=excluded.batch_id, total_images=excluded.total_images, successful_images=excluded.successful_images,
               failed_images=excluded.failed_images, total_predictions=excluded.total_predictions, total_gt=excluded.total_gt,
               total_tp=excluded.total_tp, total_fp=excluded.total_fp, total_fn=excluded.total_fn,
               mean_precision=excluded.mean_precision, mean_recall=excluded.mean_recall, mean_f1=excluded.mean_f1,
+              batch_precision=excluded.batch_precision, batch_recall=excluded.batch_recall, batch_f1=excluded.batch_f1,
               iou_evaluated_pairs=excluded.iou_evaluated_pairs, mean_subj_iou=excluded.mean_subj_iou,
               mean_obj_iou=excluded.mean_obj_iou, class_correct_pairs=excluded.class_correct_pairs,
-              class_evaluated_pairs=excluded.class_evaluated_pairs, total_classification_errors=excluded.total_classification_errors,
-              class_accuracy=excluded.class_accuracy, sentence_eligible_pairs=excluded.sentence_eligible_pairs,
+              class_evaluated_pairs=excluded.class_evaluated_pairs,
+              sentence_eligible_pairs=excluded.sentence_eligible_pairs,
               sentence_evaluated_pairs=excluded.sentence_evaluated_pairs, mean_bleu=excluded.mean_bleu,
               mean_meteor=excluded.mean_meteor, calculated_at=excluded.calculated_at
             """, values)
@@ -1079,10 +1397,13 @@ def calculate_coco_batch_metrics(
         total_ground_truths = sum(row["num_ground_truths"] for row in image_results)
         total_tp = sum(row["tp"] for row in image_results)
         total_fp = sum(row["fp"] for row in image_results)
-        total_fn = sum(row["fn"] for row in image_results)
+        total_fn = 0
         mean_precision = _mean_scored_image_metric(image_results, "precision")
         mean_recall = _mean_scored_image_metric(image_results, "recall")
         mean_f1 = _mean_scored_image_metric(image_results, "f1")
+        batch_precision, batch_recall, batch_f1 = _batch_metrics(
+            total_tp, total_fp, total_ground_truths
+        )
         total_classification_errors = sum(
             row["classification_errors"] for row in image_results
         )
@@ -1140,6 +1461,9 @@ def calculate_coco_batch_metrics(
             mean_precision,
             mean_recall,
             mean_f1,
+            batch_precision,
+            batch_recall,
+            batch_f1,
             iou_evaluated_pairs,
             mean_iou,
             class_correct_pairs,
@@ -1158,12 +1482,13 @@ def calculate_coco_batch_metrics(
                 (evaluation_run_id, batch_id, total_images, successful_images,
                  failed_images, total_predictions, total_ground_truths,
                  total_tp, total_fp, total_fn, mean_precision, mean_recall,
-                 mean_f1, iou_evaluated_pairs, mean_iou,
+                 mean_f1, batch_precision, batch_recall, batch_f1,
+                 iou_evaluated_pairs, mean_iou,
                  class_correct_pairs, class_evaluated_pairs,
                  total_classification_errors, class_accuracy,
                  sentence_eligible_pairs, sentence_evaluated_pairs,
                  mean_bleu, mean_meteor, calculated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(evaluation_run_id) DO UPDATE SET
                 batch_id = excluded.batch_id,
                 total_images = excluded.total_images,
@@ -1177,6 +1502,9 @@ def calculate_coco_batch_metrics(
                 mean_precision = excluded.mean_precision,
                 mean_recall = excluded.mean_recall,
                 mean_f1 = excluded.mean_f1,
+                batch_precision = excluded.batch_precision,
+                batch_recall = excluded.batch_recall,
+                batch_f1 = excluded.batch_f1,
                 iou_evaluated_pairs = excluded.iou_evaluated_pairs,
                 mean_iou = excluded.mean_iou,
                 class_correct_pairs = excluded.class_correct_pairs,
