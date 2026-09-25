@@ -191,6 +191,75 @@ class AnnotationFormatTests(unittest.TestCase):
         self.assertFalse(validation["is_valid"])
         self.assertTrue(any("subject" in error or "object" in error or "predicate" in error for error in validation["errors"]))
 
+    def test_validator_accepts_valid_hicodet_hoi_labels(self) -> None:
+        normalized = {
+            "annotation_type": "hoi",
+            "caption": "A person is riding a motorcycle.",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "motorcycle",
+                    "predicate": "ride",
+                    "subject_bbox": [0.3, 0.1, 0.7, 0.8],
+                    "object_bbox": [0.1, 0.2, 0.9, 0.9],
+                    "category": "person ride motorcycle",
+                    "bounding_box": [0.1, 0.1, 0.9, 0.9],
+                    "sentences": ["A person is riding a motorcycle."],
+                }
+            ],
+        }
+
+        validation = validate_annotation(normalized)
+
+        self.assertTrue(validation["is_valid"], validation)
+        self.assertEqual(validation["errors"], [])
+
+    def test_validator_rejects_non_hicodet_predicate(self) -> None:
+        normalized = {
+            "annotation_type": "hoi",
+            "caption": "A person is traveling with a motorcycle.",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "motorcycle",
+                    "predicate": "travel",
+                    "subject_bbox": [0.3, 0.1, 0.7, 0.8],
+                    "object_bbox": [0.1, 0.2, 0.9, 0.9],
+                    "category": "person travel motorcycle",
+                    "bounding_box": [0.1, 0.1, 0.9, 0.9],
+                    "sentences": ["A person is traveling with a motorcycle."],
+                }
+            ],
+        }
+
+        validation = validate_annotation(normalized)
+
+        self.assertFalse(validation["is_valid"])
+        self.assertIn("annotations[1].predicate must be a canonical HICO-DET verb label.", validation["errors"])
+
+    def test_validator_rejects_invalid_hicodet_pair(self) -> None:
+        normalized = {
+            "annotation_type": "hoi",
+            "caption": "A person is riding a refrigerator.",
+            "annotations": [
+                {
+                    "subject": "person",
+                    "object": "refrigerator",
+                    "predicate": "ride",
+                    "subject_bbox": [0.3, 0.1, 0.7, 0.8],
+                    "object_bbox": [0.1, 0.2, 0.9, 0.9],
+                    "category": "person ride refrigerator",
+                    "bounding_box": [0.1, 0.1, 0.9, 0.9],
+                    "sentences": ["A person is riding a refrigerator."],
+                }
+            ],
+        }
+
+        validation = validate_annotation(normalized)
+
+        self.assertFalse(validation["is_valid"])
+        self.assertTrue(any("predicate-object pair" in error for error in validation["errors"]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,6 +2,14 @@
 
 from __future__ import annotations
 
+from app.evaluation.hicodet_registry import (
+    allowed_predicates_for_object,
+    is_hico_object,
+    is_hico_verb,
+    is_valid_hico_interaction,
+    valid_hico_interactions,
+)
+
 
 def validate_annotation(normalized_annotation: dict) -> dict:
     errors: list[str] = []
@@ -82,14 +90,40 @@ def validate_annotation(normalized_annotation: dict) -> dict:
         subject = annotation.get("subject")
         if not isinstance(subject, str) or not subject.strip():
             errors.append(f"annotations[{index}].subject must be a non-empty string.")
+        elif subject != "person":
+            errors.append(f"annotations[{index}].subject must be 'person' for HICO-DET HOI annotations.")
 
         object_name = annotation.get("object")
         if not isinstance(object_name, str) or not object_name.strip():
             errors.append(f"annotations[{index}].object must be a non-empty string.")
+        elif object_name == "person":
+            errors.append(f"annotations[{index}].object must not be 'person'; HICO-DET uses person as the subject.")
+        elif not is_hico_object(object_name):
+            errors.append(f"annotations[{index}].object must be a canonical HICO-DET object label.")
 
         predicate = annotation.get("predicate")
         if not isinstance(predicate, str) or not predicate.strip():
             errors.append(f"annotations[{index}].predicate must be a non-empty string.")
+        elif not is_hico_verb(predicate):
+            errors.append(f"annotations[{index}].predicate must be a canonical HICO-DET verb label.")
+
+        if (
+            isinstance(object_name, str)
+            and isinstance(predicate, str)
+            and object_name.strip()
+            and predicate.strip()
+            and object_name != "person"
+            and is_hico_object(object_name)
+            and is_hico_verb(predicate)
+            and valid_hico_interactions()
+            and not is_valid_hico_interaction(predicate, object_name)
+        ):
+            allowed = allowed_predicates_for_object(object_name)
+            hint = f" Allowed predicates for {object_name}: {', '.join(allowed)}." if allowed else ""
+            errors.append(
+                f"annotations[{index}] predicate-object pair is not in the local HICO-DET interaction registry."
+                f"{hint}"
+            )
 
         category = annotation.get("category")
         if not isinstance(category, str) or not category.strip():
