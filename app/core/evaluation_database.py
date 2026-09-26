@@ -29,6 +29,7 @@ def init_evaluation_database(database_path: Path) -> None:
         _migrate_result_fn_columns(connection)
         _migrate_hicodet_result_iou_columns(connection)
         _migrate_batch_aggregate_metric_columns(connection)
+        _migrate_hicodet_failure_breakdown_columns(connection)
         _reorder_batch_metric_columns(connection)
         _add_missing_columns(connection, "coco_results", {
             "precision": "REAL NOT NULL DEFAULT 0",
@@ -307,6 +308,8 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
             total_images INTEGER NOT NULL,
             successful_images INTEGER NOT NULL,
             failed_images INTEGER NOT NULL,
+            annotation_failed_images INTEGER NOT NULL DEFAULT 0,
+            evaluation_failed_images INTEGER NOT NULL DEFAULT 0,
             total_predictions INTEGER NOT NULL,
             total_gt INTEGER NOT NULL,
             total_tp INTEGER NOT NULL,
@@ -390,6 +393,14 @@ def _migrate_batch_aggregate_metric_columns(connection: sqlite3.Connection) -> N
         })
 
 
+def _migrate_hicodet_failure_breakdown_columns(connection: sqlite3.Connection) -> None:
+    """Split HICO batch failures into annotation and evaluation stages."""
+    _add_missing_columns(connection, "hicodet_batch_metrics", {
+        "annotation_failed_images": "INTEGER NOT NULL DEFAULT 0",
+        "evaluation_failed_images": "INTEGER NOT NULL DEFAULT 0",
+    })
+
+
 def _reorder_batch_metric_columns(connection: sqlite3.Connection) -> None:
     """Keep batch metrics beside their corresponding per-image means."""
     table_columns = {
@@ -404,8 +415,9 @@ def _reorder_batch_metric_columns(connection: sqlite3.Connection) -> None:
         ],
         "hicodet_batch_metrics": [
             "evaluation_run_id", "batch_id", "total_images", "successful_images",
-            "failed_images", "total_predictions", "total_gt", "total_tp", "total_fp",
-            "total_fn", "mean_precision", "mean_recall", "mean_f1", "batch_precision",
+            "failed_images", "annotation_failed_images", "evaluation_failed_images",
+            "total_predictions", "total_gt", "total_tp", "total_fp", "total_fn",
+            "mean_precision", "mean_recall", "mean_f1", "batch_precision",
             "batch_recall", "batch_f1", "iou_evaluated_pairs", "mean_subj_iou",
             "mean_obj_iou", "class_correct_pairs", "class_evaluated_pairs",
             "sentence_eligible_pairs", "sentence_evaluated_pairs", "mean_bleu",
@@ -1328,6 +1340,9 @@ def calculate_hicodet_batch_metrics(
         images = connection.execute("SELECT * FROM hicodet_results WHERE evaluation_run_id = ? AND batch_id = ?", (evaluation_run_id, normalized_batch_id)).fetchall()
         pairs = connection.execute("SELECT * FROM hicodet_pairs WHERE evaluation_run_id = ? AND batch_id = ?", (evaluation_run_id, normalized_batch_id)).fetchall()
         successful = len(images)
+        annotation_failed_images = int(batch["failed_images"])
+        evaluation_failed_images = max(int(batch["successful_images"]) - successful, 0)
+        failed_images = annotation_failed_images + evaluation_failed_images
         subject_ious = [float(row["subject_iou"]) for row in pairs if row["subject_iou"] is not None]
         object_ious = [float(row["object_iou"]) for row in pairs if row["object_iou"] is not None]
         class_values = [int(row["class_correct"]) for row in pairs if row["class_correct"] is not None]
@@ -1342,7 +1357,7 @@ def calculate_hicodet_batch_metrics(
         )
         values = (
             evaluation_run_id, normalized_batch_id, int(batch["total_images"]), successful,
-            max(int(batch["total_images"]) - successful, 0),
+            failed_images, annotation_failed_images, evaluation_failed_images,
             total_predictions, total_gt, total_tp, total_fp, 0,
             _mean_scored_image_metric(images, "precision"),
             _mean_scored_image_metric(images, "recall"),
@@ -1358,16 +1373,19 @@ def calculate_hicodet_batch_metrics(
         connection.execute(
             """INSERT INTO hicodet_batch_metrics
                 (evaluation_run_id, batch_id, total_images, successful_images, failed_images,
-                 total_predictions, total_gt, total_tp, total_fp, total_fn, mean_precision,
-                 mean_recall, mean_f1, batch_precision, batch_recall, batch_f1,
+                 annotation_failed_images, evaluation_failed_images, total_predictions, total_gt,
+                 total_tp, total_fp, total_fn, mean_precision, mean_recall, mean_f1,
+                 batch_precision, batch_recall, batch_f1,
                  iou_evaluated_pairs, mean_subj_iou, mean_obj_iou,
                  class_correct_pairs, class_evaluated_pairs, sentence_eligible_pairs,
                  sentence_evaluated_pairs, mean_bleu,
                  mean_meteor, calculated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(evaluation_run_id) DO UPDATE SET
               batch_id=excluded.batch_id, total_images=excluded.total_images, successful_images=excluded.successful_images,
-              failed_images=excluded.failed_images, total_predictions=excluded.total_predictions, total_gt=excluded.total_gt,
+              failed_images=excluded.failed_images, annotation_failed_images=excluded.annotation_failed_images,
+              evaluation_failed_images=excluded.evaluation_failed_images,
+              total_predictions=excluded.total_predictions, total_gt=excluded.total_gt,
               total_tp=excluded.total_tp, total_fp=excluded.total_fp, total_fn=excluded.total_fn,
               mean_precision=excluded.mean_precision, mean_recall=excluded.mean_recall, mean_f1=excluded.mean_f1,
               batch_precision=excluded.batch_precision, batch_recall=excluded.batch_recall, batch_f1=excluded.batch_f1,
