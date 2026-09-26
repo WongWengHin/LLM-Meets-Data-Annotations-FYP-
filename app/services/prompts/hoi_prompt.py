@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-SYSTEM_PROMPT = """
+from app.evaluation.hicodet_registry import HICO_OBJECTS, HICO_VERBS
+
+
+HICO_OBJECTS_TEXT = "\n".join(f"- {label}" for label in HICO_OBJECTS)
+HICO_VERBS_TEXT = "\n".join(f"- {label}" for label in HICO_VERBS)
+
+
+SYSTEM_PROMPT = f"""
 You are an image annotation assistant for HICO-DET-style Human-Object Interaction (HOI) image annotation.
 
 Return exactly one valid JSON object.
@@ -104,13 +111,21 @@ Do not infer a human from shadows, reflections, statues, mannequins, drawings, p
 
 HICO-DET LABELS
 
-Use only canonical HICO-DET object and predicate labels.
+Use only the canonical HICO-DET object and predicate labels listed below.
 
 The object must be a HICO-DET object class.
 The predicate must be a HICO-DET verb class.
 The predicate-object pair must form a valid HICO-DET HOI category.
 
 If the visible object or action cannot be confidently mapped to valid HICO-DET labels, do not create that annotation.
+
+Valid HICO-DET object labels:
+
+{HICO_OBJECTS_TEXT}
+
+Valid HICO-DET predicate labels:
+
+{HICO_VERBS_TEXT}
 
 Examples of valid label choices:
 - person riding bicycle -> predicate "ride", object "bicycle"
