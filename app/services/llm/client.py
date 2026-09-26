@@ -38,7 +38,8 @@ def request_image_annotation(
         f"model={llm_config.model}, "
         f"image={image_path.name}, "
         f"bytes={len(image_bytes)}, "
-        f"timeout={llm_config.timeout_seconds}s"
+        f"timeout={llm_config.timeout_seconds}s, "
+        f"reasoning_effort={llm_config.reasoning_effort or 'default'}"
     )
 
     # payload = {
@@ -145,6 +146,8 @@ def request_image_annotation(
         "stream": False,
         "temperature": 0,
     }
+    if llm_config.reasoning_effort:
+        payload["reasoning"] = {"effort": llm_config.reasoning_effort}
     ###
 
 

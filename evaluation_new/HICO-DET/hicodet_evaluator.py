@@ -12,6 +12,7 @@ import re
 import runpy
 import sqlite3
 import sys
+from json import JSONDecodeError
 from collections import Counter
 from contextlib import closing
 from pathlib import Path
@@ -27,6 +28,7 @@ from app.core.evaluation_database import (
     create_hicodet_image_evaluation_run,
     reuse_existing_image_evaluation,
     save_hicodet_evaluation,
+    save_hicodet_failure,
     set_evaluation_run_status,
 )
 
@@ -347,13 +349,38 @@ def evaluate_batch(*, batch_id: str, user_database_path: Path = DEFAULT_USER_DAT
                     continue
                 if image_id not in ground_truth:
                     raise ValueError(f"No HICO-DET ground truth found for image {image_id}.")
-                payload = json.loads(run["annotation_result"])
-                predictions = normalize_predictions(predictions_in(payload))
-                result = evaluate_image(predictions, ground_truth[image_id], iou_threshold=iou_threshold)
+                try:
+                    payload = json.loads(run["annotation_result"])
+                except JSONDecodeError as exc:
+                    raise HicodetEvaluationError("invalid_json", str(exc)) from exc
+                try:
+                    raw_predictions = predictions_in(payload)
+                except ValueError as exc:
+                    raise HicodetEvaluationError("missing_predictions", str(exc)) from exc
+                try:
+                    predictions = normalize_predictions(raw_predictions)
+                except ValueError as exc:
+                    raise HicodetEvaluationError("invalid_prediction", str(exc)) from exc
+                try:
+                    result = evaluate_image(predictions, ground_truth[image_id], iou_threshold=iou_threshold)
+                except Exception as exc:
+                    raise HicodetEvaluationError("evaluation", str(exc)) from exc
                 save_hicodet_evaluation(evaluation_database_path, evaluation_run_id=run_id, batch_id=batch_id, image_id=image_id, result=result)
             except Exception as exc:
                 # A failed source annotation deliberately has no hicodet_results row.
                 # The aggregate therefore counts it as failed and does not average it.
+                failure_stage = _failure_stage(exc)
+                try:
+                    save_hicodet_failure(
+                        evaluation_database_path,
+                        evaluation_run_id=run_id,
+                        batch_id=batch_id,
+                        image_id=image_id,
+                        failure_stage=failure_stage,
+                        failure_reason=str(exc),
+                    )
+                except Exception as failure_exc:
+                    print(f"Failed to record HICO-DET failure for image {image_id}: {failure_exc}", file=sys.stderr)
                 print(f"Failed to evaluate image {image_id}: {exc}", file=sys.stderr)
         metrics = calculate_hicodet_batch_metrics(evaluation_database_path, evaluation_run_id=run_id, batch_id=batch_id, user_database_path=user_database_path)
         set_evaluation_run_status(evaluation_database_path, evaluation_run_id=run_id, status="completed")
@@ -361,6 +388,23 @@ def evaluate_batch(*, batch_id: str, user_database_path: Path = DEFAULT_USER_DAT
     except Exception:
         set_evaluation_run_status(evaluation_database_path, evaluation_run_id=run_id, status="failed")
         raise
+
+
+class HicodetEvaluationError(ValueError):
+    def __init__(self, stage: str, reason: str) -> None:
+        super().__init__(reason)
+        self.stage = stage
+
+
+def _failure_stage(exc: Exception) -> str:
+    if isinstance(exc, HicodetEvaluationError):
+        return exc.stage
+    message = str(exc)
+    if "No HICO-DET ground truth found" in message:
+        return "missing_ground_truth"
+    if "SQLite" in message or isinstance(exc, sqlite3.Error):
+        return "database"
+    return "unknown"
 
 
 def evaluate_single_image(*, image_id: str, batch_id: str | None = None,

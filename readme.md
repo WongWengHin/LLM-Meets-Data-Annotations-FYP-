@@ -384,3 +384,9 @@ OPENAI_TIMEOUT_SECONDS=300
 OPENAI_TIMEOUT_SECONDS sets the maximum time allowed for an OpenAI API request before it times out.
 
 This setting provides a longer request timeout for complex multimodal annotation tasks.
+
+OPENAI_REASONING_EFFORT=high
+OPENAI_REASONING_EFFORT controls reasoning depth for GPT-5 and other reasoning-capable models.
+Supported values are none, minimal, low, medium, high, and xhigh when the selected provider/model supports them.
+
+For other providers, use the same provider prefix, such as BAI_REASONING_EFFORT=high.

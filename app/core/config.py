@@ -17,6 +17,7 @@ class LLMConfig:
     base_url: str
     model: str
     timeout_seconds: int
+    reasoning_effort: str = ""
 
 
 @dataclass(frozen=True)
@@ -166,6 +167,21 @@ def parse_env_bool(name: str, default: bool) -> bool:
     raise RuntimeError(f"Invalid boolean value for {name}: {raw_value}")
 
 
+def parse_reasoning_effort(name: str) -> str:
+    raw_value = os.environ.get(name, "").strip().lower()
+    if not raw_value:
+        return ""
+
+    allowed_values = {"none", "minimal", "low", "medium", "high", "xhigh"}
+    if raw_value not in allowed_values:
+        raise RuntimeError(
+            f"Invalid reasoning effort for {name}: {raw_value}. "
+            f"Expected one of: {', '.join(sorted(allowed_values))}."
+        )
+
+    return raw_value
+
+
 def resolve_llm_config() -> LLMConfig:
     provider = os.environ.get("LLM_PROVIDER", "").strip().upper()
 
@@ -174,6 +190,7 @@ def resolve_llm_config() -> LLMConfig:
         base_url = os.environ.get(f"{provider}_BASE_URL", "").strip()
         model = os.environ.get(f"{provider}_MODEL", "").strip()
         timeout_seconds = parse_env_int(f"{provider}_TIMEOUT_SECONDS", 300)
+        reasoning_effort = parse_reasoning_effort(f"{provider}_REASONING_EFFORT")
 
         if not api_key:
             raise RuntimeError(
@@ -186,6 +203,7 @@ def resolve_llm_config() -> LLMConfig:
             base_url=base_url or "https://api.b.ai/v1",
             model=model or "gpt-5.2",
             timeout_seconds=timeout_seconds,
+            reasoning_effort=reasoning_effort,
         )
 
     api_key = (
@@ -206,6 +224,7 @@ def resolve_llm_config() -> LLMConfig:
         or "gpt-5.2"
     ).strip()
     timeout_seconds = parse_env_int("ANNOTATION_TIMEOUT_SECONDS", 300)
+    reasoning_effort = parse_reasoning_effort("ANNOTATION_REASONING_EFFORT")
 
     return LLMConfig(
         provider="annotation",
@@ -213,6 +232,7 @@ def resolve_llm_config() -> LLMConfig:
         base_url=base_url,
         model=model,
         timeout_seconds=timeout_seconds,
+        reasoning_effort=reasoning_effort,
     )
 
 

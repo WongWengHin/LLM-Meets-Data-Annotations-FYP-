@@ -333,6 +333,21 @@ def _create_evaluation_tables(connection: sqlite3.Connection) -> None:
         )
         """
     )
+    connection.execute(
+        """
+        CREATE TABLE IF NOT EXISTS hicodet_failures (
+            failure_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            evaluation_run_id INTEGER NOT NULL,
+            batch_id TEXT,
+            image_id TEXT NOT NULL,
+            failure_stage TEXT NOT NULL,
+            failure_reason TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            FOREIGN KEY (evaluation_run_id)
+                REFERENCES evaluation_runs(evaluation_run_id) ON DELETE CASCADE
+        )
+        """
+    )
 
 
 def _table_columns(connection: sqlite3.Connection, table: str) -> set[str]:
@@ -1252,6 +1267,46 @@ def save_hicodet_evaluation(
                  predicted_sentences, ground_truth_sentences, bleu, meteor)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, rows,
+        )
+        connection.commit()
+
+
+def save_hicodet_failure(
+    database_path: Path,
+    *,
+    evaluation_run_id: int,
+    batch_id: str | None,
+    image_id: str,
+    failure_stage: str,
+    failure_reason: str,
+) -> None:
+    """Persist why a HICO-DET image did not produce a result row."""
+    init_evaluation_database(database_path)
+    with closing(_connection(database_path)) as connection:
+        run = connection.execute(
+            "SELECT source_batch_id, dataset, task_type, status FROM evaluation_runs "
+            "WHERE evaluation_run_id = ?", (evaluation_run_id,)
+        ).fetchone()
+        if run is None:
+            raise ValueError(f"Evaluation run not found: {evaluation_run_id}")
+        if (run["source_batch_id"], run["dataset"], run["status"]) != (
+            batch_id, "HICO-DET", "processing"
+        ) or run["task_type"] not in {"hoi_detection", "hoi_detection_batch"}:
+            raise ValueError("Evaluation run is not an active HICO-DET run for this batch ID.")
+        connection.execute(
+            """
+            INSERT INTO hicodet_failures
+                (evaluation_run_id, batch_id, image_id, failure_stage, failure_reason, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                evaluation_run_id,
+                batch_id,
+                image_id,
+                failure_stage,
+                failure_reason,
+                datetime.now(timezone.utc).isoformat(),
+            ),
         )
         connection.commit()
 
