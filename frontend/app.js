@@ -828,24 +828,6 @@ async function readAllDirectoryEntries(reader) {
   }
 }
 
-async function createBatchRun(totalImages) {
-  const response = await fetch("/api/batches", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      total_images: totalImages,
-      prompt_mode: activePromptMode
-    })
-  });
-
-  const payload = await response.json();
-  if (!response.ok) {
-    throw new Error(payload.error || `Batch creation failed with status ${response.status}`);
-  }
-
-  return payload;
-}
-
 async function uploadImage(file, allFiles = [file], batchId = null) {
   const formData = new FormData();
   formData.append("image", file, getUploadFilename(file, allFiles));
@@ -862,6 +844,26 @@ async function uploadImage(file, allFiles = [file], batchId = null) {
   const payload = await response.json();
   if (!response.ok) {
     throw new Error(payload.error || `Upload failed with status ${response.status}`);
+  }
+
+  return payload;
+}
+
+async function uploadImageBatch(files) {
+  const formData = new FormData();
+  for (const file of files) {
+    formData.append("images", file, getUploadFilename(file, files));
+  }
+  formData.append("prompt_mode", activePromptMode);
+
+  const response = await fetch("/api/batches/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload.error || `Batch upload failed with status ${response.status}`);
   }
 
   return payload;
@@ -971,43 +973,43 @@ analyzeButton.addEventListener("click", () => {
 });
 
 async function uploadSelectedImages() {
-  let lastResult = null;
-  let reviewRequired = false;
-  let failedUploads = 0;
-  const batch = selectedImageFiles.length > 1
-    ? await createBatchRun(selectedImageFiles.length)
-    : null;
-
-  for (const [index, file] of selectedImageFiles.entries()) {
-    setStatus(selectedImageFiles.length === 1 ? "Analyzing..." : `Analyzing ${index + 1}/${selectedImageFiles.length}`);
-
-    if (previewObjectUrl) {
-      URL.revokeObjectURL(previewObjectUrl);
-    }
-    previewObjectUrl = URL.createObjectURL(file);
-    uploadedFile = file;
-    uploadedImageName = file.name;
-    showPreviewState();
-    previewImage.src = previewObjectUrl;
-
-    try {
-      const uploadResult = await uploadImage(file, selectedImageFiles, batch?.batch_id);
-      lastResult = uploadResult;
-      reviewRequired = reviewRequired || Boolean(uploadResult?.agent?.review_required);
-      currentResult = uploadResult;
-      renderResult(currentResult);
-    } catch (error) {
-      failedUploads += 1;
-      console.error(`Upload failed for ${file.name}:`, error);
-    }
+  if (selectedImageFiles.length === 1) {
+    const uploadResult = await uploadImage(selectedImageFiles[0], selectedImageFiles);
+    currentResult = uploadResult;
+    renderResult(currentResult);
+    setStatus(uploadResult?.agent?.review_required ? "Review Required" : "Completed");
+    return;
   }
 
-  if (failedUploads === selectedImageFiles.length) {
-    throw new Error(`All ${failedUploads} uploads failed.`);
+  setStatus(`Uploading ${selectedImageFiles.length} Images...`);
+  const batchResult = await uploadImageBatch(selectedImageFiles);
+  const results = Array.isArray(batchResult?.results) ? batchResult.results : [];
+  const failures = Array.isArray(batchResult?.failures) ? batchResult.failures : [];
+
+  if (results.length === 0) {
+    throw new Error(`All ${failures.length || selectedImageFiles.length} uploads failed.`);
   }
-  if (failedUploads > 0) {
-    setStatus(`Completed with ${failedUploads} Failed`);
-  } else if (lastResult) {
+
+  const lastResult = results[results.length - 1];
+  const lastFile = selectedImageFiles.find((file) => getUploadFilename(file, selectedImageFiles) === lastResult.filename)
+    || selectedImageFiles[selectedImageFiles.length - 1];
+
+  if (previewObjectUrl) {
+    URL.revokeObjectURL(previewObjectUrl);
+  }
+  previewObjectUrl = URL.createObjectURL(lastFile);
+  uploadedFile = lastFile;
+  uploadedImageName = lastFile.name;
+  showPreviewState();
+  previewImage.src = previewObjectUrl;
+
+  currentResult = lastResult;
+  renderResult(currentResult);
+
+  const reviewRequired = results.some((result) => Boolean(result?.agent?.review_required));
+  if (failures.length > 0) {
+    setStatus(`Completed with ${failures.length} Failed`);
+  } else {
     setStatus(reviewRequired ? "Review Required" : "Completed");
   }
 }

@@ -88,6 +88,11 @@ class BatchRunResponse(BaseModel):
     completed_at: str | None = None
 
 
+class BatchImageFailure(BaseModel):
+    filename: str
+    error: str
+
+
 class UploadResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -105,6 +110,12 @@ class UploadResponse(BaseModel):
     annotations: list[FrontendObjectDetectionAnnotation | FrontendHoiAnnotation]
     agent: AgentSummary
     artifacts: ArtifactSummary
+
+
+class BatchUploadResponse(BaseModel):
+    batch: BatchRunResponse
+    results: list[UploadResponse]
+    failures: list[BatchImageFailure]
 
 
 class ErrorResponse(BaseModel):

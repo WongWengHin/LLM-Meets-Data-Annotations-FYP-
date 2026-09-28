@@ -13,8 +13,10 @@ from app.agent.orchestrator import AnnotationAgent
 from app.api.auth_dependencies import require_authenticated_user, require_google_user
 from app.api.responses import format_exception_message, format_exception_status
 from app.api.schemas import (
+    BatchImageFailure,
     BatchRunCreateRequest,
     BatchRunResponse,
+    BatchUploadResponse,
     ErrorResponse,
     HealthResponse,
     UploadResponse,
@@ -22,6 +24,7 @@ from app.api.schemas import (
 from app.core.config import AppConfig
 from app.core.user_database import (
     create_batch_run,
+    get_batch_run,
     get_user_image_by_id,
     get_user_results,
     record_batch_image_result,
@@ -31,6 +34,12 @@ from app.core.user_database import (
 )
 
 router = APIRouter()
+
+
+class _BatchUploadImageError(ValueError):
+    def __init__(self, filename: str, reason: str) -> None:
+        super().__init__(reason)
+        self.filename = filename
 
 
 @router.get(
@@ -105,56 +114,18 @@ async def upload_image(
         if not file_bytes:
             raise ValueError("No image file provided.")
 
-        destination = _unique_destination(config.paths.uploads_dir, filename)
-        destination.write_bytes(file_bytes)
-        print(f"Saved upload: {destination.name}")
-        print(f"[upload] Stored file at {destination}")
-        print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
         selected_prompt_mode = _normalize_prompt_mode(prompt_mode)
         normalized_batch_id = (batch_id or "").strip() or None
-        if normalized_batch_id is not None:
-            start_batch_run(
-                config.paths.user_db_path,
-                batch_id=normalized_batch_id,
-                prompt_mode=selected_prompt_mode,
-            )
-            active_batch_id = normalized_batch_id
-
-        agent = AnnotationAgent(config)
-        response_payload = agent.annotate_image(destination, prompt_mode=selected_prompt_mode)
-
-        agent_info = response_payload.get("agent", {})
-        annotation_completed = _is_completed_annotation(response_payload)
-        if annotation_completed:
-            owner_id = _owner_id(user)
-            # Images are served through an ownership-checked route, never from
-            # a publicly browsable upload directory.
-            response_payload["uploaded_image_url"] = f"/api/results/{destination.stem}/image"
-            save_user_image(
-                config.paths.user_db_path,
-                image_id=destination.stem,
-                owner_id=owner_id,
-                filename=destination.name,
-                file_data=file_bytes,
-                size_bytes=len(file_bytes),
-                batch_id=active_batch_id,
-            )
-            save_user_annotation_result(
-                config.paths.user_db_path,
-                image_id=destination.stem,
-                task_id=agent_info.get("task_id", ""),
-                task_status=agent_info.get("task_status", ""),
-                strategy=agent_info.get("strategy"),
-                prompt_mode=selected_prompt_mode,
-                attempt_count=agent_info.get("attempt_count", 0),
-                review_required=agent_info.get("review_required", False),
-                review_reason=agent_info.get("review_reason"),
-                annotation_result=response_payload,
-                batch_id=active_batch_id,
-            )
-
-        if active_batch_id is not None:
-            response_payload["batch_id"] = active_batch_id
+        response_payload, annotation_completed = _process_uploaded_image_bytes(
+            config=config,
+            user=user,
+            filename=filename,
+            file_bytes=file_bytes,
+            prompt_mode=selected_prompt_mode,
+            batch_id=normalized_batch_id,
+            start_batch=True,
+        )
+        active_batch_id = normalized_batch_id
         response = UploadResponse.model_validate(response_payload)
         if active_batch_id is not None:
             record_batch_image_result(
@@ -170,6 +141,75 @@ async def upload_image(
     except Exception as exc:
         _record_failed_batch_upload(config, active_batch_id, batch_result_recorded)
         return _json_error_response(exc, log_traceback=True)
+
+
+@router.post(
+    "/api/batches/upload",
+    response_model=BatchUploadResponse,
+    responses={400: {"model": ErrorResponse}, 500: {"model": ErrorResponse}},
+    summary="Upload multiple images as one backend-managed annotation batch",
+)
+async def upload_image_batch(
+    request: Request,
+    user: dict | None = Depends(require_authenticated_user),
+    images: list[UploadFile] = File(..., alias="images", description="Image files to annotate as one batch."),
+    prompt_mode: str | None = Form(default=None, alias="prompt_mode"),
+) -> BatchUploadResponse | JSONResponse:
+    config = _get_config(request)
+    selected_prompt_mode = _normalize_prompt_mode(prompt_mode)
+    selected_images = [image for image in images if image is not None]
+    if not selected_images:
+        return _json_error_response(ValueError("No image files provided."), status_code=400, log_traceback=False)
+
+    try:
+        batch = create_batch_run(
+            config.paths.user_db_path,
+            total_images=len(selected_images),
+            prompt_mode=selected_prompt_mode,
+        )
+        batch_id = batch["batch_id"]
+        start_batch_run(
+            config.paths.user_db_path,
+            batch_id=batch_id,
+            prompt_mode=selected_prompt_mode,
+        )
+    except ValueError as exc:
+        return _json_error_response(exc, status_code=400, log_traceback=False)
+
+    results: list[UploadResponse] = []
+    failures: list[BatchImageFailure] = []
+    for image in selected_images:
+        filename = Path(image.filename or "").name
+        try:
+            file_bytes = await image.read()
+            if not filename or not file_bytes:
+                raise _BatchUploadImageError(filename or "unknown", "No image file provided.")
+            response_payload, annotation_completed = _process_uploaded_image_bytes(
+                config=config,
+                user=user,
+                filename=filename,
+                file_bytes=file_bytes,
+                prompt_mode=selected_prompt_mode,
+                batch_id=batch_id,
+                start_batch=False,
+            )
+            results.append(UploadResponse.model_validate(response_payload))
+            record_batch_image_result(
+                config.paths.user_db_path,
+                batch_id=batch_id,
+                successful=annotation_completed,
+            )
+        except Exception as exc:
+            failure_filename = filename or "unknown"
+            failures.append(BatchImageFailure(filename=failure_filename, error=format_exception_message(exc)))
+            _record_failed_batch_upload(config, batch_id, already_recorded=False)
+
+    latest_batch = get_batch_run(config.paths.user_db_path, batch_id) or batch
+    return BatchUploadResponse.model_validate({
+        "batch": latest_batch,
+        "results": results,
+        "failures": failures,
+    })
 
 
 @router.get("/api/results")
@@ -287,3 +327,63 @@ def _record_failed_batch_upload(
     except Exception:
         print(f"Unable to record failed upload for batch {batch_id}:")
         traceback.print_exc()
+
+
+def _process_uploaded_image_bytes(
+    *,
+    config: AppConfig,
+    user: dict | None,
+    filename: str,
+    file_bytes: bytes,
+    prompt_mode: str,
+    batch_id: str | None,
+    start_batch: bool,
+) -> tuple[dict, bool]:
+    destination = _unique_destination(config.paths.uploads_dir, filename)
+    destination.write_bytes(file_bytes)
+    print(f"Saved upload: {destination.name}")
+    print(f"[upload] Stored file at {destination}")
+    print(f"[upload] Uploaded size: {len(file_bytes)} bytes")
+
+    if batch_id is not None and start_batch:
+        start_batch_run(
+            config.paths.user_db_path,
+            batch_id=batch_id,
+            prompt_mode=prompt_mode,
+        )
+
+    agent = AnnotationAgent(config)
+    response_payload = agent.annotate_image(destination, prompt_mode=prompt_mode)
+    agent_info = response_payload.get("agent", {})
+    annotation_completed = _is_completed_annotation(response_payload)
+    if annotation_completed:
+        owner_id = _owner_id(user)
+        # Images are served through an ownership-checked route, never from
+        # a publicly browsable upload directory.
+        response_payload["uploaded_image_url"] = f"/api/results/{destination.stem}/image"
+        save_user_image(
+            config.paths.user_db_path,
+            image_id=destination.stem,
+            owner_id=owner_id,
+            filename=destination.name,
+            file_data=file_bytes,
+            size_bytes=len(file_bytes),
+            batch_id=batch_id,
+        )
+        save_user_annotation_result(
+            config.paths.user_db_path,
+            image_id=destination.stem,
+            task_id=agent_info.get("task_id", ""),
+            task_status=agent_info.get("task_status", ""),
+            strategy=agent_info.get("strategy"),
+            prompt_mode=prompt_mode,
+            attempt_count=agent_info.get("attempt_count", 0),
+            review_required=agent_info.get("review_required", False),
+            review_reason=agent_info.get("review_reason"),
+            annotation_result=response_payload,
+            batch_id=batch_id,
+        )
+
+    if batch_id is not None:
+        response_payload["batch_id"] = batch_id
+    return response_payload, annotation_completed
