@@ -214,6 +214,31 @@ class AnnotationFormatTests(unittest.TestCase):
         self.assertTrue(validation["is_valid"], validation)
         self.assertEqual(validation["errors"], [])
 
+    def test_hicodet_object_alias_is_normalized(self) -> None:
+        normalized = parse_and_normalize_model_output(
+            """
+            {
+              "caption": "A person is holding a ball.",
+              "annotations": [
+                {
+                  "subject": "person",
+                  "object": "tennis_ball",
+                  "predicate": "hold",
+                  "subject_bbox": [0.3, 0.1, 0.7, 0.8],
+                  "object_bbox": [0.1, 0.2, 0.2, 0.3],
+                  "sentences": ["A person is holding a tennis ball."]
+                }
+              ]
+            }
+            """,
+            Path("sample.jpg"),
+        )
+
+        self.assertEqual(normalized["annotations"][0]["object"], "sports ball")
+        validation = validate_annotation(normalized)
+        self.assertTrue(validation["is_valid"], validation)
+        self.assertEqual(validation["errors"], [])
+
     def test_validator_rejects_non_hicodet_predicate(self) -> None:
         normalized = {
             "annotation_type": "hoi",
@@ -237,7 +262,7 @@ class AnnotationFormatTests(unittest.TestCase):
         self.assertFalse(validation["is_valid"])
         self.assertIn("annotations[1].predicate must be a canonical HICO-DET verb label.", validation["errors"])
 
-    def test_validator_rejects_invalid_hicodet_pair(self) -> None:
+    def test_validator_warns_for_invalid_hicodet_pair(self) -> None:
         normalized = {
             "annotation_type": "hoi",
             "caption": "A person is riding a refrigerator.",
@@ -257,8 +282,9 @@ class AnnotationFormatTests(unittest.TestCase):
 
         validation = validate_annotation(normalized)
 
-        self.assertFalse(validation["is_valid"])
-        self.assertTrue(any("predicate-object pair" in error for error in validation["errors"]))
+        self.assertTrue(validation["is_valid"], validation)
+        self.assertEqual(validation["errors"], [])
+        self.assertTrue(any("predicate-object pair" in warning for warning in validation["warnings"]))
 
 
 if __name__ == "__main__":

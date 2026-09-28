@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 from app.domain.images.bbox_utils import combine_bounding_boxes, normalize_optional_bbox
+from app.evaluation.hicodet_registry import normalize_hico_object_label
 
 
 def clean_json_text(content: str) -> str:
@@ -157,6 +158,7 @@ def _normalize_hoi_annotation_item(item: dict, image_path: Path | None, raw_cont
     parsed_subject, parsed_predicate, parsed_object = _parse_legacy_category(legacy_category)
     subject = subject or parsed_subject or "person"
     object_name = object_name or parsed_object or (legacy_category if legacy_category and legacy_category != subject else "unknown")
+    object_name = normalize_hico_object_label(object_name)
     predicate = predicate or parsed_predicate or "interact_with"
 
     subject_bbox = normalize_optional_bbox(

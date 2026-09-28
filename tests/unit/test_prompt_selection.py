@@ -11,9 +11,9 @@ def test_get_annotation_prompts_returns_task_specific_modes() -> None:
     assert "object-detection format" in object_detection_user
 
     assert hoi_mode == "hoi"
-    assert "Human-Object Interaction (HOI) image" in hoi_system
+    assert "HICO-DET-style Human-Object Interaction (HOI) annotation" in hoi_system
     assert "HOI format" in hoi_user
-    assert "Valid HICO-DET object labels:" in hoi_system
-    assert "Valid HICO-DET predicate labels:" in hoi_system
+    assert "OBJECT VOCABULARY" in hoi_system
+    assert "PREDICATE VOCABULARY" in hoi_system
     assert f"- {HICO_OBJECTS[0]}" in hoi_system
     assert f"- {HICO_VERBS[0]}" in hoi_system

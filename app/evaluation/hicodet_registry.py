@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import runpy
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -213,10 +214,34 @@ HICO_VERBS = (
 
 _OBJECTS = set(HICO_OBJECTS)
 _VERBS = set(HICO_VERBS)
+_OBJECTS_BY_NORMALIZED_KEY = {re.sub(r"[ _-]+", " ", label.casefold()).strip(): label for label in HICO_OBJECTS}
+_OBJECT_ALIASES = {
+    "baseball_bat": "baseball bat",
+    "baseball_glove": "baseball glove",
+    "cell_phone": "cell phone",
+    "hot_dog": "hot dog",
+    "sports_ball": "sports ball",
+    "tennis_ball": "sports ball",
+    "tennis ball": "sports ball",
+    "wine_glass": "wine glass",
+}
+
+
+def normalize_hico_object_label(label: str) -> str:
+    raw = _text(label)
+    if not raw:
+        return ""
+
+    alias_key = re.sub(r"[ -]+", "_", raw.casefold()).strip("_")
+    if alias_key in _OBJECT_ALIASES:
+        return _OBJECT_ALIASES[alias_key]
+
+    normalized_key = re.sub(r"[ _-]+", " ", raw.casefold()).strip()
+    return _OBJECTS_BY_NORMALIZED_KEY.get(normalized_key, raw)
 
 
 def is_hico_object(label: str) -> bool:
-    return label in _OBJECTS
+    return normalize_hico_object_label(label) in _OBJECTS
 
 
 def is_hico_verb(label: str) -> bool:
@@ -224,12 +249,13 @@ def is_hico_verb(label: str) -> bool:
 
 
 def is_valid_hico_interaction(predicate: str, object_name: str) -> bool:
-    return (predicate, object_name) in valid_hico_interactions()
+    return (predicate, normalize_hico_object_label(object_name)) in valid_hico_interactions()
 
 
 def allowed_predicates_for_object(object_name: str) -> tuple[str, ...]:
+    canonical_object = normalize_hico_object_label(object_name)
     return tuple(
-        sorted(predicate for predicate, candidate_object in valid_hico_interactions() if candidate_object == object_name)
+        sorted(predicate for predicate, candidate_object in valid_hico_interactions() if candidate_object == canonical_object)
     )
 
 
@@ -255,7 +281,7 @@ def valid_hico_interactions() -> frozenset[tuple[str, str]]:
         for annotation in image["annotations"]:
             if not isinstance(annotation, dict):
                 continue
-            object_name = _text(annotation.get("object"))
+            object_name = normalize_hico_object_label(_text(annotation.get("object")))
             predicates = annotation.get("predicate")
             predicates = predicates if isinstance(predicates, list) else [predicates]
             for predicate in predicates:

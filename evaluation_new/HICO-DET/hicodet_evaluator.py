@@ -31,6 +31,7 @@ from app.core.evaluation_database import (
     save_hicodet_failure,
     set_evaluation_run_status,
 )
+from app.evaluation.hicodet_registry import normalize_hico_object_label
 
 DEFAULT_GROUND_TRUTH = Path(__file__).with_name("hico_gt.py")
 DEFAULT_USER_DATABASE = ROOT / "data" / "user_results.db"
@@ -94,7 +95,8 @@ def load_ground_truth(path: Path = DEFAULT_GROUND_TRUTH) -> dict[str, list[dict[
         for annotation_index, annotation in enumerate(annotations):
             if not isinstance(annotation, dict):
                 continue
-            subject, object_name = _text(annotation.get("subject")), _text(annotation.get("object"))
+            subject = _text(annotation.get("subject"))
+            object_name = normalize_hico_object_label(_text(annotation.get("object")))
             predicates = annotation.get("predicate")
             predicates = predicates if isinstance(predicates, list) else [predicates]
             subject_box = _box(annotation.get("subject_bbox"), xywh=True)
@@ -176,7 +178,9 @@ def normalize_predictions(raw: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for index, item in enumerate(raw):
         if not isinstance(item, dict):
             raise ValueError(f"Prediction {index} is not an object.")
-        subject, predicate, object_name = _text(item.get("subject")), _text(item.get("predicate")), _text(item.get("object"))
+        subject = _text(item.get("subject"))
+        predicate = _text(item.get("predicate"))
+        object_name = normalize_hico_object_label(_text(item.get("object")))
         if not (subject and predicate and object_name):
             raise ValueError(f"Prediction {index} needs non-empty subject, predicate, and object.")
         records.append({
@@ -223,7 +227,7 @@ def _matching_triplet(prediction: dict[str, Any], truth: dict[str, Any]) -> bool
         allowed_predicates = [truth.get("predicate")]
     return (
         _key(prediction["subject"]) == _key(truth["subject"])
-        and _key(prediction["object"]) == _key(truth["object"])
+        and _key(normalize_hico_object_label(prediction["object"])) == _key(normalize_hico_object_label(truth["object"]))
         and _key(prediction["predicate"])[0]
         in {_key(predicate)[0] for predicate in allowed_predicates if _text(predicate)}
     )
