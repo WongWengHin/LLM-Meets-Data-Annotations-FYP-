@@ -666,7 +666,7 @@ HICO_SENTENCES_100 = {
                     "object": "horse",
                     "subject_bbox": [0.35833333333333334, 0.1171875, 0.5708333333333333, 0.68125],
                     "object_bbox": [0.0875, 0.1625, 0.7520833333333333, 0.7578125],
-                    "predicate": ["straddle"],
+                    "predicate": ["ride", "straddle"],
                     
                     # The sentences
                     "sentences": [
