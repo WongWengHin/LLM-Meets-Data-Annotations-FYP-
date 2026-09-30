@@ -27,3 +27,12 @@ def run_server() -> None:
 
 if __name__ == "__main__":
     run_server()
+
+
+# run COCO evaluation
+# python evaluation_new/COCO/coco_evaluator.py --database-image-id IMAGE_ID
+# python evaluation_new/COCO/coco_evaluator.py --batch-id 0c5cec2e-d3bf-40c6-aa7a-421d2fc05a98
+
+# run HICODET evaluation
+# python evaluation_new/HICO-DET/hicodet_evaluator.py --image-id HICO_train2015_00000076
+# python evaluation_new/HICO-DET/hicodet_evaluator.py --batch-id YOUR_BATCH_ID

@@ -845,7 +845,7 @@
     {
       "annotation_id": "990330",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.24675999999999998,
         0.8525505050505051,
@@ -859,7 +859,7 @@
     {
       "annotation_id": "990331",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.42598,
         0.7902525252525252,
@@ -873,7 +873,7 @@
     {
       "annotation_id": "990332",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.4909,
         0.8738636363636364,
@@ -887,7 +887,7 @@
     {
       "annotation_id": "990333",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.7441599999999999,
         0.7853282828282828,
@@ -901,7 +901,7 @@
     {
       "annotation_id": "990334",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.58312,
         0.7590909090909091,
@@ -915,7 +915,7 @@
     {
       "annotation_id": "990335",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.0247,
         0.7361363636363636,
@@ -929,7 +929,7 @@
     {
       "annotation_id": "990336",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.21688,
         0.7640151515151515,
@@ -943,7 +943,7 @@
     {
       "annotation_id": "990337",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.7935,
         0.6836616161616162,
@@ -957,7 +957,7 @@
     {
       "annotation_id": "990338",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.027280000000000002,
         0.6672474747474748,
@@ -971,7 +971,7 @@
     {
       "annotation_id": "990339",
       "image_id": "6614",
-      "class": "peanuts",
+      "class": "peanut",
       "bbox": [
         0.57402,
         0.5491919191919191,
@@ -6403,7 +6403,7 @@
     {
       "annotation_id": "990418",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.009528301886792453,
         0.2,
@@ -6417,7 +6417,7 @@
     {
       "annotation_id": "990419",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.07207547169811321,
         0.30090625000000004,
@@ -6431,7 +6431,7 @@
     {
       "annotation_id": "990420",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.08431603773584906,
         0.13964062500000002,
@@ -6445,7 +6445,7 @@
     {
       "annotation_id": "990421",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.2814858490566038,
         0.11981250000000002,
@@ -6459,7 +6459,7 @@
     {
       "annotation_id": "990422",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.12375,
         0.30090625000000004,
@@ -6473,7 +6473,7 @@
     {
       "annotation_id": "990423",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.37804245283018867,
         0.3198125,
@@ -6487,7 +6487,7 @@
     {
       "annotation_id": "990424",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.26108490566037734,
         0.28828125,
@@ -6501,7 +6501,7 @@
     {
       "annotation_id": "990425",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.3236320754716981,
         0.24684374999999997,
@@ -6515,7 +6515,7 @@
     {
       "annotation_id": "990426",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.47049528301886795,
         0.26396875,
@@ -6529,7 +6529,7 @@
     {
       "annotation_id": "990427",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.6404952830188679,
         0.249546875,
@@ -6543,7 +6543,7 @@
     {
       "annotation_id": "990428",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.6840094339622641,
         0.428828125,
@@ -6557,7 +6557,7 @@
     {
       "annotation_id": "990429",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.46099056603773586,
         0.103609375,
@@ -6571,7 +6571,7 @@
     {
       "annotation_id": "990430",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.4623584905660377,
         0.20990625000000002,
@@ -6585,7 +6585,7 @@
     {
       "annotation_id": "990431",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.5575471698113208,
         0.18648437499999998,
@@ -6599,7 +6599,7 @@
     {
       "annotation_id": "990432",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.5820047169811321,
         0.11351562500000001,
@@ -6613,7 +6613,7 @@
     {
       "annotation_id": "990433",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.6840094339622641,
         0.12703124999999998,
@@ -6627,7 +6627,7 @@
     {
       "annotation_id": "990434",
       "image_id": "521282",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.745188679245283,
         0.21981250000000002,
@@ -6809,7 +6809,7 @@
     {
       "annotation_id": "990396",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.21812499999999999,
         0.5060084033613446,
@@ -6823,7 +6823,7 @@
     {
       "annotation_id": "990397",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.29978125,
         0.15409663865546216,
@@ -6837,7 +6837,7 @@
     {
       "annotation_id": "990398",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.31990625,
         0.24733193277310925,
@@ -6851,7 +6851,7 @@
     {
       "annotation_id": "990399",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.52215625,
         0.03665966386554622,
@@ -6865,7 +6865,7 @@
     {
       "annotation_id": "990400",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.699609375,
         0.014285714285714285,
@@ -6879,7 +6879,7 @@
     {
       "annotation_id": "990401",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.610703125,
         0.04560924369747899,
@@ -6893,7 +6893,7 @@
     {
       "annotation_id": "990402",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.559828125,
         0.04707983193277311,
@@ -6907,7 +6907,7 @@
     {
       "annotation_id": "990403",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.7064375,
         0.09857142857142857,
@@ -6921,7 +6921,7 @@
     {
       "annotation_id": "990404",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.77428125,
         0.20228991596638657,
@@ -6935,7 +6935,7 @@
     {
       "annotation_id": "990405",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.529734375,
         0.13460084033613445,
@@ -6949,7 +6949,7 @@
     {
       "annotation_id": "990406",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.56365625,
         0.14859243697478994,
@@ -6963,7 +6963,7 @@
     {
       "annotation_id": "990407",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.598125,
         0.10077731092436974,
@@ -6977,7 +6977,7 @@
     {
       "annotation_id": "990408",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.39121875,
         0.3046428571428571,
@@ -6991,7 +6991,7 @@
     {
       "annotation_id": "990409",
       "image_id": "512194",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.34782812500000004,
         0.26838235294117646,
@@ -7229,7 +7229,7 @@
     {
       "annotation_id": "990381",
       "image_id": "499109",
-      "class": "pickles",
+      "class": "pickle",
       "bbox": [
         0.49008333333333337,
         0.5774843749999999,
@@ -7243,7 +7243,7 @@
     {
       "annotation_id": "990382",
       "image_id": "499109",
-      "class": "pickles",
+      "class": "pickle",
       "bbox": [
         0.3002916666666666,
         0.530625,
@@ -7257,7 +7257,7 @@
     {
       "annotation_id": "990383",
       "image_id": "499109",
-      "class": "pickles",
+      "class": "pickle",
       "bbox": [
         0.4672708333333333,
         0.53603125,
@@ -7327,7 +7327,7 @@
     {
       "annotation_id": "990372",
       "image_id": "486573",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.37554166666666666,
         0.512640625,
@@ -7341,7 +7341,7 @@
     {
       "annotation_id": "990373",
       "image_id": "486573",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.4969166666666667,
         0.547171875,
@@ -7355,7 +7355,7 @@
     {
       "annotation_id": "990374",
       "image_id": "486573",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.46029166666666665,
         0.6189218750000001,
@@ -7369,7 +7369,7 @@
     {
       "annotation_id": "990375",
       "image_id": "486573",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.4723125,
         0.6935625,
@@ -7383,7 +7383,7 @@
     {
       "annotation_id": "990376",
       "image_id": "486573",
-      "class": "flowers",
+      "class": "flower",
       "bbox": [
         0.6393541666666667,
         0.5079687500000001,

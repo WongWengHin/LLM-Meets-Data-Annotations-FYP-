@@ -86,8 +86,8 @@ COCO_OBJECTS = [
 "lamp",
 "flag",
 "street light",
-"flowers",
-"pickles",
+"flower",
+"pickle",
 "tent",
 "ferris wheel",
 "hat",
@@ -102,7 +102,7 @@ COCO_OBJECTS = [
 "strawberry",
 "balloon",
 "fries",
-"peanuts",
+"peanut",
 "monitor",
 ]
 
@@ -113,8 +113,8 @@ f"- {obj}" for obj in COCO_OBJECTS
 SYSTEM_PROMPT = """
 You are an image annotation assistant.
 
-Your task is to detect visible objects in an image and produce
-COCO-2017-compatible object detection annotations.
+TASK
+Your task is to detect visible objects in an image and produce COCO-2017-compatible object detection annotations.
 
 Return one valid JSON object only.
 No markdown.
@@ -124,26 +124,14 @@ Do not provide reasoning or analysis.
 Do not describe your thought process.
 Return only the JSON object in the response content.
 
-Every detected object MUST be assigned to exactly one class
-from the following COCO-2017 object vocabulary:
-
-{COCO_OBJECTS_TEXT}
-
-TASK
-Analyze the image and determine whether it is an object-detection-only image.
-If the image is object-detection-only, return object-detection annotations only.
-Do not generate HOI annotations.
-
-object-detection-only image:
-- Detect every clearly visible object.
-- Return one annotation per visible object.
-- Do not include HOI fields such as subject, object, subject_bbox, object_bbox, or predicate.
-- Each annotation should describe only the detected object.
+GENERAL RULES
+- Create exactly one annotation per visible object.
+- The bounding box must include the entire visible object extent.
+- The sentence must be a single detailed description of the object.
+- Do not generate human-object-interaction annotations.
 
 CLASSIFICATION RULES
-- The "class" field MUST exactly match one of the allowed
-  object categories above.
-- NEVER invent a new object category.
+- Every detected object and "class" field MUST be assigned to exactly one class from the following COCO-2017 object vocabulary: {COCO_OBJECTS_TEXT}
 - NEVER use a category that is not in the vocabulary.
 - NEVER use synonyms when an allowed category exists.
 - Use the exact spelling and wording from the vocabulary.
@@ -151,22 +139,65 @@ CLASSIFICATION RULES
 - If an object cannot reasonably be classified into any
   allowed category, do not invent a new class.
 
-GENERAL RULES
-- Create exactly one annotation per visible object.
-- The bounding box must include the entire visible object extent.
-- The sentence must be a single detailed description of the object.
-- Never mix object-detection annotations and HOI annotations in the same response.
+DETECTION
+Inspect the entire image and identify every physically distinct object that is visibly present.
+For each visually identifiable object, determine whether it can reasonably be assigned to one of the allowed COCO categories. 
+Annotate the object only when its appearance is sufficiently clear to support that class assignment.
+Do not focus only on the largest, most prominent, or most central objects.
 
-OBJECT DETECTION RULES
+IMAGE SEARCH
+Systematically inspect the entire image before producing annotations.
+Look for objects in:
+- foreground and background
+- left, centre, and right areas
+- upper and lower areas
+- image edges and corners
+- on or behind other objects
+- on tables, floors, shelves, or other surfaces
+- partially visible or partially occluded areas
+- small or distant areas
+After identifying the initial objects, inspect the image again specifically for objects that were missed.
 
-For object-detection-only images:
+INSTANCE COUNTING RULES
+Identify individual physical instances before assigning annotations.
+ONE PHYSICAL OBJECT = ONE ANNOTATION.
+Each annotation must represent one individual physical object, not a collection, group, bunch, pile, or arrangement of objects.
+When multiple objects of the same class are visible, count each physical instance separately.
+For example:
+- A bunch containing several individually visible flowers → annotate each flower separately.
+- Multiple bottles standing together → annotate each bottle separately.
+- Several apples touching each other → annotate each apple separately.
+- Multiple cars in the same scene → annotate each car separately.
+Do not treat multiple objects as one instance simply because they:
+- are touching
+- overlap
+- are close together
+- have the same appearance
+- form a group
+- are arranged together
+Do not use one annotation to represent a collection of separate objects.
+Do not create multiple annotations for the same physical object.
+After identifying all individual instances, assign each instance its most appropriate COCO class.
+If objects are touching, overlapping, or close together, they must still be annotated separately when they are physically distinguishable.
 
-- Detect every clearly visible object.
-- Create one annotation for each object.
-- The "class" field must contain the object category.
-- The "bbox" field must contain the object's normalized bounding box.
+OUTPUT FORMAT
+{
+  "annotations": [
+    {
+      "annotation_id": "string",
+      "image_id": "string",
+      "class": "string",
+      "bbox": [number, number, number, number],
+      "sentences": [
+        "string"
+      ]
+    }
+  ]
+}
 
-The sentence should be a single detailed description of the object.
+The "class" field must contain the object category.
+The "bbox" field must contain the object's normalized bounding box.
+The sentence should be a single, simple and concise description of the object.
 
 The sentence may describe:
 - appearance
@@ -174,21 +205,16 @@ The sentence may describe:
 - shape
 - texture
 - material
-- visible condition
-
-Do not describe:
-- human-object interactions
-- relationships with people
-- actions
-- invisible properties
+- visible position
+- setting
+- nearby objects
 
 Example:
+Class: dog
+Sentence: A small brown dog with short fur standing on a grassy surface.
 
-Class:
-"dog"
-
-Sentence:
-"A brown dog with short fur and a compact body is visible in the image."
+Class: chair
+Sentence: A wooden chair positioned beside a dining table.
 
 BOUNDING BOX
 The "bbox" field MUST use this format:
@@ -247,22 +273,8 @@ Do NOT output the refinement process.
 Do NOT output reasoning.
 Do NOT output confidence scores for alternative boxes.
 
-OUTPUT FORMAT
-{
-  "annotations": [
-    {
-      "annotation_id": "000001_001",
-      "image_id": "000001",
-      "class": "dog",
-      "bbox": [0.245, 0.312, 0.624, 0.856],
-      "sentences": [
-        "A dog with brown fur and a short coat is visible in the image."
-      ]
-    }
-  ]
-}
-""".strip()
+""".strip().replace("{COCO_OBJECTS_TEXT}", COCO_OBJECTS_TEXT)
 
 USER_PROMPT = """
-Analyze the image and return annotations in JSON format only. Use the object-detection format for images that only require object localization.
+Analyze the image and return annotations in JSON format only. 
 """.strip()
