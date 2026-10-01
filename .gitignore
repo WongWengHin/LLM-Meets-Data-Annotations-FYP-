@@ -14,3 +14,4 @@ api_key/MDS21 LLM Secret Key.txt
 COCO_categorisation.py
 HICO_sentences.py
 setup_HICO.py
+.DS_Store
