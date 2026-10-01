@@ -1,0 +1,65 @@
+{
+  "caption": "Two people are riding and sitting on motorcycles.",
+  "annotations": [
+    {
+      "subject": "person",
+      "object": "motorcycle",
+      "subject_bbox": [
+        0.7953125,
+        0.370023419204,
+        0.928125,
+        0.718969555035
+      ],
+      "object_bbox": [
+        0.7453125,
+        0.456674473068,
+        0.9359375,
+        0.786885245902
+      ],
+      "predicate": [
+        "ride",
+        "sit_on"
+      ],
+      "sentences": [
+        "A person is riding and sitting on a motorcycle.",
+        "The person is visible seated on the motorcycle.",
+        "The person is positioned on the motorcycle while riding it.",
+        "The motorcycle is visible beneath the person.",
+        "The person is riding the motorcycle while seated on it.",
+        "The person is positioned on a motorcycle.",
+        "The motorcycle is being ridden with the person seated on it.",
+        "The person is seated on and riding the motorcycle."
+      ]
+    },
+    {
+      "subject": "person",
+      "object": "motorcycle",
+      "subject_bbox": [
+        0.321875,
+        0.28337236534,
+        0.4921875,
+        0.68149882904
+      ],
+      "object_bbox": [
+        0.178125,
+        0.327868852459,
+        0.5578125,
+        0.742388758782
+      ],
+      "predicate": [
+        "ride",
+        "sit_on"
+      ],
+      "sentences": [
+        "A person is riding and sitting on a motorcycle.",
+        "The person is visible seated on the motorcycle.",
+        "The person is positioned on the motorcycle while riding it.",
+        "The motorcycle is visible beneath the person.",
+        "The person is riding the motorcycle while seated on it.",
+        "The person is positioned on a motorcycle.",
+        "The motorcycle is being ridden with the person seated on it.",
+        "The person is seated on and riding the motorcycle."
+      ]
+    }
+  ]
+}
