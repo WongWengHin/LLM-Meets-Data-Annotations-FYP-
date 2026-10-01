@@ -1,0 +1,31 @@
+{
+  "annotations": [
+    {
+      "annotation_id": "000000055950_001",
+      "image_id": "000000055950",
+      "class": "person",
+      "bbox": [0.1931, 0.1081, 0.7167, 0.6092],
+      "sentences": [
+        "A person is visible in the image."
+      ]
+    },
+    {
+      "annotation_id": "000000055950_002",
+      "image_id": "000000055950",
+      "class": "sports ball",
+      "bbox": [0.7174, 0.245, 0.7564, 0.2713],
+      "sentences": [
+        "A small round sports ball is visible in the image."
+      ]
+    },
+    {
+      "annotation_id": "000000055950_003",
+      "image_id": "000000055950",
+      "class": "tennis racket",
+      "bbox": [0.1893, 0.1855, 0.4559, 0.3481],
+      "sentences": [
+        "A tennis racket with a rounded frame and long handle is visible in the image."
+      ]
+    }
+  ]
+}
