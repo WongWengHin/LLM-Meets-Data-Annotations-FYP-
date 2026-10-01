@@ -25,6 +25,11 @@ COCO_EXAMPLES = [
     )
 ]
 
+COCO_CALIBRATION = (
+    BASE_DIR / "data/few_shots/coco/calibration.jpg",
+    BASE_DIR / "data/few_shots/coco/calibration.json",
+)
+
 HICODET_EXAMPLES = [
     (
         BASE_DIR / "data/few_shots/hicodet/example_01.jpg",
@@ -48,6 +53,16 @@ HICODET_EXAMPLES = [
     )
 ]
 
+HICODET_CALIBRATION = (
+    BASE_DIR / "data/few_shots/hicodet/calibration.jpg",
+    BASE_DIR / "data/few_shots/hicodet/calibration.json",
+)
+
+def get_calibration_example(prompt_mode: str):
+    if prompt_mode == "hoi":
+        return HICODET_CALIBRATION
+
+    return COCO_CALIBRATION
 
 def get_few_shot_examples(prompt_mode: str):
     if prompt_mode == "hoi":
